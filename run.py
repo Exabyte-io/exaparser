@@ -43,19 +43,19 @@ def extract_properties(express_):
     if not os.path.exists(exabyte_dir): os.makedirs(exabyte_dir)
 
     # extract initial structure
-    initial_structure = safely_extract_property(express_, "initial_structure", is_initial_structure=True)
+    initial_structure = safely_extract_property(express_, "material", is_initial_structure=True)
     initial_structure_path = os.path.join(exabyte_dir, ".".join(("initial_structure", "json")))
     if initial_structure: write_json(initial_structure_path, initial_structure)
 
     # extract final structure
-    final_structure = safely_extract_property(express_, "final_structure", is_final_structure=True)
+    final_structure = safely_extract_property(express_, "material", is_final_structure=True)
     final_structure_path = os.path.join(exabyte_dir, ".".join(("final_structure", "json")))
     if final_structure: write_json(final_structure_path, final_structure)
 
     # extract other properties
     for property_name in PROPERTIES:
         property_path = os.path.join(exabyte_dir, ".".join((property_name, "json")))
-        property_ = express_.property(property_name)
+        property_ = safely_extract_property(express_, property_name)
         if property_: write_json(property_path, property_)
 
 
