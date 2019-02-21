@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import os
 import argparse
 
@@ -39,7 +41,7 @@ def safely_extract_property(express_, property_, *args, **kwargs):
 
 
 def extract_properties(express_):
-    exabyte_dir = os.path.join(args.work_dir, "exabyte")
+    exabyte_dir = os.path.join(args.work_dir, ".exabyte")
     if not os.path.exists(exabyte_dir): os.makedirs(exabyte_dir)
 
     # extract initial structure
