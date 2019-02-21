@@ -6,13 +6,11 @@ import argparse
 from express import ExPrESS
 
 from utils import find_file, write_json
-from logger import configure_logger, logger
 from settings import PROPERTIES, ESPRESSO_XML_FILE, VASP_XML_FILE
 
 
 def parse_arguments():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-d', '--debug', action="store_true", help="enable debugging")
     parser.add_argument('-w', '--work-dir', dest="work_dir", help='full path to working directory')
     parser.add_argument('-s', '--stdout-file', dest="stdout_file", help='full path to standard output file')
     return parser.parse_args()
@@ -37,7 +35,7 @@ def safely_extract_property(express_, property_, *args, **kwargs):
     try:
         return express_.property(property_, *args, **kwargs)
     except:
-        logger.error("unable to extract {}".format(property_))
+        print "unable to extract {}".format(property_)
 
 
 def extract_properties(express_):
@@ -63,5 +61,4 @@ def extract_properties(express_):
 
 if __name__ == '__main__':
     args = parse_arguments()
-    configure_logger(args.debug)
     extract_properties(get_express(args.work_dir, args.stdout_file))
