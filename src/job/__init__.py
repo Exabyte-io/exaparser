@@ -1,4 +1,5 @@
 from src import settings
+from src.data.factory import get_data_handler
 from src.workflow import Workflow
 from src.job.compute.factory import get_compute_parser
 
@@ -63,4 +64,4 @@ class Job(object):
 
     def parse(self):
         for handler in settings.DATA_HANDLERS:
-            handler.parse(self)
+            get_data_handler(handler, self).handle()

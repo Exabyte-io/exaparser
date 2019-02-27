@@ -21,7 +21,7 @@ class StdoutDataHandler(DataHandler):
         self.print_json(self.job.to_json())
 
     def handle_materials(self):
-        self.print_json(self.job.maerials)
+        self.print_json(self.job.materials)
 
     def handle_files(self):
         pass
