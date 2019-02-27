@@ -27,11 +27,11 @@ class ShellExecutionUnit(BaseExecutionUnit):
         }
 
     @property
-    def inputs(self):
+    def input(self):
         return [
             {
                 "isManuallyChanged": True,
-                "name": self.config["name"],
-                "rendered": read(os.path.join(self.work_dir, self.config["name"]))
+                "name": self.config["input"][0]["name"],
+                "rendered": read(os.path.join(self.work_dir, self.config["input"][0]["name"]))
             }
         ]

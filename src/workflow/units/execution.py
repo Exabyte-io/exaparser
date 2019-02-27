@@ -13,7 +13,9 @@ class BaseExecutionUnit(BaseUnit):
 
     def __init__(self, config, work_dir):
         super(BaseExecutionUnit, self).__init__(config, work_dir)
-        self.express = ExPrESS(self.application["name"], work_dir=self.work_dir, stdout_file=self.stdout_file)
+        self.work_dir = self.config.get("work_dir", self.work_dir)
+        self.stdout_file = os.path.join(self.work_dir, self.config.get("stdout_file", ""))
+        self.express = ExPrESS("espresso", work_dir=self.work_dir, stdout_file=self.stdout_file)
 
     @property
     def name(self):
@@ -53,14 +55,6 @@ class BaseExecutionUnit(BaseUnit):
             "type": "execution"
         })
         return config
-
-    @property
-    def work_dir(self):
-        return self.config.get("work_dir", self.work_dir)
-
-    @property
-    def stdout_file(self):
-        return os.path.join(self.work_dir, self.config.get("stdout_file"))
 
     def safely_extract_property(self, property_, *args, **kwargs):
         try:
