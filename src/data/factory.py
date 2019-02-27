@@ -1,6 +1,6 @@
-from src.data.disk import DiskDataHandler
-from src.data.stdout import StdoutDataHandler
-from src.data.exabyte import ExabyteRESTFulAPIDataHandler
+from src.data.handlers.disk import DiskDataHandler
+from src.data.handlers.stdout import StdoutDataHandler
+from src.data.handlers.exabyte import ExabyteRESTFulAPIDataHandler
 
 
 def get_data_handler(handler="stdout", *args, **kwargs):
