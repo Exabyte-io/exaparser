@@ -1,6 +1,10 @@
 class BaseUnit(object):
     """
     Base unit parser class.
+
+    Args:
+        config (dict): unit config.
+        work_dir (str): full path to working directory.
     """
 
     def __init__(self, config, work_dir):

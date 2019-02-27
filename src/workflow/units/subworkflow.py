@@ -4,6 +4,10 @@ from src.workflow.units import BaseUnit
 class SubworkflowUnit(BaseUnit):
     """
     Base subworkflow unit parser class.
+
+    Args:
+        config (dict): unit config.
+        work_dir (str): full path to working directory.
     """
 
     def __init__(self, config, work_dir):
