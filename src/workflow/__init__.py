@@ -9,28 +9,62 @@ class Workflow(object):
     def __init__(self, config, work_dir):
         self.config = config
         self.work_dir = work_dir
-        self.units = self.config.get("units", [])
-        self.subworkflows = self.config.get("subworkflows", [])
+        self.units = [get_unit(config, self.work_dir) for config in self.config.get("units", [])]
+        self.subworkflows = [Subworkflow(config, self.work_dir) for config in self.config.get("subworkflows", [])]
 
     @property
-    def materials(self):
-        return []
+    def name(self):
+        return self.config.get("name", "Workflow")
 
     @property
     def properties(self):
         return []
 
     def to_json(self):
-        return self.config
+        return {
+            "name": self.name,
+            "properties": self.properties,
+            "units": [u.to_json() for u in self.units],
+            "subworkflows": [u.to_json() for u in self.subworkflows],
+        }
 
-    def parse(self):
-        unit_config = next((unit for unit in self.units if unit.get('head')))
-        while True:
-            if not unit_config: break
-            work_dir = unit_config.get("work_dir", self.work_dir)
-            if unit_config["type"] == "subworkflow":
-                subworkflow_config = next((s for s in self.subworkflows if s.get('_id') == unit_config.get('_id')))
-                Workflow(subworkflow_config, work_dir).parse()
-            else:
-                unit_config.update(get_unit(unit_config["application"]["name"])(unit_config).to_json())
-            unit_config = next((u for u in self.units if u["flowchartId"] == unit_config["flowchart_id"]), None)
+
+class Subworkflow(object):
+    """
+    Subworkflow parser class.
+    """
+
+    def __init__(self, config, work_dir):
+        self.config = config
+        self.work_dir = work_dir
+        self.units = [get_unit(config, self.work_dir) for config in self.config.get("units", [])]
+
+    @property
+    def id(self):
+        return self.config["_id"]
+
+    @property
+    def name(self):
+        return self.config.get("name", "Subworkflow")
+
+    @property
+    def application(self):
+        return self.config["application"]
+
+    @property
+    def model(self):
+        return self.config["model"]
+
+    @property
+    def properties(self):
+        return []
+
+    def to_json(self):
+        return {
+            "_id": self.id,
+            "name": self.name,
+            "model": self.model,
+            "properties": self.properties,
+            "application": self.application,
+            "units": [u.to_json() for u in self.units]
+        }

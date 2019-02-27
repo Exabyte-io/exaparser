@@ -20,11 +20,11 @@ class StdoutDataHandler(DataHandler):
     def handle_job(self):
         self.print_json(self.job.to_json())
 
+    def handle_materials(self):
+        self.print_json(self.job.maerials)
+
     def handle_files(self):
         pass
 
-    def handle_materials(self):
-        self.print_json(self.job.workflow.maerials.to_json())
-
     def handle_properties(self):
-        self.print_json(self.job.workflow.properties.to_json())
+        pass

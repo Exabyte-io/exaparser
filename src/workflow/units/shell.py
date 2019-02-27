@@ -1,16 +1,30 @@
 import os
 
 from src.utils import read
-from src.workflow.units import BaseUnit
+from src.workflow.units.execution import BaseExecutionUnit
 
 
-class ShellUnit(BaseUnit):
+class ShellExecutionUnit(BaseExecutionUnit):
     """
     Shell unit parser class.
     """
 
-    def __init__(self, config, *args, **kwargs):
-        super(ShellUnit, self).__init__(config, *args, **kwargs)
+    def __init__(self, config, work_dir):
+        super(ShellExecutionUnit, self).__init__(config, work_dir)
+
+    @property
+    def application(self):
+        return {
+            "name": "shell",
+            "summary": "Shell Script",
+            "version": "4.2.46"
+        }
+
+    @property
+    def executable(self):
+        return {
+            "name": "sh"
+        }
 
     @property
     def inputs(self):

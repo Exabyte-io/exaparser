@@ -1,8 +1,13 @@
-from src.workflow.units.vasp import VaspUnit
-from src.workflow.units.shell import ShellUnit
-from src.workflow.units.espresso import EspressoUnit
+from src.workflow.units.vasp import VaspExecutionUnit
+from src.workflow.units.shell import ShellExecutionUnit
+from src.workflow.units.subworkflow import SubworkflowUnit
+from src.workflow.units.espresso import EspressoExecutionUnit
 
 
-def get_unit(name="shell", *args, **kwargs):
-    units = dict(shell=ShellUnit, vasp=VaspUnit, espresso=EspressoUnit)
-    return units[name](*args, **kwargs)
+def get_unit(config, work_dir):
+    if config["type"] == "execution":
+        execution_units = dict(shell=ShellExecutionUnit, vasp=VaspExecutionUnit, espresso=EspressoExecutionUnit)
+        return execution_units[config["application"]["name"]](config, work_dir)
+
+    if config["type"] == "subworkflow":
+        return SubworkflowUnit(config, work_dir)

@@ -1,10 +1,10 @@
-from src.workflow.units import BaseUnit
+from src.workflow.units.execution import BaseExecutionUnit
 
 
-class VaspUnit(BaseUnit):
+class VaspExecutionUnit(BaseExecutionUnit):
     """
-    Vasp unit parser class.
+    Vasp execution unit parser class.
     """
 
-    def __init__(self, config, *args, **kwargs):
-        super(VaspUnit, self).__init__(config, *args, **kwargs)
+    def __init__(self, config, work_dir):
+        super(VaspExecutionUnit, self).__init__(config, work_dir)

@@ -1,10 +1,10 @@
-from src.workflow.units import BaseUnit
+from src.workflow.units.execution import BaseExecutionUnit
 
 
-class EspressoUnit(BaseUnit):
+class EspressoExecutionUnit(BaseExecutionUnit):
     """
-    Espresso unit parser class.
+    Espresso execution unit parser class.
     """
 
-    def __init__(self, config, *args, **kwargs):
-        super(EspressoUnit, self).__init__(config, *args, **kwargs)
+    def __init__(self, config, work_dir):
+        super(EspressoExecutionUnit, self).__init__(config, work_dir)
