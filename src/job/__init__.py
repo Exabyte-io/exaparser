@@ -1,12 +1,14 @@
 from src import settings
-from src.data.factory import get_data_handler
-from src.workflow import Workflow
+from src.workflow.workflow import Workflow
 from src.job.compute.factory import get_compute_parser
 
 
 class Job(object):
     """
     Job parser class.
+
+    Args:
+        work_dir (str): full path to working directory.
     """
 
     def __init__(self, work_dir):
@@ -42,7 +44,7 @@ class Job(object):
 
     @property
     def name(self):
-        return "".join((settings.JOB_PREFIX, ""))
+        return settings.JOB_NAME
 
     def to_json(self):
         return {
@@ -61,7 +63,3 @@ class Job(object):
             "workDir": self.work_dir,
             "workflow": self.workflow.to_json()
         }
-
-    def parse(self):
-        for handler in settings.DATA_HANDLERS:
-            get_data_handler(handler, self).handle()

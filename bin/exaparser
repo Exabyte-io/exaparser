@@ -7,6 +7,8 @@ import argparse
 sys.path.append(os.path.dirname((os.path.dirname(os.path.abspath(__file__)))))
 
 from src.job import Job
+from src import settings
+from src.data.factory import get_data_handler
 
 
 def parse_arguments():
@@ -17,4 +19,6 @@ def parse_arguments():
 
 if __name__ == "__main__":
     args = parse_arguments()
-    Job(args.work_dir).parse()
+    job = Job(args.work_dir)
+    for handler in settings.DATA_HANDLERS:
+        get_data_handler(handler, job).handle()
