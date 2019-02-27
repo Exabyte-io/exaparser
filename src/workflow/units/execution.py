@@ -15,7 +15,11 @@ class BaseExecutionUnit(BaseUnit):
         super(BaseExecutionUnit, self).__init__(config, work_dir)
         self.work_dir = self.config.get("work_dir", self.work_dir)
         self.stdout_file = os.path.join(self.work_dir, self.config.get("stdout_file", ""))
-        self.express = ExPrESS("espresso", work_dir=self.work_dir, stdout_file=self.stdout_file)
+        self.express = ExPrESS(self.express_parser_name, work_dir=self.work_dir, stdout_file=self.stdout_file)
+
+    @property
+    def express_parser_name(self):
+        return self.application["name"]
 
     @property
     def name(self):
