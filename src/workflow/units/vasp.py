@@ -1,4 +1,4 @@
-from src.job.workflow.units import BaseUnit
+from src.workflow.units import BaseUnit
 
 
 class VaspUnit(BaseUnit):

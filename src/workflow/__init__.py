@@ -1,4 +1,4 @@
-from src.job.workflow.factory import get_unit
+from src.workflow.factory import get_unit
 
 
 class Workflow(object):

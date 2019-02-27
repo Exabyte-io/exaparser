@@ -1,7 +1,7 @@
 import os
 
 from src.utils import read
-from src.job.workflow.units import BaseUnit
+from src.workflow.units import BaseUnit
 
 
 class ShellUnit(BaseUnit):
