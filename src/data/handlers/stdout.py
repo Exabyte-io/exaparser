@@ -17,14 +17,5 @@ class StdoutDataHandler(DataHandler):
     def print_json(self, content):
         print(json.dumps(content, indent=4))
 
-    def handle_job(self):
+    def handle(self):
         self.print_json(self.job.to_json())
-
-    def handle_materials(self):
-        self.print_json(self.job.materials)
-
-    def handle_files(self):
-        pass
-
-    def handle_properties(self):
-        pass
