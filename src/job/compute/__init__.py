@@ -1,6 +1,9 @@
 class BaseComputeParser(object):
     """
     Base compute parser class.
+
+    Args:
+        work_dir (str): full path to working directory.
     """
 
     def __init__(self, work_dir):

@@ -4,6 +4,9 @@ from src.job.compute import BaseComputeParser
 class SLURMComputeParser(BaseComputeParser):
     """
     Slurm compute parser class.
+
+    Args:
+        work_dir (str): full path to working directory.
     """
 
     def __init__(self, work_dir):
