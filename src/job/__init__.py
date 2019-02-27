@@ -1,5 +1,5 @@
 from src import settings
-from src.job.workflow import Workflow
+from src.workflow import Workflow
 from src.job.compute.factory import get_compute_parser
 
 
