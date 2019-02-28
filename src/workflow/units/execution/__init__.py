@@ -1,4 +1,5 @@
 import os
+import time
 
 from express import ExPrESS
 from slugify import slugify
@@ -28,10 +29,6 @@ class BaseExecutionUnit(BaseUnit):
     @property
     def express_parser_name(self):
         return self.application["name"]
-
-    @property
-    def name(self):
-        return self.config.get("name", "Unit")
 
     @property
     def application(self):
@@ -64,32 +61,79 @@ class BaseExecutionUnit(BaseUnit):
             "postProcessors": self.postProcessors,
             "preProcessors": self.preProcessors,
             "results": self.results,
-            "type": "execution"
+            "type": "execution",
+            "status": self.status,
+            "statusTrack": self.status_track,
         })
         return config
 
-    def safely_extract_property(self, property_, *args, **kwargs):
+    @property
+    def status(self):
+        return "finished"
+
+    @property
+    def status_track(self):
+        return [
+            {
+                "trackedAt": time.time(),
+                "status": self.status
+            }
+        ]
+
+    def safely_extract_property(self, property_, safe=True, *args, **kwargs):
         try:
             return self.express.property(property_, *args, **kwargs)
         except:
-            print("unable to extract {}".format(property_))
+            if not safe:
+                raise
 
     @property
     def initial_structures(self):
-        return [self.safely_extract_property("material", is_initial_structure=True)]
+        initial_structure = self.safely_extract_property("material", False, is_initial_structure=True)
+        initial_structure["name"] = "initial_structure"
+        return [initial_structure]
 
     @property
     def final_structures(self):
-        return [self.safely_extract_property("material", is_final_structure=True)]
+        final_structure = self.safely_extract_property("material", False, is_final_structure=True)
+        final_structure["name"] = "final_structure"
+        final_structure["repetition"] = 0
+        return [final_structure]
 
     @property
     def results(self):
+        return [{"name": name} for name in settings.PROPERTIES]
+
+    @property
+    def structures(self):
+        structures = []
+        final_structures = self.final_structures
+        initial_structures = self.initial_structures
+        for index, structure in enumerate(initial_structures):
+            structures.append({
+                "initial": structure,
+                "final": final_structures[index]
+            })
+            return structures
+
+    @property
+    def properties(self):
         properties = []
+        structures = self.structures
         for name in settings.PROPERTIES:
             property_ = self.safely_extract_property(name)
-            if property_: properties.append(property_)
-        properties.append({"initial_structures": self.initial_structures})
-        properties.append({"final_structures": self.final_structures})
+            if property_:
+                property_.update({"repetition": 0})
+                properties.append({
+                    "data": property_,
+                    "source": {
+                        "type": "exabyte",
+                        "info": {
+                            "unitId": self.flowchartId
+                        }
+                    },
+                    "structures": structures,
+                })
         return properties
 
     @property

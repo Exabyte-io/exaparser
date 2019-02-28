@@ -27,14 +27,30 @@ class Job(object):
         materials = []
         for subworkflow in self.workflow.subworkflows:
             for unit in subworkflow.units:
-                if hasattr(unit, "initial_structures"):
+                if unit.type == "execution":
                     for material in unit.initial_structures:
                         materials.append(material)
         return materials
 
     @property
     def status(self):
-        return "finished"
+        status = "finished"
+        for subworkflow in self.workflow.subworkflows:
+            for unit in subworkflow.units:
+                if hasattr(unit, "status"):
+                    if unit.status == "error":
+                        status = "error"
+        return status
+
+    @property
+    def properties(self):
+        properties = []
+        for subworkflow in self.workflow.subworkflows:
+            for unit in subworkflow.units:
+                if unit.type == "execution":
+                    for property_ in unit.properties:
+                        properties.append(property_)
+        return properties
 
     @property
     def workflow(self):
@@ -52,9 +68,6 @@ class Job(object):
                 "slug": settings.PROJECT
             },
             "compute": self.compute.to_json(),
-            "creator": {
-                "slug": settings.CREATOR
-            },
             "owner": {
                 "slug": settings.OWNER
             },

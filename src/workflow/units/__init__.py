@@ -11,6 +11,7 @@ class BaseUnit(object):
         self.config = config
         self.work_dir = work_dir
         self.type = self.config["type"]
+        self.name = self.config.get("name", "")
         self.head = self.config.get("head", False)
         self.flowchartId = self.config["flowchartId"]
         self.next_flowchartId = self.config.get("next", "")
@@ -18,6 +19,7 @@ class BaseUnit(object):
     def to_json(self):
         return {
             "flowchartId": self.flowchartId,
+            "name": self.name,
             "head": self.head,
             "type": self.type,
             "next": self.next_flowchartId
