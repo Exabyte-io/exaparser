@@ -29,23 +29,11 @@ class BaseComputeParser(object):
     def notify(self):
         return "n"
 
-    @property
-    def job_id(self):
-        return ""
-
-    @property
-    def cluster_fqdn(self):
-        return "external"
-
     def to_json(self):
         return {
             "ppn": self.ppn,
             "nodes": self.nodes,
             "queue": self.queue,
             "timeLimit": self.walltime,
-            "notify": self.notify,
-            "cluster": {
-                "jid": self.job_id,
-                "fqdn": self.cluster_fqdn
-            }
+            "notify": self.notify
         }
