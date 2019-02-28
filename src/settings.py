@@ -4,7 +4,6 @@ from src.utils import read_json
 
 # JOB SETTINGS
 OWNER = "demo"
-CREATOR = "demo"
 PROJECT = "demo-default"
 JOB_NAME = "External Job"
 
@@ -24,8 +23,19 @@ ESPRESSO_XML_FILE = "data-file.xml"
 
 DISK_DATA_HANDLER_DATA_DIR_NAME = ".exabyte"
 
+# Exabyte Data Handler Settings
+API_HOSTNAME = "platform.exabyte.io"
+API_PORT = 443
+API_ACCOUNT_ID = "zX6Wf8QdQkgEpP26u"
+API_AUTH_TOKEN = "8YpFg97E-zN17xP9bqngoGFJV8mBXT553zh8iE9a0nP"
+API_SECURE = True
+API_VERSION = "2018-10-01"
+UPLOAD_FILES = True
+EXCLUDED_FILES_REGEX = ""
+
 # List of properties to extract
 PROPERTIES = [
+    "final_structure",
     "phonon_dos",
     "pressure",
     "atomic_forces",
