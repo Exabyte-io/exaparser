@@ -1,2 +1,2 @@
-python-slugify==1.1.4
 -e git+file:///stack/lib/express@21a2ac8d1bb1b0ff20f35c47ad9a9c9dfcc4bfea#egg=express
+-e git+file:///stack/lib/api-client@b16b2636ac3a822d426f951739d75c6755ec1007#egg=api-client
