@@ -1,6 +1,6 @@
-# Exabyte DFT Parser (ExaParser)
+# Exabyte Parser (ExaParser)
 
-Exabyte DFT parser is a python package to extract and convert DFT data on disk to EDC format.
+Exabyte parser is a python package to extract and convert (DFT) data on disk to EDC format.
 
 ## Functionality
 
@@ -26,7 +26,7 @@ The following diagram presents the package architecture.
 
 ExaParser can be installed as below.
 
-0. Install [git-lfs](https://help.github.com/articles/installing-git-large-file-storage/) in order to pull the files stored on Git LFS.
+1. Install [git-lfs](https://help.github.com/articles/installing-git-large-file-storage/) in order to pull the files stored on Git LFS.
 
 1. Clone repository:
     
@@ -34,13 +34,13 @@ ExaParser can be installed as below.
     git clone git@github.com:Exabyte-io/exaprser.git
     ```
 
-2. Install [virtualenv](https://virtualenv.pypa.io/en/stable/) using [pip](https://pip.pypa.io/en/stable/) if not already present:
+1. Install [virtualenv](https://virtualenv.pypa.io/en/stable/) using [pip](https://pip.pypa.io/en/stable/) if not already present:
 
     ```bash
     pip install virtualenv
     ```
 
-3. Create virtual environment and install required packages:
+1. Create virtual environment and install required packages:
 
     ```bash
     cd exaprser
