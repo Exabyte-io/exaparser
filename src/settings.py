@@ -49,12 +49,6 @@ UPLOAD_FILES = True
 # Pattern to exclude files from being upload to S3
 EXCLUDED_FILES_REGEX = ""
 
-# DO NOT MODIFY S3 SETTINGS
-# S3 region
-S3_REGION = "us-west-2"
-# S3 bucket name
-S3_BUCKET = "exabyte-external"
-
 # List of properties to extract. Parser tries to extract all properties by default.
 # Comment out the ones that should not be extracted for particular job, e.g. band_structure in toal ennergy calculation.
 PROPERTIES = [
