@@ -31,6 +31,12 @@ class Job(object):
 
     @property
     def status(self):
+        """
+        Returns job status. Status is set to "error" if there is a unit in "error" status.
+
+        Returns:
+             str
+        """
         status = "finished"
         for unit in self.workflow.execution_units:
             if unit.status == "error":
