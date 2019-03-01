@@ -32,6 +32,7 @@ ESPRESSO_XML_FILE = "data-file.xml"
 DISK_DATA_HANDLER_DATA_DIR_NAME = ".exabyte"
 
 # Exabyte RESTful API Data Handler Settings
+# See https://docs.exabyte.io/rest-api/overview for more information.
 API_HOSTNAME = "platform.exabyte.io"
 API_PORT = 443
 API_ACCOUNT_ID = "zX6Wf8QdQkgEpP26u"
