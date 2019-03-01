@@ -9,7 +9,7 @@ from endpoints.raw_properties import RawPropertiesEndpoints
 
 from src import settings
 from src.data import DataHandler
-from src.utils import upload_file
+from src.utils import upload_file_to_object_storage
 
 
 class ExabyteRESTFulAPIDataHandler(DataHandler):
@@ -139,7 +139,7 @@ class ExabyteRESTFulAPIDataHandler(DataHandler):
         presigned_urls = [{"path": os.path.join(self.job.work_dir, p["file"]), "URL": p["URL"]} for p in presigned_urls]
         num_workers = min(len(presigned_urls), settings.NUM_WORKERS)
         pool = Pool(processes=num_workers)
-        pool.map(upload_file, presigned_urls)
+        pool.map(upload_file_to_object_storage, presigned_urls)
 
     def handle(self):
         """
