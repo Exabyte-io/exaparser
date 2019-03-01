@@ -43,10 +43,10 @@ API_VERSION = "2018-10-01"
 # Number of workers used for uploading files in parallel
 NUM_WORKERS = 25
 
-# Whether to upload files to S3
+# Whether to upload files to object storage
 UPLOAD_FILES = True
 
-# Pattern to exclude files from being upload to S3
+# Pattern to exclude files from being upload to object storage
 EXCLUDED_FILES_REGEX = ""
 
 # List of properties to extract. Parser tries to extract all properties by default.
