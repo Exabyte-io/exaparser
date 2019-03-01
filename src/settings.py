@@ -17,17 +17,21 @@ RMS_TYPE = "PBS"
 # List of data handlers, STDOUT, DISK and ExabyteRESTFulAPI
 DATA_HANDLERS = ["ExabyteRESTFulAPI"]
 
-# WORKFLOW SETTINGS
+# Workflow template settings
 WORKFLOW_TEMPLATE_NAME = "shell.json"
 TEMPLATES_DIR = os.path.join(os.path.dirname(__file__), "templates")
 WORKFLOW_TEMPLATE = read_json(os.path.join(TEMPLATES_DIR, WORKFLOW_TEMPLATE_NAME))
 
+# Name of VASP XML file used to identify the job type
 VASP_XML_FILE = "vasprun.xml"
+
+# Name of Espresso XML file used to identify the job type
 ESPRESSO_XML_FILE = "data-file.xml"
 
+# Name of the directory to store the job if DISK data handler is enabled
 DISK_DATA_HANDLER_DATA_DIR_NAME = ".exabyte"
 
-# Exabyte Data Handler Settings
+# Exabyte RESTful API Data Handler Settings
 API_HOSTNAME = "platform.exabyte.io"
 API_PORT = 443
 API_ACCOUNT_ID = "zX6Wf8QdQkgEpP26u"
@@ -35,13 +39,23 @@ API_AUTH_TOKEN = "8YpFg97E-zN17xP9bqngoGFJV8mBXT553zh8iE9a0nP"
 API_SECURE = True
 API_VERSION = "2018-10-01"
 
+# Number of workers used for uploading files in parallel
 NUM_WORKERS = 25
+
+# Whether to upload files to S3
 UPLOAD_FILES = True
+
+# Pattern to exclude files from being upload to S3
 EXCLUDED_FILES_REGEX = ""
+
+# DO NOT MODIFY S3 SETTINGS
+# S3 region
 S3_REGION = "us-west-2"
+# S3 bucket name
 S3_BUCKET = "exabyte-external"
 
-# List of properties to extract
+# List of properties to extract. Parser tries to extract all properties by default.
+# Comment out the ones that should not be extracted for particular job, e.g. band_structure in toal ennergy calculation.
 PROPERTIES = [
     "final_structure",
     "phonon_dos",
