@@ -1,6 +1,8 @@
 import os
 import json
 
+import requests
+
 
 def find_file(name, path):
     """
@@ -56,3 +58,17 @@ def read_json(path):
         dict: file content.
     """
     return json.loads(read(path))
+
+
+def upload_file(file_):
+    """
+    Uploads a given file.
+
+    Args:
+        file_ (dict): a dictionary with path and presignedURL keys.
+    """
+    path = file_["path"]
+    session = requests.Session()
+    headers = {"Content-Length": str(os.path.getsize(path))}
+    with open(path) as f:
+        session.request("PUT", file_["URL"], data=f, headers=headers).raise_for_status()
