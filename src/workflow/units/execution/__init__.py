@@ -1,5 +1,4 @@
 import os
-import time
 
 from express import ExPrESS
 
@@ -136,7 +135,7 @@ class BaseExecutionUnit(BaseUnit):
         """
         return [
             {
-                "trackedAt": time.time(),
+                "trackedAt": int(os.path.getmtime(self.work_dir)),
                 "status": self.status
             }
         ]
