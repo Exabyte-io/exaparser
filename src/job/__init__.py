@@ -18,6 +18,9 @@ class Job(object):
 
     @property
     def compute(self):
+        """
+        Returns compute parser class to extract compute configuration.
+        """
         if not self._compute:
             self._compute = get_compute_parser(settings.RMS_TYPE, self.work_dir)
         return self._compute

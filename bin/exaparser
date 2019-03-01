@@ -4,6 +4,7 @@ import os
 import sys
 import argparse
 
+# Add src directory to path
 sys.path.append(os.path.dirname((os.path.dirname(os.path.abspath(__file__)))))
 
 from src.job import Job
