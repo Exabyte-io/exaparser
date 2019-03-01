@@ -25,6 +25,13 @@ class Workflow(object):
     def properties(self):
         return []
 
+    @property
+    def execution_units(self):
+        execution_units = []
+        for subworkflow in self.subworkflows:
+            execution_units.extend(subworkflow.execution_units)
+        return execution_units
+
     def to_json(self):
         return {
             "name": self.name,
