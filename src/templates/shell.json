@@ -21,7 +21,8 @@
             "properties": [],
             "units": [
                 {
-                    "stdout_file": "pw-scf.out",
+                    "workDir": ".",
+                    "stdoutFile": "pw-scf.out",
                     "application": {
                         "name": "shell",
                         "summary": "Shell Script",

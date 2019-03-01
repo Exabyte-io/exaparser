@@ -2,7 +2,6 @@ import os
 import time
 
 from express import ExPrESS
-from slugify import slugify
 
 from src import settings
 from src.utils import find_file
@@ -20,12 +19,9 @@ class BaseExecutionUnit(BaseUnit):
 
     def __init__(self, config, work_dir):
         super(BaseExecutionUnit, self).__init__(config, work_dir)
-        self.work_dir = self.config.get("work_dir", self.work_dir)
+        self.work_dir = os.path.join(self.work_dir, self.config.get("workDir", ""))
+        self.stdout_file = os.path.join(self.work_dir, self.config.get("stdoutFile", '.'.join((self.name, 'out'))))
         self.express = ExPrESS(self.parser_name, **dict(work_dir=self.work_dir, stdout_file=self.stdout_file))
-
-    @property
-    def stdout_file(self):
-        return os.path.join(self.work_dir, self.config.get("stdout_file", '.'.join((slugify(self.name), 'out'))))
 
     @property
     def parser_name(self):
