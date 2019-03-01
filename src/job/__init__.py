@@ -27,6 +27,12 @@ class Job(object):
 
     @property
     def materials(self):
+        """
+        Returns a list of materials (initial_structures) used in job.
+
+        Returns:
+             list[dict]
+        """
         materials = []
         for unit in self.workflow.execution_units:
             materials.extend(unit.initial_structures)
@@ -35,7 +41,8 @@ class Job(object):
     @property
     def status(self):
         """
-        Returns job status. Status is set to "error" if there is a unit in "error" status.
+        Returns job status.
+        Status is set to "error" if there is a unit in "error" status.
 
         Returns:
              str
@@ -48,6 +55,12 @@ class Job(object):
 
     @property
     def properties(self):
+        """
+        Returns a list of all properties extracted from the job.
+
+        Returns:
+             list[dict]
+        """
         properties = []
         for unit in self.workflow.execution_units:
             properties.extend(unit.properties)
@@ -55,22 +68,39 @@ class Job(object):
 
     @property
     def workflow(self):
+        """
+        Returns an instance of Workflow class.
+        """
         if not self._workflow:
             self._workflow = Workflow(settings.WORKFLOW_TEMPLATE, self.work_dir)
         return self._workflow
 
     @property
     def name(self):
+        """
+        Returns the job name.
+
+        Note: This is a placeholder for future to implement advanced logic for setting job name.
+
+        Returns:
+            str
+        """
         return settings.JOB_NAME
 
     def to_json(self):
+        """
+        Returns the job in JSON format.
+
+        Returns:
+             dict
+        """
         return {
             "_project": {
-                "slug": settings.PROJECT
+                "slug": settings.PROJECT_SLUG
             },
             "compute": self.compute.to_json(),
             "owner": {
-                "slug": settings.OWNER
+                "slug": settings.OWNER_SLUG
             },
             "name": self.name,
             "status": self.status,

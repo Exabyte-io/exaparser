@@ -2,9 +2,13 @@ import os
 
 from src.utils import read_json
 
-# JOB SETTINGS
-OWNER = "demo"
-PROJECT = "demo-default"
+# Job owner slug
+OWNER_SLUG = "demo"
+
+# Job project slug
+PROJECT_SLUG = "demo-default"
+
+# Job name
 JOB_NAME = "External Job"
 
 # Type of Resource Management System (RMS), PBS or SLURM

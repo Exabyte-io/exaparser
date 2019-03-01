@@ -42,7 +42,7 @@ class ExabyteRESTFulAPIDataHandler(DataHandler):
     @property
     def project(self):
         if not self._project:
-            self._project = self.project_endpoints.list({"slug": settings.PROJECT, "owner.slug": settings.OWNER})[0]
+            self._project = self.project_endpoints.list({"slug": settings.PROJECT_SLUG, "owner.slug": settings.OWNER_SLUG})[0]
         return self._project
 
     def create_materials(self):
