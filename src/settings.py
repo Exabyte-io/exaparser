@@ -10,8 +10,8 @@ JOB_NAME = "External Job"
 # Type of Resource Management System (RMS), PBS or SLURM
 RMS_TYPE = "PBS"
 
-# List of data handlers, STDOUT, DISK and EXABYTE
-DATA_HANDLERS = ["EXABYTE"]
+# List of data handlers, STDOUT, DISK and ExabyteRESTFulAPI
+DATA_HANDLERS = ["ExabyteRESTFulAPI"]
 
 # WORKFLOW SETTINGS
 WORKFLOW_TEMPLATE_NAME = "shell.json"
