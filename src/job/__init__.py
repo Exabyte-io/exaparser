@@ -25,31 +25,23 @@ class Job(object):
     @property
     def materials(self):
         materials = []
-        for subworkflow in self.workflow.subworkflows:
-            for unit in subworkflow.units:
-                if unit.type == "execution":
-                    for material in unit.initial_structures:
-                        materials.append(material)
+        for unit in self.workflow.execution_units:
+            materials.extend(unit.initial_structures)
         return materials
 
     @property
     def status(self):
         status = "finished"
-        for subworkflow in self.workflow.subworkflows:
-            for unit in subworkflow.units:
-                if hasattr(unit, "status"):
-                    if unit.status == "error":
-                        status = "error"
+        for unit in self.workflow.execution_units:
+            if unit.status == "error":
+                status = "error"
         return status
 
     @property
     def properties(self):
         properties = []
-        for subworkflow in self.workflow.subworkflows:
-            for unit in subworkflow.units:
-                if unit.type == "execution":
-                    for property_ in unit.properties:
-                        properties.append(property_)
+        for unit in self.workflow.execution_units:
+            properties.extend(unit.properties)
         return properties
 
     @property

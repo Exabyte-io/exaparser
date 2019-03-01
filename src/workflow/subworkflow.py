@@ -35,6 +35,14 @@ class Subworkflow(object):
     def properties(self):
         return []
 
+    @property
+    def execution_units(self):
+        execution_units = []
+        for unit in self.units:
+            if unit.type == "execution":
+                execution_units.append(unit)
+        return execution_units
+
     def to_json(self):
         return {
             "_id": self.id,
