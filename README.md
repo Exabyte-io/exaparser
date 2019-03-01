@@ -36,7 +36,7 @@ The following diagram presents the package architecture that works as below:
     - input and output files
     - materials (initial/final structures) and properties
 
-- The job utilizes [Compute](src/job/compute) parser classes to extract compute configuration from the resource management system (RMS).
+- The job utilizes [Compute](src/job/compute) classes to extract compute configuration from the resource management system.
 
 - Once the job is formed it is passed to [Data Handler](src/data/handlers) classes to handle data, e.g. storing data in Exabyte platform.
 
