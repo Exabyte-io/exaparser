@@ -1,13 +1,13 @@
 # Exabyte Parser (ExaParser)
 
-Exabyte parser is a python package to extract and convert (DFT) data on disk to EDC format.
+Exabyte parser is a python package to extract and convert (DFT) data on disk to [ESSE/EDC](https://github.com/Exabyte-io/exabyte-esse) format.
 
 ## Functionality
 
 As below:
 
 - Extract structural information and material properties from simulation data
-- Serialize extracted information according to ESSE/EDC
+- Serialize extracted information according to [ESSE/EDC](https://github.com/Exabyte-io/exabyte-esse)
 - Store serialized data on disk or remote databases
 - Support for multiple simulation engines, including:
   - [VASP](#links)
@@ -18,11 +18,15 @@ The package is written in a modular way easy to extend for additional applicatio
 
 ## Architecture
 
-The following diagram presents the package architecture that works as below:
+The following diagram presents the package architecture.
+
+![ExaParser](https://user-images.githubusercontent.com/10528238/53663156-dd876e00-3c19-11e9-868f-41946199eca4.png)
+
+Here's an example flow of data/events:
 
 - User invokes the parser with a path to a job working directory.
 
-- The parser initializes a [`Job`](src/job/__init__.py) class to extract and serialize the job in EDC format.
+- The parser initializes a [`Job`](src/job/__init__.py) class to extract and serialize the job.
  
 - Job class uses [`Workflow`](src/workflow/workflow.py) parser to extract and serialize the workflow.
 
@@ -39,8 +43,6 @@ The following diagram presents the package architecture that works as below:
 - The job utilizes [Compute](src/job/compute) classes to extract compute configuration from the resource management system.
 
 - Once the job is formed it is passed to [Data Handler](src/data/handlers) classes to handle data, e.g. storing data in Exabyte platform.
-
-![ExaParser](https://user-images.githubusercontent.com/10528238/53663156-dd876e00-3c19-11e9-868f-41946199eca4.png)
 
 ## Installation
 
@@ -72,7 +74,7 @@ ExaParser can be installed as below.
 
 ## Usage
 
-1. Open [settings](src/settings.py) and adjust parameters as necessary. The most ones are listed below.
+1. Open [settings](src/settings.py) and adjust parameters as necessary. The most important ones are listed below.
 
     - Add `ExabyteRESTfulAPI` to `DATA_HANDLERS` parameter to upload the data into your Exabyte.io account.
     
