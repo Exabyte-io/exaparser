@@ -4,5 +4,5 @@ from src.data.handlers.exabyte import ExabyteRESTFulAPIDataHandler
 
 
 def get_data_handler(name, job):
-    handlers = dict(stdout=StdoutDataHandler, disk=DiskDataHandler, exabyte=ExabyteRESTFulAPIDataHandler)
+    handlers = dict(STDOUT=StdoutDataHandler, DISK=DiskDataHandler, ExabyteRESTFulAPI=ExabyteRESTFulAPIDataHandler)
     return handlers[name](job)

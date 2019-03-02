@@ -50,6 +50,7 @@
     "units": [
         {
             "_id": "f476bbe958e19856f87ced18",
+            "name": "Shell Subworkflow",
             "flowchartId": "b45017d33fb8f24e93a7fc24",
             "head": true,
             "type": "subworkflow"

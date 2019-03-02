@@ -1,12 +1,14 @@
 from src import settings
-from src.data.factory import get_data_handler
-from src.workflow import Workflow
+from src.workflow.workflow import Workflow
 from src.job.compute.factory import get_compute_parser
 
 
 class Job(object):
     """
     Job parser class.
+
+    Args:
+        work_dir (str): full path to working directory.
     """
 
     def __init__(self, work_dir):
@@ -23,16 +25,24 @@ class Job(object):
     @property
     def materials(self):
         materials = []
-        for subworkflow in self.workflow.subworkflows:
-            for unit in subworkflow.units:
-                if hasattr(unit, "initial_structures"):
-                    for material in unit.initial_structures:
-                        materials.append(material)
+        for unit in self.workflow.execution_units:
+            materials.extend(unit.initial_structures)
         return materials
 
     @property
     def status(self):
-        return "finished"
+        status = "finished"
+        for unit in self.workflow.execution_units:
+            if unit.status == "error":
+                status = "error"
+        return status
+
+    @property
+    def properties(self):
+        properties = []
+        for unit in self.workflow.execution_units:
+            properties.extend(unit.properties)
+        return properties
 
     @property
     def workflow(self):
@@ -42,7 +52,7 @@ class Job(object):
 
     @property
     def name(self):
-        return "".join((settings.JOB_PREFIX, ""))
+        return settings.JOB_NAME
 
     def to_json(self):
         return {
@@ -50,9 +60,6 @@ class Job(object):
                 "slug": settings.PROJECT
             },
             "compute": self.compute.to_json(),
-            "creator": {
-                "slug": settings.CREATOR
-            },
             "owner": {
                 "slug": settings.OWNER
             },
@@ -61,7 +68,3 @@ class Job(object):
             "workDir": self.work_dir,
             "workflow": self.workflow.to_json()
         }
-
-    def parse(self):
-        for handler in settings.DATA_HANDLERS:
-            get_data_handler(handler, self).handle()
