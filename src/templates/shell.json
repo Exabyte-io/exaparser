@@ -1,0 +1,59 @@
+{
+    "name": "Shell Workflow",
+    "properties": [],
+    "subworkflows": [
+        {
+            "_id": "f476bbe958e19856f87ced18",
+            "application": {
+                "name": "shell",
+                "summary": "Shell Script",
+                "version": "4.2.46"
+            },
+            "model": {
+                "method": {
+                    "subtype": "unknown",
+                    "type": "unknown"
+                },
+                "subtype": "unknown",
+                "type": "unknown"
+            },
+            "name": "Shell Subworkflow",
+            "properties": [],
+            "units": [
+                {
+                    "stdout_file": "pw-scf.out",
+                    "application": {
+                        "name": "shell",
+                        "summary": "Shell Script",
+                        "version": "4.2.46"
+                    },
+                    "executable": {
+                        "name": "sh"
+                    },
+                    "flowchartId": "f476bbe958e19856f87ced18-shell",
+                    "head": true,
+                    "input": [
+                        {
+                            "name": "run.sh"
+                        }
+                    ],
+                    "monitors": [],
+                    "name": "shell",
+                    "postProcessors": [],
+                    "preProcessors": [],
+                    "results": [],
+                    "type": "execution"
+                }
+            ]
+        }
+    ],
+    "units": [
+        {
+            "_id": "f476bbe958e19856f87ced18",
+            "name": "Shell Subworkflow",
+            "flowchartId": "b45017d33fb8f24e93a7fc24",
+            "head": true,
+            "type": "subworkflow"
+        }
+    ]
+}
