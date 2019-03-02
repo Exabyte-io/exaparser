@@ -1,62 +1,26 @@
-from express import ExPrESS
-
-
 class BaseUnit(object):
     """
     Base unit parser class.
+
+    Args:
+        config (dict): unit config.
+        work_dir (str): full path to working directory.
     """
 
-    def __init__(self, config, *args, **kwargs):
+    def __init__(self, config, work_dir):
         self.config = config
-        self.args = args
-        self.kwargs = kwargs
+        self.work_dir = work_dir
+        self.type = self.config["type"]
+        self.name = self.config.get("name", "")
+        self.head = self.config.get("head", False)
+        self.flowchartId = self.config["flowchartId"]
+        self.next_flowchartId = self.config.get("next", "")
 
-    @property
-    def work_dir(self):
-        return self.config["work_dir"]
-
-    @property
-    def stdout_file(self):
-        return self.config["stdout_file"]
-
-    @property
-    def parser_name(self):
-        return ""
-
-    @property
-    def express(self):
-        kwargs = {
-            "work_dir": self.work_dir,
-            "stdout_file": self.stdout_file
+    def to_json(self):
+        return {
+            "flowchartId": self.flowchartId,
+            "name": self.name,
+            "head": self.head,
+            "type": self.type,
+            "next": self.next_flowchartId
         }
-        return ExPrESS(self.parser_name, **kwargs)
-
-    def safely_extract_property(self, property_, *args, **kwargs):
-        try:
-            return self.express.property(property_, *args, **kwargs)
-        except:
-            print("unable to extract {}".format(property_))
-
-    @property
-    def initial_structures(self):
-        return [self.safely_extract_property("material", is_initial_structure=True)]
-
-    @property
-    def final_structures(self):
-        return [self.safely_extract_property("material", is_final_structure=True)]
-
-    @property
-    def results(self):
-        return []
-
-    @property
-    def monitors(self):
-        return [
-            {
-                "name": "standard_output"
-            }
-        ]
-
-    @property
-    def inputs(self):
-        return []
