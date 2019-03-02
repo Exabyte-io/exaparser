@@ -5,6 +5,7 @@ from express import ExPrESS
 from slugify import slugify
 
 from src import settings
+from src.utils import find_file
 from src.workflow.units import BaseUnit
 
 
@@ -20,15 +21,16 @@ class BaseExecutionUnit(BaseUnit):
     def __init__(self, config, work_dir):
         super(BaseExecutionUnit, self).__init__(config, work_dir)
         self.work_dir = self.config.get("work_dir", self.work_dir)
-        self.express = ExPrESS(self.express_parser_name, **dict(work_dir=self.work_dir, stdout_file=self.stdout_file))
+        self.express = ExPrESS(self.parser_name, **dict(work_dir=self.work_dir, stdout_file=self.stdout_file))
 
     @property
     def stdout_file(self):
         return os.path.join(self.work_dir, self.config.get("stdout_file", '.'.join((slugify(self.name), 'out'))))
 
     @property
-    def express_parser_name(self):
-        return self.application["name"]
+    def parser_name(self):
+        if find_file(settings.VASP_XML_FILE, self.work_dir): return "vasp"
+        if find_file(settings.ESPRESSO_XML_FILE, self.work_dir): return "espresso"
 
     @property
     def application(self):

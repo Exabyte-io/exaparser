@@ -1,3 +1,7 @@
+import os
+import re
+
+from multiprocessing import Pool
 from endpoints.jobs import JobEndpoints
 from endpoints.projects import ProjectEndpoints
 from endpoints.materials import MaterialEndpoints
@@ -5,6 +9,7 @@ from endpoints.raw_properties import RawPropertiesEndpoints
 
 from src import settings
 from src.data import DataHandler
+from src.utils import upload_file
 
 
 class ExabyteRESTFulAPIDataHandler(DataHandler):
@@ -49,6 +54,7 @@ class ExabyteRESTFulAPIDataHandler(DataHandler):
 
     def create_job(self, materials):
         config = self.job.to_json()
+        config["isExternal"] = True
         config["owner"] = self.owner
         config["_project"] = {"_id": self.project["_id"]}
         config["_material"] = {"_id": materials[0]["_id"]}
@@ -59,7 +65,25 @@ class ExabyteRESTFulAPIDataHandler(DataHandler):
             property_["source"]["info"]["jobId"] = job["_id"]
             self.raw_properties_endpoints.create(property_)
 
+    @property
+    def files(self):
+        files_ = []
+        for root, dirs, files in os.walk(self.job.work_dir):
+            for file_ in [os.path.join(root, f) for f in files]:
+                if settings.EXCLUDED_FILES_REGEX and re.match(settings.EXCLUDED_FILES_REGEX, file_): continue
+                files_.append(file_.replace("".join((self.job.work_dir, "/")), ""))
+        return files_
+
+    def upload_files(self, job):
+        presigned_urls = self.job_endpoints.get_presigned_urls(job["_id"], self.files)
+        presigned_urls = [{"path": os.path.join(self.job.work_dir, p["file"]), "URL": p["URL"]} for p in presigned_urls]
+        num_workers = min(len(presigned_urls), settings.NUM_WORKERS)
+        pool = Pool(processes=num_workers)
+        pool.map(upload_file, presigned_urls)
+
     def handle(self):
         materials = self.create_materials()
         job = self.create_job(materials)
         self.create_properties(job)
+        if settings.UPLOAD_FILES:
+            self.upload_files(job)

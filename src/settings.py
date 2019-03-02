@@ -30,8 +30,12 @@ API_ACCOUNT_ID = "zX6Wf8QdQkgEpP26u"
 API_AUTH_TOKEN = "8YpFg97E-zN17xP9bqngoGFJV8mBXT553zh8iE9a0nP"
 API_SECURE = True
 API_VERSION = "2018-10-01"
+
+NUM_WORKERS = 25
 UPLOAD_FILES = True
 EXCLUDED_FILES_REGEX = ""
+S3_REGION = "us-west-2"
+S3_BUCKET = "exabyte-external"
 
 # List of properties to extract
 PROPERTIES = [
