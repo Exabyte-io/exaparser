@@ -94,7 +94,7 @@ ExaParser can be installed as below.
 
 ```bash
 source venv/bin/activate
-./bin/exaperser -w PATH_TO_JOB_WORKING_DIRECTORY
+./bin/exaparser -w PATH_TO_JOB_WORKING_DIRECTORY
 ```
 
 ## Templates
