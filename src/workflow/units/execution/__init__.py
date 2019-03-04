@@ -2,8 +2,8 @@ import os
 
 from express import ExPrESS
 
-from src import settings
 from src.utils import find_file
+from src.config import ExaParserConfig
 from src.workflow.units import BaseUnit
 
 
@@ -30,8 +30,8 @@ class BaseExecutionUnit(BaseUnit):
         Returns:
              str: espresso or vasp
         """
-        if find_file(settings.VASP_XML_FILE, self.work_dir): return "vasp"
-        if find_file(settings.ESPRESSO_XML_FILE, self.work_dir): return "espresso"
+        if find_file(ExaParserConfig["global"]["vasp_xml_file"], self.work_dir): return "vasp"
+        if find_file(ExaParserConfig["global"]["espresso_xml_file"], self.work_dir): return "espresso"
 
     @property
     def application(self):
@@ -192,7 +192,7 @@ class BaseExecutionUnit(BaseUnit):
         Returns:
              list[dict]
         """
-        return [{"name": name} for name in settings.PROPERTIES]
+        return [{"name": name} for name in ExaParserConfig["global"]["properties"].replace(" ", "").split(",")]
 
     @property
     def structures(self):
@@ -224,7 +224,8 @@ class BaseExecutionUnit(BaseUnit):
         """
         properties = []
         structures = self.structures
-        for name in settings.PROPERTIES:
+        for name in [r["name"] for r in self.results]:
+            if name == "final_structure": continue
             property_ = self.safely_extract_property(name)
             if property_:
                 property_.update({"repetition": 0})
