@@ -7,8 +7,8 @@ from endpoints.projects import ProjectEndpoints
 from endpoints.materials import MaterialEndpoints
 from endpoints.raw_properties import RawPropertiesEndpoints
 
-from src import settings
 from src.data import DataHandler
+from src.config import ExaParserConfig
 from src.utils import upload_file_to_object_storage
 
 
@@ -37,8 +37,14 @@ class ExabyteRESTFulAPIDataHandler(DataHandler):
         Returns:
              list
         """
-        return [settings.API_HOSTNAME, settings.API_PORT, settings.API_ACCOUNT_ID,
-                settings.API_AUTH_TOKEN, settings.API_VERSION, settings.API_SECURE]
+        return [
+            ExaParserConfig.get("exabyte_api_data_handler", "hostname"),
+            ExaParserConfig.getint("exabyte_api_data_handler", "port"),
+            ExaParserConfig.get("exabyte_api_data_handler", "account_id"),
+            ExaParserConfig.get("exabyte_api_data_handler", "auth_token"),
+            ExaParserConfig.get("exabyte_api_data_handler", "version"),
+            ExaParserConfig.getboolean("exabyte_api_data_handler", "secure")
+        ]
 
     @property
     def owner(self):
@@ -63,8 +69,8 @@ class ExabyteRESTFulAPIDataHandler(DataHandler):
         if not self._project:
             self._project = self.project_endpoints.list(
                 {
-                    "slug": settings.PROJECT_SLUG,
-                    "owner.slug": settings.OWNER_SLUG
+                    "slug": ExaParserConfig["global"]["project_slug"],
+                    "owner.slug": ExaParserConfig["global"]["owner_slug"]
                 }
             )[0]
         return self._project
@@ -114,7 +120,7 @@ class ExabyteRESTFulAPIDataHandler(DataHandler):
         """
         Returns a list file paths relative to jb working directory to upload to object storage.
 
-        Note: files matching settings.EXCLUDED_FILES_REGEX are ignored.
+        Note: files matching excluded_files_regex are ignored.
 
         Returns:
              list
@@ -122,7 +128,8 @@ class ExabyteRESTFulAPIDataHandler(DataHandler):
         files_ = []
         for root, dirs, files in os.walk(self.job.work_dir):
             for file_ in [os.path.join(root, f) for f in files]:
-                if settings.EXCLUDED_FILES_REGEX and re.match(settings.EXCLUDED_FILES_REGEX, file_): continue
+                regex = ExaParserConfig.get("exabyte_api_data_handler", "excluded_files_regex")
+                if regex and re.match(regex, file_): continue
                 files_.append(file_.replace("".join((self.job.work_dir, "/")), ""))
         return files_
 
@@ -137,7 +144,7 @@ class ExabyteRESTFulAPIDataHandler(DataHandler):
         """
         presigned_urls = self.job_endpoints.get_presigned_urls(job_id, self.files)
         presigned_urls = [{"path": os.path.join(self.job.work_dir, p["file"]), "URL": p["URL"]} for p in presigned_urls]
-        num_workers = min(len(presigned_urls), settings.NUM_WORKERS)
+        num_workers = min(len(presigned_urls), ExaParserConfig.getint("exabyte_api_data_handler", "num_workers"))
         pool = Pool(processes=num_workers)
         pool.map(upload_file_to_object_storage, presigned_urls)
 
@@ -148,5 +155,5 @@ class ExabyteRESTFulAPIDataHandler(DataHandler):
         materials = self.create_materials()
         job = self.create_job(materials)
         self.create_properties(job["_id"])
-        if settings.UPLOAD_FILES:
+        if ExaParserConfig.getboolean("exabyte_api_data_handler", "upload_files"):
             self.upload_files(job["_id"])

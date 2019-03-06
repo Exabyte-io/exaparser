@@ -22,7 +22,7 @@
             "units": [
                 {
                     "workDir": ".",
-                    "stdoutFile": "pw-scf.out",
+                    "stdoutFile": "stdout",
                     "application": {
                         "name": "shell",
                         "summary": "Shell Script",
@@ -35,7 +35,7 @@
                     "head": true,
                     "input": [
                         {
-                            "name": "run.sh"
+                            "name": "job.rms"
                         }
                     ],
                     "monitors": [],
