@@ -1,6 +1,6 @@
 # Exabyte Parser (ExaParser)
 
-Exabyte parser is a python package to extract and convert (DFT) data on disk to [ESSE/EDC](https://github.com/Exabyte-io/exabyte-esse) format.
+Exabyte parser is a python package to extract and convert materials modeling data (eg. Density Functional Theory, Molecular Dynamics) on disk to [ESSE/EDC](https://github.com/Exabyte-io/exabyte-esse) format.
 
 ## Functionality
 
@@ -15,34 +15,6 @@ As below:
   - others, to be added
 
 The package is written in a modular way easy to extend for additional applications and properties of interest. Contributions can be in the form of additional [functionality](#todo-list) and [bug/issue reports](https://help.github.com/articles/creating-an-issue/).
-
-## Architecture
-
-The following diagram presents the package architecture.
-
-![ExaParser](https://user-images.githubusercontent.com/10528238/53663156-dd876e00-3c19-11e9-868f-41946199eca4.png)
-
-Here's an example flow of data/events:
-
-- User invokes the parser with a path to a job working directory.
-
-- The parser initializes a [`Job`](src/job/__init__.py) class to extract and serialize the job.
- 
-- Job class uses [`Workflow`](src/workflow/workflow.py) parser to extract and serialize the workflow.
-
-- The Workflow is initialized with a [Template](#templates) to help the parser to construct the workflow.
-
-    - Users can add new templates or adjust the current ones to support complex workflows.
-
-- Workflow parser iterates over the [Units](src/workflow/units) to extract 
-
-    - application-related data
-    - input and output files
-    - materials (initial/final structures) and properties
-
-- The job utilizes [Compute](src/job/compute) classes to extract compute configuration from the resource management system.
-
-- Once the job is formed it is passed to [Data Handler](src/data/handlers) classes to handle data, e.g. storing data in Exabyte platform.
 
 ## Installation
 
@@ -97,10 +69,6 @@ source venv/bin/activate
 ./bin/exaparser -w PATH_TO_JOB_WORKING_DIRECTORY
 ```
 
-## Templates
-
-Workflow templates are used to help the parser extracting the data as users follow different approaches to name their input/output files and organize their job directories. Readers are referred to [Exabyte.io Documentation](https://docs.exabyte.io/workflows/overview/) for more information about the structure of workflows. As explain above a [Shell Workflow Template](src/templates/shell.json) is used by default to construct the workflow. Fr each unit of the workflow one should specify `stdoutFile`, the relative path to the file containing the standard output of the job, `workDir`, the relative path to directory containing data for the unit and the name of `input` files.
-
 ## Tests
 
 Run the following command to run the tests.
@@ -112,6 +80,38 @@ sh run-tests.sh
 ## Contribution
 
 This repository is an [open-source](LICENSE.md) work-in-progress and we welcome contributions. We suggest forking this repository and introducing the adjustments there, the changes in the fork can further be considered for merging into this repository as explained in [GitHub Standard Fork and Pull Request Workflow](https://gist.github.com/Chaser324/ce0505fbed06b947d962).
+
+## Architecture
+
+The following diagram presents the package architecture.
+
+![ExaParser](https://user-images.githubusercontent.com/10528238/53663156-dd876e00-3c19-11e9-868f-41946199eca4.png)
+
+Here's an example flow of data/events:
+
+- User invokes the parser with a path to a job working directory.
+
+- The parser initializes a [`Job`](src/job/__init__.py) class to extract and serialize the job.
+ 
+- Job class uses [`Workflow`](src/workflow/workflow.py) parser to extract and serialize the workflow.
+
+- The Workflow is initialized with a [Template](#templates) to help the parser to construct the workflow.
+
+    - Users can add new templates or adjust the current ones to support complex workflows.
+
+- Workflow parser iterates over the [Units](src/workflow/units) to extract 
+
+    - application-related data
+    - input and output files
+    - materials (initial/final structures) and properties
+
+- The job utilizes [Compute](src/job/compute) classes to extract compute configuration from the resource management system.
+
+- Once the job is formed it is passed to [Data Handler](src/data/handlers) classes to handle data, e.g. storing data in Exabyte platform.
+
+## Templates
+
+Workflow templates are used to help the parser extracting the data as users follow different approaches to name their input/output files and organize their job directories. Readers are referred to [Exabyte.io Documentation](https://docs.exabyte.io/workflows/overview/) for more information about the structure of workflows. As explain above a [Shell Workflow Template](src/templates/shell.json) is used by default to construct the workflow. Fr each unit of the workflow one should specify `stdoutFile`, the relative path to the file containing the standard output of the job, `workDir`, the relative path to directory containing data for the unit and the name of `input` files.
 
 ## TODO List
 
