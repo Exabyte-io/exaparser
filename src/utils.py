@@ -60,15 +60,20 @@ def read_json(path):
     return json.loads(read(path))
 
 
-def upload_file(file_):
+def upload_file_to_object_storage(file_):
     """
-    Uploads a given file.
+    Uploads a given file to object storage.
+
+    Note: a new line is added to the file if it is empty.
 
     Args:
         file_ (dict): a dictionary with path and presignedURL keys.
     """
     path = file_["path"]
     session = requests.Session()
+    if os.path.getsize(path) == 0:
+        with open(path, 'w+') as f:
+            f.write('\n')
     headers = {"Content-Length": str(os.path.getsize(path))}
     with open(path) as f:
         session.request("PUT", file_["URL"], data=f, headers=headers).raise_for_status()

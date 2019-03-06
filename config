@@ -1,0 +1,52 @@
+[global]
+
+# Job owner slug
+owner_slug = demo
+
+# Job project slug
+project_slug = demo-default
+
+# Type of Resource Management System (RMS), PBS or SLURM
+rms_type = PBS
+
+# List of data handlers, STDOUT, DISK and ExabyteRESTFulAPI
+data_handlers = ExabyteRESTFulAPI
+
+# Workflow template settings
+workflow_template_name = shell.json
+
+# Name of VASP XML file used to identify the job type
+vasp_xml_file = vasprun.xml
+
+# Name of Espresso XML file used to identify the job type
+espresso_xml_file = data-file.xml
+
+# List of properties to extract. Parser tries to extract all properties by default.
+# Remove the ones that should not be extracted for particular job, e.g. band_structure in toal energy calculation.
+properties = final_structure, phonon_dos, pressure, atomic_forces, stress_tensor, phonon_dispersions,
+             fermi_energy, density_of_states, zero_point_energy, total_energy_contributions,
+             total_force, band_structure, band_gaps, total_energy
+
+[disk_data_handler]
+
+# directory to store the job if DISK data handler is enabled
+data_dir = .exabyte
+
+[exabyte_api_data_handler]
+# Exabyte RESTful API Data Handler Settings
+# See https://docs.exabyte.io/rest-api/overview for more information.
+hostname = platform.exabyte.io
+port = 443
+account_id = zX6Wf8QdQkgEpP26u
+auth_token = 8YpFg97E-zN17xP9bqngoGFJV8mBXT553zh8iE9a0nP
+secure = True
+version = 2018-10-01
+
+# Number of workers used for uploading files in parallel
+num_workers = 25
+
+# Whether to upload files to object storage
+upload_files = True
+
+# Pattern to exclude files from being upload to object storage
+excluded_files_regex =

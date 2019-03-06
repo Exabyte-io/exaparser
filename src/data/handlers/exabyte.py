@@ -7,14 +7,15 @@ from endpoints.projects import ProjectEndpoints
 from endpoints.materials import MaterialEndpoints
 from endpoints.raw_properties import RawPropertiesEndpoints
 
-from src import settings
 from src.data import DataHandler
-from src.utils import upload_file
+from src.config import ExaParserConfig
+from src.utils import upload_file_to_object_storage
 
 
 class ExabyteRESTFulAPIDataHandler(DataHandler):
     """
     Exabyte RESTFul API data handler class.
+
 
     Args:
         job (src.job.Job)
@@ -30,22 +31,57 @@ class ExabyteRESTFulAPIDataHandler(DataHandler):
 
     @property
     def endpoint_args(self):
-        return [settings.API_HOSTNAME, settings.API_PORT, settings.API_ACCOUNT_ID,
-                settings.API_AUTH_TOKEN, settings.API_VERSION, settings.API_SECURE]
+        """
+        Returns a list of arguments passed to the endpoints.
+
+        Returns:
+             list
+        """
+        return [
+            ExaParserConfig.get("exabyte_api_data_handler", "hostname"),
+            ExaParserConfig.getint("exabyte_api_data_handler", "port"),
+            ExaParserConfig.get("exabyte_api_data_handler", "account_id"),
+            ExaParserConfig.get("exabyte_api_data_handler", "auth_token"),
+            ExaParserConfig.get("exabyte_api_data_handler", "version"),
+            ExaParserConfig.getboolean("exabyte_api_data_handler", "secure")
+        ]
 
     @property
     def owner(self):
+        """
+        Returns the owner configuration extracted from the project.
+
+        Returns:
+             dict
+        """
         if not self._owner:
             self._owner = self.project["owner"]
         return self._owner
 
     @property
     def project(self):
+        """
+        Returns the project the job should be created in.
+
+        Returns:
+             dict
+        """
         if not self._project:
-            self._project = self.project_endpoints.list({"slug": settings.PROJECT, "owner.slug": settings.OWNER})[0]
+            self._project = self.project_endpoints.list(
+                {
+                    "slug": ExaParserConfig["global"]["project_slug"],
+                    "owner.slug": ExaParserConfig["global"]["owner_slug"]
+                }
+            )[0]
         return self._project
 
     def create_materials(self):
+        """
+        Creates materials in web application.
+
+        Returns:
+             list
+        """
         materials = []
         for config in self.job.materials:
             config["owner"] = self.owner
@@ -53,6 +89,14 @@ class ExabyteRESTFulAPIDataHandler(DataHandler):
         return materials
 
     def create_job(self, materials):
+        """
+        Creates job in web application.
+
+        Note: job must be set as external (isExternal=True) to be able to access the files.
+
+        Returns:
+             list
+        """
         config = self.job.to_json()
         config["isExternal"] = True
         config["owner"] = self.owner
@@ -60,30 +104,56 @@ class ExabyteRESTFulAPIDataHandler(DataHandler):
         config["_material"] = {"_id": materials[0]["_id"]}
         return self.job_endpoints.create(config)
 
-    def create_properties(self, job):
+    def create_properties(self, job_id):
+        """
+        Creates properties in web application. Properties will be shown in job's results tab after creation.
+
+        Args:
+            job_id (str): job ID.
+        """
         for property_ in self.job.properties:
-            property_["source"]["info"]["jobId"] = job["_id"]
+            property_["source"]["info"]["jobId"] = job_id
             self.raw_properties_endpoints.create(property_)
 
     @property
     def files(self):
+        """
+        Returns a list file paths relative to jb working directory to upload to object storage.
+
+        Note: files matching excluded_files_regex are ignored.
+
+        Returns:
+             list
+        """
         files_ = []
         for root, dirs, files in os.walk(self.job.work_dir):
             for file_ in [os.path.join(root, f) for f in files]:
-                if settings.EXCLUDED_FILES_REGEX and re.match(settings.EXCLUDED_FILES_REGEX, file_): continue
+                regex = ExaParserConfig.get("exabyte_api_data_handler", "excluded_files_regex")
+                if regex and re.match(regex, file_): continue
                 files_.append(file_.replace("".join((self.job.work_dir, "/")), ""))
         return files_
 
-    def upload_files(self, job):
-        presigned_urls = self.job_endpoints.get_presigned_urls(job["_id"], self.files)
+    def upload_files(self, job_id):
+        """
+        Uploads the file in parallel into object storage.
+
+        Note: permission to upload files into object storage is given through presignedURLs.
+
+        Args:
+            job_id (str): job ID.
+        """
+        presigned_urls = self.job_endpoints.get_presigned_urls(job_id, self.files)
         presigned_urls = [{"path": os.path.join(self.job.work_dir, p["file"]), "URL": p["URL"]} for p in presigned_urls]
-        num_workers = min(len(presigned_urls), settings.NUM_WORKERS)
+        num_workers = min(len(presigned_urls), ExaParserConfig.getint("exabyte_api_data_handler", "num_workers"))
         pool = Pool(processes=num_workers)
-        pool.map(upload_file, presigned_urls)
+        pool.map(upload_file_to_object_storage, presigned_urls)
 
     def handle(self):
+        """
+        Creates materials, job and properties in webapp and uploads files into object storage.
+        """
         materials = self.create_materials()
         job = self.create_job(materials)
-        self.create_properties(job)
-        if settings.UPLOAD_FILES:
-            self.upload_files(job)
+        self.create_properties(job["_id"])
+        if ExaParserConfig.getboolean("exabyte_api_data_handler", "upload_files"):
+            self.upload_files(job["_id"])

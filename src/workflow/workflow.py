@@ -19,23 +19,37 @@ class Workflow(object):
 
     @property
     def name(self):
+        """
+        Returns workflow name.
+
+        Returns:
+             str
+        """
         return self.config.get("name", "Workflow")
 
     @property
-    def properties(self):
-        return []
-
-    @property
     def execution_units(self):
+        """
+        Returns a list of all execution units in this workflow.
+
+        Returns:
+             list
+        """
         execution_units = []
         for subworkflow in self.subworkflows:
             execution_units.extend(subworkflow.execution_units)
         return execution_units
 
     def to_json(self):
+        """
+        Returns the workflow in JSON format.
+
+        Returns:
+             dict
+        """
         return {
             "name": self.name,
-            "properties": self.properties,
+            "properties": [],
             "units": [u.to_json() for u in self.units],
             "subworkflows": [u.to_json() for u in self.subworkflows],
         }

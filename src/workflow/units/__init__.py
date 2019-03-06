@@ -17,6 +17,12 @@ class BaseUnit(object):
         self.next_flowchartId = self.config.get("next", "")
 
     def to_json(self):
+        """
+        Returns the unit in JSON format.
+
+        Returns:
+             dict
+        """
         return {
             "flowchartId": self.flowchartId,
             "name": self.name,

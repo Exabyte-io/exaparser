@@ -11,29 +11,52 @@ class BaseComputeParser(object):
 
     @property
     def ppn(self):
+        """
+        Returns number of processors per node.
+        Override on child classes.
+
+        Returns:
+             int
+        """
         return 1
 
     @property
     def nodes(self):
+        """
+        Returns number of nodes.
+        Override on child classes.
+
+        Returns:
+             int
+        """
         return 1
 
     @property
     def queue(self):
+        """
+        Returns queue name.
+        Override on child classes.
+
+        Returns:
+             int
+        """
         return "D"
 
     @property
     def walltime(self):
-        return "01:00:00"
+        """
+        Returns job walltime.
+        Override on child classes.
 
-    @property
-    def notify(self):
-        return "n"
+        Returns:
+             int
+        """
+        return "01:00:00"
 
     def to_json(self):
         return {
             "ppn": self.ppn,
             "nodes": self.nodes,
             "queue": self.queue,
-            "timeLimit": self.walltime,
-            "notify": self.notify
+            "timeLimit": self.walltime
         }
