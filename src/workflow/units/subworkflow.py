@@ -3,7 +3,7 @@ from src.workflow.units import BaseUnit
 
 class SubworkflowUnit(BaseUnit):
     """
-    Base subworkflow unit parser class.
+    Subworkflow unit parser class.
 
     Args:
         config (dict): unit config.
@@ -15,6 +15,12 @@ class SubworkflowUnit(BaseUnit):
         self.id = self.config["_id"]
 
     def to_json(self):
+        """
+        Returns the subworkflow unit in JSON format.
+
+        Returns:
+             dict
+        """
         config = super(SubworkflowUnit, self).to_json()
         config.update({
             "_id": self.id

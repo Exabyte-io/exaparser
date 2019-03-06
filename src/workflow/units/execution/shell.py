@@ -18,6 +18,12 @@ class ShellExecutionUnit(BaseExecutionUnit):
 
     @property
     def application(self):
+        """
+        Returns the application used in the unit.
+
+        Returns:
+             dict
+        """
         return {
             "name": "shell",
             "summary": "Shell Script",
@@ -26,12 +32,26 @@ class ShellExecutionUnit(BaseExecutionUnit):
 
     @property
     def executable(self):
+        """
+        Returns the executable used in the unit.
+
+        Returns:
+             dict
+        """
         return {
             "name": "sh"
         }
 
     @property
     def input(self):
+        """
+        Returns a list of input files used in the unit.
+
+        Note: Make sure to set "isManuallyChanged" to True.
+
+        Returns:
+             list[dict]
+        """
         return [
             {
                 "isManuallyChanged": True,

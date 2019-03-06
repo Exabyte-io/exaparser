@@ -1,4 +1,7 @@
-from src import settings
+import os
+
+from src.utils import read_json
+from src.config import ExaParserConfig
 from src.workflow.workflow import Workflow
 from src.job.compute.factory import get_compute_parser
 
@@ -11,19 +14,29 @@ class Job(object):
         work_dir (str): full path to working directory.
     """
 
-    def __init__(self, work_dir):
+    def __init__(self, name, work_dir):
+        self.name = name
         self.work_dir = work_dir
         self._workflow = None
         self._compute = None
 
     @property
     def compute(self):
+        """
+        Returns compute parser class to extract compute configuration.
+        """
         if not self._compute:
-            self._compute = get_compute_parser(settings.RMS_TYPE, self.work_dir)
+            self._compute = get_compute_parser(ExaParserConfig["global"]["rms_type"], self.work_dir)
         return self._compute
 
     @property
     def materials(self):
+        """
+        Returns a list of materials (initial_structures) used in job.
+
+        Returns:
+             list[dict]
+        """
         materials = []
         for unit in self.workflow.execution_units:
             materials.extend(unit.initial_structures)
@@ -31,6 +44,13 @@ class Job(object):
 
     @property
     def status(self):
+        """
+        Returns job status.
+        Status is set to "error" if there is a unit in "error" status.
+
+        Returns:
+             str
+        """
         status = "finished"
         for unit in self.workflow.execution_units:
             if unit.status == "error":
@@ -39,6 +59,12 @@ class Job(object):
 
     @property
     def properties(self):
+        """
+        Returns a list of all properties extracted from the job.
+
+        Returns:
+             list[dict]
+        """
         properties = []
         for unit in self.workflow.execution_units:
             properties.extend(unit.properties)
@@ -46,22 +72,29 @@ class Job(object):
 
     @property
     def workflow(self):
+        """
+        Returns an instance of Workflow class.
+        """
         if not self._workflow:
-            self._workflow = Workflow(settings.WORKFLOW_TEMPLATE, self.work_dir)
+            templates_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "templates")
+            template_path = os.path.join(templates_dir, ExaParserConfig["global"]["workflow_template_name"])
+            self._workflow = Workflow(read_json(template_path), self.work_dir)
         return self._workflow
 
-    @property
-    def name(self):
-        return settings.JOB_NAME
-
     def to_json(self):
+        """
+        Returns the job in JSON format.
+
+        Returns:
+             dict
+        """
         return {
             "_project": {
-                "slug": settings.PROJECT
+                "slug": ExaParserConfig["global"]["project_slug"]
             },
             "compute": self.compute.to_json(),
             "owner": {
-                "slug": settings.OWNER
+                "slug": ExaParserConfig["global"]["owner_slug"]
             },
             "name": self.name,
             "status": self.status,

@@ -17,26 +17,56 @@ class Subworkflow(object):
 
     @property
     def id(self):
+        """
+        Returns subworkflow id.
+
+        Returns:
+             str
+        """
         return self.config["_id"]
 
     @property
     def name(self):
+        """
+        Returns subworkflow name.
+
+        Returns:
+             str
+        """
         return self.config.get("name", "Subworkflow")
 
     @property
     def application(self):
+        """
+        Returns the application used in the subworkflow.
+
+        Note: This is a placeholder for future to extract application from disk.
+
+        Returns:
+             dict
+        """
         return self.config["application"]
 
     @property
     def model(self):
+        """
+        Returns the model used in the subworkflow.
+
+        Note: This is a placeholder for future to extract model from disk.
+
+        Returns:
+             dict
+        """
         return self.config["model"]
 
     @property
-    def properties(self):
-        return []
-
-    @property
     def execution_units(self):
+        """
+        Returns a list of all execution units in this subworkflow.
+
+        Returns:
+             list
+        """
         execution_units = []
         for unit in self.units:
             if unit.type == "execution":
@@ -44,11 +74,17 @@ class Subworkflow(object):
         return execution_units
 
     def to_json(self):
+        """
+        Returns the subworkflow in JSON format.
+
+        Returns:
+             dict
+        """
         return {
             "_id": self.id,
             "name": self.name,
             "model": self.model,
-            "properties": self.properties,
+            "properties": [],
             "application": self.application,
             "units": [u.to_json() for u in self.units]
         }

@@ -21,7 +21,8 @@
             "properties": [],
             "units": [
                 {
-                    "stdout_file": "pw-scf.out",
+                    "workDir": ".",
+                    "stdoutFile": "stdout",
                     "application": {
                         "name": "shell",
                         "summary": "Shell Script",
@@ -34,7 +35,7 @@
                     "head": true,
                     "input": [
                         {
-                            "name": "run.sh"
+                            "name": "job.rms"
                         }
                     ],
                     "monitors": [],

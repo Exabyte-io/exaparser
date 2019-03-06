@@ -18,4 +18,7 @@ class StdoutDataHandler(DataHandler):
         print(json.dumps(content, indent=4))
 
     def handle(self):
+        """
+        Prints the job in standard output.
+        """
         self.print_json(self.job.to_json())
