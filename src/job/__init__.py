@@ -1,4 +1,7 @@
-from src import settings
+import os
+
+from src.utils import read_json
+from src.config import ExaParserConfig
 from src.workflow.workflow import Workflow
 from src.job.compute.factory import get_compute_parser
 
@@ -11,7 +14,8 @@ class Job(object):
         work_dir (str): full path to working directory.
     """
 
-    def __init__(self, work_dir):
+    def __init__(self, name, work_dir):
+        self.name = name
         self.work_dir = work_dir
         self._workflow = None
         self._compute = None
@@ -22,7 +26,7 @@ class Job(object):
         Returns compute parser class to extract compute configuration.
         """
         if not self._compute:
-            self._compute = get_compute_parser(settings.RMS_TYPE, self.work_dir)
+            self._compute = get_compute_parser(ExaParserConfig["global"]["rms_type"], self.work_dir)
         return self._compute
 
     @property
@@ -72,20 +76,10 @@ class Job(object):
         Returns an instance of Workflow class.
         """
         if not self._workflow:
-            self._workflow = Workflow(settings.WORKFLOW_TEMPLATE, self.work_dir)
+            templates_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "templates")
+            template_path = os.path.join(templates_dir, ExaParserConfig["global"]["workflow_template_name"])
+            self._workflow = Workflow(read_json(template_path), self.work_dir)
         return self._workflow
-
-    @property
-    def name(self):
-        """
-        Returns the job name.
-
-        Note: This is a placeholder for future to implement advanced logic for setting job name.
-
-        Returns:
-            str
-        """
-        return settings.JOB_NAME
 
     def to_json(self):
         """
@@ -96,11 +90,11 @@ class Job(object):
         """
         return {
             "_project": {
-                "slug": settings.PROJECT_SLUG
+                "slug": ExaParserConfig["global"]["project_slug"]
             },
             "compute": self.compute.to_json(),
             "owner": {
-                "slug": settings.OWNER_SLUG
+                "slug": ExaParserConfig["global"]["owner_slug"]
             },
             "name": self.name,
             "status": self.status,
