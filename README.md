@@ -74,6 +74,7 @@ source venv/bin/activate
 Run the following command to run the tests.
 
 ```bash
+source venv/bin/activate
 sh run-tests.sh
 ```
 
