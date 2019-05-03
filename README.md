@@ -54,13 +54,13 @@ ExaParser can be installed as below.
     
     - Set `OWNER_SLUG`, `PROJECT_SLUG`, `API_ACCOUNT_ID`, and `API_AUTH_TOKEN` if `ExabyteRESTfulAPI` is enabled.
     
-        - See [RESTful API Documentation](https://docs.exabyte.io/rest-api/overview/) to learn how obtain authentication parameters.
+        - See [RESTful API Documentation](https://docs.exabyte.io/rest-api/overview/) to learn how to obtain authentication parameters.
     
-    - Adjust `WORKFLOW_TEMPLATE_NAME` parameter if different template should be used.
+    - Adjust `WORKFLOW_TEMPLATE_NAME` parameter in case a different template should be used.
     
         - By default a [Shell Workflow](src/templates/shell.json) is constructed. See [Templates](#templates) section for more details.
     
-    - Adjust `PROPERTIES` parameter to extract properties that make sense, otherwise all listed properties will be extracted.
+    - Adjust `PROPERTIES` parameter to extract desired properties; all listed properties will be attempted for extraction.
 
 1. Run the below commands to extract the data.
 
@@ -112,7 +112,7 @@ Here's an example flow of data/events:
 
 ## Templates
 
-Workflow templates are used to help the parser extracting the data as users follow different approaches to name their input/output files and organize their job directories. Readers are referred to [Exabyte.io Documentation](https://docs.exabyte.io/workflows/overview/) for more information about the structure of workflows. As explain above a [Shell Workflow Template](src/templates/shell.json) is used by default to construct the workflow. Fr each unit of the workflow one should specify `stdoutFile`, the relative path to the file containing the standard output of the job, `workDir`, the relative path to directory containing data for the unit and the name of `input` files.
+Workflow templates are used to help the parser extracting the data as users follow different approaches to name their input/output files and organize their job directories. Readers are referred to [Exabyte.io Documentation](https://docs.exabyte.io/workflows/overview/) for more information about the structure of workflows. As explain above a [Shell Workflow Template](src/templates/shell.json) is used by default to construct the workflow. For each unit of the workflow one should specify `stdoutFile`, the relative path to the file containing the standard output of the job, `workDir`, the relative path to directory containing data for the unit and the name of `input` files.
 
 ## TODO List
 
