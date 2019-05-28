@@ -1,0 +1,59 @@
+{
+    "name": "Espresso Workflow",
+    "properties": [],
+    "subworkflows": [
+        {
+            "_id": "c22a89a3c92b28318796a839",
+            "application": {
+                "name": "espresso"
+            },
+            "model": {
+                "method": {
+                    "subtype": "unknown",
+                    "type": "unknown"
+                },
+                "subtype": "unknown",
+                "type": "unknown"
+            },
+            "name": "Espresso Workflow",
+            "properties": [],
+            "units": [
+                {
+                    "application": {
+                        "name": "espresso"
+                    },
+                    "flowchartId": "1241e3a98b2003e1d9d123aa",
+                    "head": true,
+                    "input": [
+                        {
+                            "name": "pw-scf.in"
+                        }
+                    ],
+                    "monitors": [],
+                    "name": "pw_scf",
+                    "postProcessors": [],
+                    "preProcessors": [],
+                    "results": [],
+                    "stdoutFile": "stdout",
+                    "type": "execution",
+                    "workDir": "."
+                }
+            ]
+        }
+    ],
+    "units": [
+        {
+            "_id": "c22a89a3c92b28318796a839",
+            "flowchartId": "f0c5bd0f2000a30b77f818ac",
+            "head": true,
+            "monitors": [],
+            "name": "Espresso Workflow",
+            "postProcessors": [],
+            "preProcessors": [],
+            "results": [],
+            "status": "idle",
+            "statusTrack": [],
+            "type": "subworkflow"
+        }
+    ]
+}
