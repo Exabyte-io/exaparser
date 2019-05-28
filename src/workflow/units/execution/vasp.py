@@ -1,3 +1,5 @@
+import os
+
 from src.workflow.units.execution import BaseExecutionUnit
 
 
@@ -12,3 +14,34 @@ class VaspExecutionUnit(BaseExecutionUnit):
 
     def __init__(self, config, work_dir):
         super(VaspExecutionUnit, self).__init__(config, work_dir)
+
+    @property
+    def stdout_file(self):
+        stdout_file = super(VaspExecutionUnit, self).stdout_file
+        return stdout_file if os.path.exists(stdout_file) else os.path.join(self.work_dir, "OUTCAR")
+
+    @property
+    def application(self):
+        """
+        Returns the application used in the unit.
+
+        Returns:
+             dict
+        """
+        return {
+            "name": "vasp",
+            "version": "5.3.5",
+            "summary": "Vienna Ab-initio Simulation Package"
+        }
+
+    @property
+    def executable(self):
+        """
+        Returns the executable used in the unit.
+
+        Returns:
+             dict
+        """
+        return {
+            "name": "vasp"
+        }

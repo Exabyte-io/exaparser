@@ -1,7 +1,7 @@
 import os
 
-from src.utils import read_json
 from src.config import ExaParserConfig
+from src.utils import read_json, find_file
 from src.workflow.workflow import Workflow
 from src.job.compute.factory import get_compute_parser
 
@@ -76,10 +76,26 @@ class Job(object):
         Returns an instance of Workflow class.
         """
         if not self._workflow:
-            templates_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "templates")
-            template_path = os.path.join(templates_dir, ExaParserConfig["global"]["workflow_template_name"])
-            self._workflow = Workflow(read_json(template_path), self.work_dir)
+            self._workflow = Workflow(self.get_workflow_template(), self.work_dir)
         return self._workflow
+
+    def get_workflow_template(self):
+        templates_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "templates")
+        if self.is_espresso_job:
+            template_path = os.path.join(templates_dir, "espresso.json")
+        elif self.is_vasp_job:
+            template_path = os.path.join(templates_dir, "vasp.json")
+        else:
+            template_path = os.path.join(templates_dir, "shell.json")
+        return read_json(template_path)
+
+    @property
+    def is_vasp_job(self):
+        return find_file(ExaParserConfig["global"]["vasp_xml_file"], self.work_dir) is not None
+
+    @property
+    def is_espresso_job(self):
+        return find_file(ExaParserConfig["global"]["espresso_xml_file"], self.work_dir) is not None
 
     def to_json(self):
         """

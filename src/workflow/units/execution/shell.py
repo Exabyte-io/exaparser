@@ -1,6 +1,3 @@
-import os
-
-from src.utils import read
 from src.workflow.units.execution import BaseExecutionUnit
 
 
@@ -41,21 +38,3 @@ class ShellExecutionUnit(BaseExecutionUnit):
         return {
             "name": "sh"
         }
-
-    @property
-    def input(self):
-        """
-        Returns a list of input files used in the unit.
-
-        Note: Make sure to set "isManuallyChanged" to True.
-
-        Returns:
-             list[dict]
-        """
-        return [
-            {
-                "isManuallyChanged": True,
-                "name": self.config["input"][0]["name"],
-                "rendered": read(os.path.join(self.work_dir, self.config["input"][0]["name"]))
-            }
-        ]

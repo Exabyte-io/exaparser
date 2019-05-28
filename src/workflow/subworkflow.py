@@ -45,7 +45,7 @@ class Subworkflow(object):
         Returns:
              dict
         """
-        return self.config["application"]
+        return self.units[0].application
 
     @property
     def model(self):
