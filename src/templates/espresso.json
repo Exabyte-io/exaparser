@@ -26,7 +26,7 @@
                     "head": true,
                     "input": [
                         {
-                            "name": "pw-scf.in"
+                            "name": "espresso.in"
                         }
                     ],
                     "monitors": [],

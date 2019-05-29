@@ -45,5 +45,8 @@ num_workers = 25
 # Whether to upload files to object storage
 upload_files = True
 
+# Whether to upload stdout file
+upload_stdout_file = True
+
 # Pattern to exclude files from being upload to object storage
 excluded_files_regex =

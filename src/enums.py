@@ -1,0 +1,9 @@
+ESPRESSO_EXECUTABLE_NAME_REGEX = r'\s+Program (.*) v.* starts on .*'
+ESPRESSO_INPUT_FILE_REGEX = r'&CONTROL|&SYSTEM|&ELECTRONS|&IONS|&CELL'
+
+ESPRESSO_EXECUTABLE_NAME_MAP = {
+    "PWSCF": "pw.x",
+    "BANDS": "bands.x",
+}
+
+OUTPUT_CHUNK_SIZE = 1024 * 1024  # in bytes

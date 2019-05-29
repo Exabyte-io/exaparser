@@ -43,6 +43,22 @@ class Job(object):
         return materials
 
     @property
+    def stdout_files(self):
+        """
+        Returns a list of stdout files for all execution units.
+
+        Returns:
+             list[dict]
+        """
+        stdout_files = []
+        for unit in self.workflow.execution_units:
+            stdout_files.append({
+                "stdoutFile": unit.stdout_file,
+                "unitFlowchartId": unit.flowchartId,
+            })
+        return stdout_files
+
+    @property
     def status(self):
         """
         Returns job status.

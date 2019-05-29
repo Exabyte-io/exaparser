@@ -30,9 +30,19 @@ class VaspExecutionUnit(BaseExecutionUnit):
         """
         return {
             "name": "vasp",
-            "version": "5.3.5",
+            "version": self.version,
             "summary": "Vienna Ab-initio Simulation Package"
         }
+
+    @property
+    def version(self):
+        """
+        Returns the application version used in the unit.
+
+        Returns:
+             str
+        """
+        return "5.3.5"
 
     @property
     def executable(self):
