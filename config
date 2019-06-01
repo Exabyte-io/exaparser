@@ -12,6 +12,9 @@ rms_type = PBS
 # List of data handlers, STDOUT, DISK and ExabyteRESTFulAPI
 data_handlers = ExabyteRESTFulAPI
 
+# Workflow template settings
+workflow_template_name = shell.json
+
 # Name of VASP XML file used to identify the job type
 vasp_xml_file = vasprun.xml
 
