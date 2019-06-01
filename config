@@ -4,7 +4,7 @@
 owner_slug = demo
 
 # Job project slug
-project_slug = demo-default
+project_slug = demo-external
 
 # Type of Resource Management System (RMS), PBS or SLURM
 rms_type = PBS
