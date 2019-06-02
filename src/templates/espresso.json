@@ -1,11 +1,11 @@
 {
-    "name": "Shell Workflow",
+    "name": "Espresso Workflow",
     "properties": [],
     "subworkflows": [
         {
-            "_id": "f476bbe958e19856f87ced18",
+            "_id": "c22a89a3c92b28318796a839",
             "application": {
-                "name": "shell"
+                "name": "espresso"
             },
             "model": {
                 "method": {
@@ -15,21 +15,22 @@
                 "subtype": "unknown",
                 "type": "unknown"
             },
-            "name": "Shell Subworkflow",
+            "name": "Espresso Workflow",
+            "properties": [],
             "units": [
                 {
                     "application": {
-                        "name": "shell"
+                        "name": "espresso"
                     },
-                    "flowchartId": "f476bbe958e19856f87ced18-shell",
+                    "flowchartId": "1241e3a98b2003e1d9d123aa",
                     "head": true,
                     "input": [
                         {
-                            "name": "job.rms"
+                            "name": "espresso.in"
                         }
                     ],
                     "monitors": [],
-                    "name": "shell",
+                    "name": "pw_scf",
                     "postProcessors": [],
                     "preProcessors": [],
                     "results": [],
@@ -42,10 +43,16 @@
     ],
     "units": [
         {
-            "_id": "f476bbe958e19856f87ced18",
-            "flowchartId": "b45017d33fb8f24e93a7fc24",
+            "_id": "c22a89a3c92b28318796a839",
+            "flowchartId": "f0c5bd0f2000a30b77f818ac",
             "head": true,
-            "name": "Shell Subworkflow",
+            "monitors": [],
+            "name": "Espresso Workflow",
+            "postProcessors": [],
+            "preProcessors": [],
+            "results": [],
+            "status": "idle",
+            "statusTrack": [],
             "type": "subworkflow"
         }
     ]

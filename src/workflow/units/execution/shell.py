@@ -1,6 +1,4 @@
-import os
-
-from src.utils import read
+from src.enums import *
 from src.workflow.units.execution import BaseExecutionUnit
 
 
@@ -27,8 +25,18 @@ class ShellExecutionUnit(BaseExecutionUnit):
         return {
             "name": "shell",
             "summary": "Shell Script",
-            "version": "4.2.46"
+            "version": self.version
         }
+
+    @property
+    def version(self):
+        """
+        Returns the application version used in the unit.
+
+        Returns:
+             str
+        """
+        return SHELL_DEFAULT_VERSION
 
     @property
     def executable(self):
@@ -41,21 +49,3 @@ class ShellExecutionUnit(BaseExecutionUnit):
         return {
             "name": "sh"
         }
-
-    @property
-    def input(self):
-        """
-        Returns a list of input files used in the unit.
-
-        Note: Make sure to set "isManuallyChanged" to True.
-
-        Returns:
-             list[dict]
-        """
-        return [
-            {
-                "isManuallyChanged": True,
-                "name": self.config["input"][0]["name"],
-                "rendered": read(os.path.join(self.work_dir, self.config["input"][0]["name"]))
-            }
-        ]

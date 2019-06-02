@@ -4,7 +4,7 @@
 owner_slug = demo
 
 # Job project slug
-project_slug = demo-default
+project_slug = demo-external
 
 # Type of Resource Management System (RMS), PBS or SLURM
 rms_type = PBS
@@ -47,6 +47,9 @@ num_workers = 25
 
 # Whether to upload files to object storage
 upload_files = True
+
+# Whether to upload stdout file
+upload_stdout_file = True
 
 # Pattern to exclude files from being upload to object storage
 excluded_files_regex =

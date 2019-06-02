@@ -2,7 +2,7 @@ import os
 
 from express import ExPrESS
 
-from src.utils import find_file
+from src.utils import find_file, read
 from src.config import ExaParserConfig
 from src.workflow.units import BaseUnit
 
@@ -19,8 +19,11 @@ class BaseExecutionUnit(BaseUnit):
     def __init__(self, config, work_dir):
         super(BaseExecutionUnit, self).__init__(config, work_dir)
         self.work_dir = os.path.join(self.work_dir, self.config.get("workDir", ""))
-        self.stdout_file = os.path.join(self.work_dir, self.config.get("stdoutFile", '.'.join((self.name, 'out'))))
         self.express = ExPrESS(self.parser_name, **dict(work_dir=self.work_dir, stdout_file=self.stdout_file))
+
+    @property
+    def stdout_file(self):
+        return os.path.join(self.work_dir, self.config.get("stdoutFile", '.'.join((self.name, 'out'))))
 
     @property
     def parser_name(self):
@@ -45,6 +48,16 @@ class BaseExecutionUnit(BaseUnit):
         raise NotImplemented
 
     @property
+    def version(self):
+        """
+        Returns the application version used in the unit.
+
+        Returns:
+             str
+        """
+        raise NotImplemented
+
+    @property
     def executable(self):
         """
         Returns the executable used in the unit.
@@ -59,14 +72,19 @@ class BaseExecutionUnit(BaseUnit):
     def input(self):
         """
         Returns a list of input files used in the unit.
-        Override upon inheritance.
 
         Note: Make sure to set "isManuallyChanged" to True.
 
         Returns:
              list[dict]
         """
-        raise NotImplemented
+        return [
+            {
+                "name": input_["name"],
+                "isManuallyChanged": True,
+                "rendered": read(os.path.join(self.work_dir, input_["name"]))
+            }
+            for input_ in self.config.get("input", [])]
 
     @property
     def postProcessors(self):
