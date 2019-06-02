@@ -1,3 +1,4 @@
+from src.enums import *
 from src.workflow.units.execution import BaseExecutionUnit
 
 
@@ -35,7 +36,7 @@ class ShellExecutionUnit(BaseExecutionUnit):
         Returns:
              str
         """
-        return "4.2.46"
+        return SHELL_DEFAULT_VERSION
 
     @property
     def executable(self):

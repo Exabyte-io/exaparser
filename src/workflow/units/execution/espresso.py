@@ -1,9 +1,11 @@
 import os
 import re
+import xml.etree.ElementTree as ET
 
-from src.utils import find_file_with_pattern, read
+from src.enums import *
+from src.config import ExaParserConfig
 from src.workflow.units.execution import BaseExecutionUnit
-from src.enums import ESPRESSO_EXECUTABLE_NAME_REGEX, ESPRESSO_EXECUTABLE_NAME_MAP, ESPRESSO_INPUT_FILE_REGEX
+from src.utils import find_file_with_pattern, read, find_file
 
 
 class EspressoExecutionUnit(BaseExecutionUnit):
@@ -17,6 +19,7 @@ class EspressoExecutionUnit(BaseExecutionUnit):
 
     def __init__(self, config, work_dir):
         super(EspressoExecutionUnit, self).__init__(config, work_dir)
+        self.xml_path = find_file(ExaParserConfig["global"]["espresso_xml_file"], self.work_dir)
 
     @property
     def stdout_file(self):
@@ -32,7 +35,9 @@ class EspressoExecutionUnit(BaseExecutionUnit):
         Returns:
              str
         """
-        return "5.4.0"
+        root = ET.parse(self.xml_path).getroot()
+        version = root.find('HEADER').find("CREATOR").attrib.get("VERSION").strip()
+        return version if version in ESPRESSO_SUPPORTED_VERSIONS else ESPRESSO_DEFAULT_VERSION
 
     @property
     def application(self):
