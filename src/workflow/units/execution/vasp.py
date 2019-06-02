@@ -23,7 +23,7 @@ class VaspExecutionUnit(BaseExecutionUnit):
     @property
     def stdout_file(self):
         stdout_file = super(VaspExecutionUnit, self).stdout_file
-        return stdout_file if os.path.exists(stdout_file) else os.path.join(self.work_dir, "OUTCAR")
+        return stdout_file if os.path.exists(stdout_file) else os.path.join(self.work_dir, VASP_DEFAULT_STDOUT)
 
     @property
     def application(self):
