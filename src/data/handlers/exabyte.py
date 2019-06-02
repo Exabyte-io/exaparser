@@ -158,7 +158,7 @@ class ExabyteRESTFulAPIDataHandler(DataHandler):
             job_id (str): job ID.
         """
         headers = self.job_endpoints.headers
-        endpoint_path = '/'.join(("jobs", job_id, "output-files"))
+        endpoint_path = os.path.join(("jobs", job_id, "output-files"))
         for config in self.job.stdout_files:
             output_chunks_count = 0
             file_descriptor = open(config["stdoutFile"])
