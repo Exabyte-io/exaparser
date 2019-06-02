@@ -1,5 +1,9 @@
 import os
+import xml.etree.ElementTree as ET
 
+from src.enums import *
+from src.utils import find_file
+from src.config import ExaParserConfig
 from src.workflow.units.execution import BaseExecutionUnit
 
 
@@ -14,6 +18,7 @@ class VaspExecutionUnit(BaseExecutionUnit):
 
     def __init__(self, config, work_dir):
         super(VaspExecutionUnit, self).__init__(config, work_dir)
+        self.xml_path = find_file(ExaParserConfig["global"]["vasp_xml_file"], self.work_dir)
 
     @property
     def stdout_file(self):
@@ -30,9 +35,21 @@ class VaspExecutionUnit(BaseExecutionUnit):
         """
         return {
             "name": "vasp",
-            "version": "5.3.5",
+            "version": self.version,
             "summary": "Vienna Ab-initio Simulation Package"
         }
+
+    @property
+    def version(self):
+        """
+        Returns the application version used in the unit.
+
+        Returns:
+             str
+        """
+        root = ET.parse(self.xml_path).getroot()
+        version = root.find('generator').find('.//i[@name="version"]').text.strip()
+        return version if version in VASP_SUPPORTED_VERSIONS else VASP_DEFAULT_VERSION
 
     @property
     def executable(self):

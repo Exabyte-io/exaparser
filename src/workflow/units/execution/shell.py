@@ -1,3 +1,4 @@
+from src.enums import *
 from src.workflow.units.execution import BaseExecutionUnit
 
 
@@ -24,8 +25,18 @@ class ShellExecutionUnit(BaseExecutionUnit):
         return {
             "name": "shell",
             "summary": "Shell Script",
-            "version": "4.2.46"
+            "version": self.version
         }
+
+    @property
+    def version(self):
+        """
+        Returns the application version used in the unit.
+
+        Returns:
+             str
+        """
+        return SHELL_DEFAULT_VERSION
 
     @property
     def executable(self):

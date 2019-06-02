@@ -48,6 +48,16 @@ class BaseExecutionUnit(BaseUnit):
         raise NotImplemented
 
     @property
+    def version(self):
+        """
+        Returns the application version used in the unit.
+
+        Returns:
+             str
+        """
+        raise NotImplemented
+
+    @property
     def executable(self):
         """
         Returns the executable used in the unit.
@@ -74,7 +84,7 @@ class BaseExecutionUnit(BaseUnit):
                 "isManuallyChanged": True,
                 "rendered": read(os.path.join(self.work_dir, input_["name"]))
             }
-            for input_ in self.config["input"]]
+            for input_ in self.config.get("input", [])]
 
     @property
     def postProcessors(self):

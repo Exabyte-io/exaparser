@@ -1,4 +1,5 @@
 import os
+import re
 import json
 
 import requests
@@ -19,6 +20,24 @@ def find_file(name, path):
         for file in files:
             if name in file:
                 return os.path.join(root, file)
+
+
+def find_file_with_pattern(path, pattern):
+    """
+    Finds a file inside a given directory that matches the pattern.
+
+    Args:
+        path (str): starting path for search.
+        pattern (str): regex to apply on the file content.
+
+    Returns:
+        str: absolute file path
+    """
+    for root, dirs, files in os.walk(path, followlinks=True):
+        for file_ in files:
+            with open(os.path.join(root, file_)) as f:
+                if re.match(pattern, f.read()):
+                    return os.path.join(root, file_)
 
 
 def read(path):

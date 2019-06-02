@@ -1,5 +1,6 @@
 import os
 import re
+import json
 
 from multiprocessing import Pool
 from endpoints.jobs import JobEndpoints
@@ -9,6 +10,7 @@ from endpoints.raw_properties import RawPropertiesEndpoints
 
 from src.data import DataHandler
 from src.config import ExaParserConfig
+from src.enums import OUTPUT_CHUNK_SIZE
 from src.utils import upload_file_to_object_storage
 
 
@@ -148,6 +150,32 @@ class ExabyteRESTFulAPIDataHandler(DataHandler):
         pool = Pool(processes=num_workers)
         pool.map(upload_file_to_object_storage, presigned_urls)
 
+    def upload_stdout(self, job_id):
+        """
+        Uploads stdout file.
+
+        Args:
+            job_id (str): job ID.
+        """
+        headers = self.job_endpoints.headers
+        endpoint_path = os.path.join(("jobs", job_id, "output-files"))
+        for config in self.job.stdout_files:
+            output_chunks_count = 0
+            file_descriptor = open(config["stdoutFile"])
+            while True:
+                chunk = file_descriptor.read(OUTPUT_CHUNK_SIZE)
+                if chunk != '':
+                    data = {
+                        "chunk": chunk,
+                        "repetition": 0,
+                        "order": output_chunks_count,
+                        "unitFlowchartId": config["unitFlowchartId"],
+                    }
+                    self.job_endpoints.request('POST', endpoint_path, data=json.dumps(data), headers=headers)
+                    output_chunks_count += 1
+                else:
+                    break
+
     def handle(self):
         """
         Creates materials, job and properties in webapp and uploads files into object storage.
@@ -155,5 +183,5 @@ class ExabyteRESTFulAPIDataHandler(DataHandler):
         materials = self.create_materials()
         job = self.create_job(materials)
         self.create_properties(job["_id"])
-        if ExaParserConfig.getboolean("exabyte_api_data_handler", "upload_files"):
-            self.upload_files(job["_id"])
+        if ExaParserConfig.getboolean("exabyte_api_data_handler", "upload_files"): self.upload_files(job["_id"])
+        if ExaParserConfig.getboolean("exabyte_api_data_handler", "upload_stdout_file"): self.upload_stdout(job["_id"])
