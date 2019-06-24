@@ -46,21 +46,21 @@ ExaParser can be installed as below.
 
 ## Usage
 
-1. Open [settings](src/settings.py) and adjust parameters as necessary. The most important ones are listed below.
+1. Open [config](config) and adjust parameters as necessary. The most important ones are listed below.
 
-    - Add `ExabyteRESTfulAPI` to `DATA_HANDLERS` parameter to upload the data into your Exabyte.io account.
+    - Add `ExabyteRESTfulAPI` to `data_handlers` parameters list (comma-separated), if not already present. This will enable upload the data into Exabyte.io account.
     
         - New users can register [here](https://platform.exabyte.io/register) to obtain an Exabyte.io account.
     
-    - Set `OWNER_SLUG`, `PROJECT_SLUG`, `API_ACCOUNT_ID`, and `API_AUTH_TOKEN` if `ExabyteRESTfulAPI` is enabled.
+    - Set `owner_slug`, `project_slug`, `api_account_id`, and `api_auth_token` if `ExabyteRESTfulAPI` is enabled.
     
         - See [RESTful API Documentation](https://docs.exabyte.io/rest-api/overview/) to learn how to obtain authentication parameters.
     
-    - Adjust `WORKFLOW_TEMPLATE_NAME` parameter in case a different template should be used.
+    - Adjust `workflow_template_name` parameter in case a different template should be used.
     
         - By default a [Shell Workflow](src/templates/shell.json) is constructed. See [Templates](#templates) section for more details.
     
-    - Adjust `PROPERTIES` parameter to extract desired properties; all listed properties will be attempted for extraction.
+    - Adjust `properties` parameter to extract desired properties; all listed properties will be attempted for extraction.
 
 1. Run the below commands to extract the data.
 
