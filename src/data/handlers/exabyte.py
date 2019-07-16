@@ -103,7 +103,7 @@ class ExabyteRESTFulAPIDataHandler(DataHandler):
         config["isExternal"] = True
         config["owner"] = self.owner
         config["_project"] = {"_id": self.project["_id"]}
-        config["_material"] = {"_id": materials[0]["_id"]}
+        if len(materials): config["_material"] = {"_id": materials[0]["_id"]}
         return self.job_endpoints.create(config)
 
     def create_properties(self, job_id):

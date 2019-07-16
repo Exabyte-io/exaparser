@@ -19,7 +19,6 @@ class BaseExecutionUnit(BaseUnit):
     def __init__(self, config, work_dir):
         super(BaseExecutionUnit, self).__init__(config, work_dir)
         self.work_dir = os.path.join(self.work_dir, self.config.get("workDir", ""))
-        self.express = ExPrESS(self.parser_name, **dict(work_dir=self.work_dir, stdout_file=self.stdout_file))
 
     @property
     def stdout_file(self):
@@ -78,13 +77,15 @@ class BaseExecutionUnit(BaseUnit):
         Returns:
              list[dict]
         """
-        return [
-            {
-                "name": input_["name"],
+        input_ = []
+        for config in self.config.get("input", []):
+            path_ = os.path.join(self.work_dir, config["name"])
+            input_.append({
+                "name": config["name"],
                 "isManuallyChanged": True,
-                "rendered": read(os.path.join(self.work_dir, input_["name"]))
-            }
-            for input_ in self.config.get("input", [])]
+                "rendered": read(path_) if os.path.exists(path_) else ""
+            })
+        return input_
 
     @property
     def postProcessors(self):
@@ -158,13 +159,12 @@ class BaseExecutionUnit(BaseUnit):
             }
         ]
 
-    def safely_extract_property(self, property_, safe=True, *args, **kwargs):
+    def safely_extract_property(self, property_, *args, **kwargs):
         """
         Safely extracts property.
 
         Args:
             property_ (str): property name.
-            safe (bool): whether to raise exception if property cannot be extracted.
             args (list): args passed to property extractor.
             kwargs (dict): kwargs passed to property extractor.
 
@@ -172,10 +172,11 @@ class BaseExecutionUnit(BaseUnit):
              dict
         """
         try:
+            if not self.express:
+                self.express = ExPrESS(self.parser_name, **dict(work_dir=self.work_dir, stdout_file=self.stdout_file))
             return self.express.property(property_, *args, **kwargs)
         except:
-            if not safe:
-                raise
+            pass
 
     @property
     def initial_structures(self):
@@ -185,9 +186,11 @@ class BaseExecutionUnit(BaseUnit):
         Returns:
              list
         """
-        initial_structure = self.safely_extract_property("material", False, is_initial_structure=True)
-        initial_structure["name"] = "initial_structure"
-        return [initial_structure]
+        initial_structure = self.safely_extract_property("material", is_initial_structure=True)
+        if initial_structure:
+            initial_structure["name"] = "initial_structure"
+            return [initial_structure]
+        return []
 
     @property
     def final_structures(self):
@@ -197,10 +200,12 @@ class BaseExecutionUnit(BaseUnit):
         Returns:
              list
         """
-        final_structure = self.safely_extract_property("material", False, is_final_structure=True)
-        final_structure["name"] = "final_structure"
-        final_structure["repetition"] = 0
-        return [final_structure]
+        final_structure = self.safely_extract_property("material", is_final_structure=True)
+        if final_structure:
+            final_structure["name"] = "final_structure"
+            final_structure["repetition"] = 0
+            return [final_structure]
+        return []
 
     @property
     def results(self):
