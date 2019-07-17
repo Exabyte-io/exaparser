@@ -172,9 +172,8 @@ class BaseExecutionUnit(BaseUnit):
              dict
         """
         try:
-            if not hasattr(self, "express"):
-                self.express = ExPrESS(self.parser_name, **dict(work_dir=self.work_dir, stdout_file=self.stdout_file))
-            return self.express.property(property_, *args, **kwargs)
+            express = ExPrESS(self.parser_name, **dict(work_dir=self.work_dir, stdout_file=self.stdout_file))
+            return express.property(property_, *args, **kwargs)
         except:
             pass
 
