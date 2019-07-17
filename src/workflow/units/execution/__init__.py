@@ -215,7 +215,8 @@ class BaseExecutionUnit(BaseUnit):
         Returns:
              list[dict]
         """
-        return [{"name": name} for name in ExaParserConfig["global"]["properties"].replace(" ", "").split(",")]
+        properties = ExaParserConfig["global"]["properties"]
+        return [{"name": name} for name in properties.replace(" ", "").replace("\n", "").split(",")]
 
     @property
     def structures(self):
