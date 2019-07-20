@@ -216,8 +216,7 @@ class BaseExecutionUnit(BaseUnit):
         Returns:
              list[dict]
         """
-        results = RESULTS
-        return [{"name": name} for name in results.replace(" ", "").replace("\n", "").split(",")]
+        return [{"name": name} for name in RESULTS]
 
     @property
     def structures(self):
