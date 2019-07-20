@@ -31,6 +31,8 @@ class BaseExecutionUnit(BaseUnit):
         """
         Returns the name of the parser to pass to ExPrESS.
 
+        TODO: remove when a way to extract/construct workflows for vasp/espresso is implemented
+
         Returns:
              str: espresso or vasp
         """
