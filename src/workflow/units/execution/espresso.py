@@ -2,8 +2,9 @@ import os
 import re
 import xml.etree.ElementTree as ET
 
+from express.parsers.apps.espresso.settings import XML_DATA_FILE as ESPRESSO_XML_FILE
+
 from src.enums import *
-from src.config import ExaParserConfig
 from src.workflow.units.execution import BaseExecutionUnit
 from src.utils import find_file_with_pattern, read, find_file
 
@@ -19,7 +20,7 @@ class EspressoExecutionUnit(BaseExecutionUnit):
 
     def __init__(self, config, work_dir):
         super(EspressoExecutionUnit, self).__init__(config, work_dir)
-        self.xml_path = find_file(ExaParserConfig["global"]["espresso_xml_file"], self.work_dir)
+        self.xml_path = find_file(ESPRESSO_XML_FILE, self.work_dir)
 
     @property
     def stdout_file(self):

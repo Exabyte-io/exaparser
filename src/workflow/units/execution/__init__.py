@@ -1,9 +1,11 @@
 import os
 
 from express import ExPrESS
+from esse.settings import RESULTS
+from express.parsers.apps.vasp.settings import XML_DATA_FILE as VASP_XML_FILE
+from express.parsers.apps.espresso.settings import XML_DATA_FILE as ESPRESSO_XML_FILE
 
 from src.utils import find_file, read
-from src.config import ExaParserConfig
 from src.workflow.units import BaseUnit
 
 
@@ -32,8 +34,8 @@ class BaseExecutionUnit(BaseUnit):
         Returns:
              str: espresso or vasp
         """
-        if find_file(ExaParserConfig["global"]["vasp_xml_file"], self.work_dir): return "vasp"
-        if find_file(ExaParserConfig["global"]["espresso_xml_file"], self.work_dir): return "espresso"
+        if find_file(VASP_XML_FILE, self.work_dir): return "vasp"
+        if find_file(ESPRESSO_XML_FILE, self.work_dir): return "espresso"
 
     @property
     def application(self):
@@ -214,8 +216,8 @@ class BaseExecutionUnit(BaseUnit):
         Returns:
              list[dict]
         """
-        properties = ExaParserConfig["global"]["properties"]
-        return [{"name": name} for name in properties.replace(" ", "").replace("\n", "").split(",")]
+        results = RESULTS
+        return [{"name": name} for name in results.replace(" ", "").replace("\n", "").split(",")]
 
     @property
     def structures(self):
