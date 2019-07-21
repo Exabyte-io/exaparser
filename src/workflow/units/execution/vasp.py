@@ -1,6 +1,8 @@
 import os
 import xml.etree.ElementTree as ET
 
+from express.parsers.apps.vasp.settings import XML_DATA_FILE as VASP_XML_FILE
+
 from src.enums import *
 from src.utils import find_file
 from src.config import ExaParserConfig
@@ -18,7 +20,7 @@ class VaspExecutionUnit(BaseExecutionUnit):
 
     def __init__(self, config, work_dir):
         super(VaspExecutionUnit, self).__init__(config, work_dir)
-        self.xml_path = find_file(ExaParserConfig["global"]["vasp_xml_file"], self.work_dir)
+        self.xml_path = find_file(VASP_XML_FILE, self.work_dir)
 
     @property
     def stdout_file(self):

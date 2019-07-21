@@ -52,10 +52,11 @@ class Job(object):
         """
         stdout_files = []
         for unit in self.workflow.execution_units:
-            stdout_files.append({
-                "stdoutFile": unit.stdout_file,
-                "unitFlowchartId": unit.flowchartId,
-            })
+            if os.path.exists(unit.stdout_file):
+                stdout_files.append({
+                    "stdoutFile": unit.stdout_file,
+                    "unitFlowchartId": unit.flowchartId,
+                })
         return stdout_files
 
     @property

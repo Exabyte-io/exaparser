@@ -52,4 +52,5 @@ class Workflow(object):
             "properties": [],
             "units": [u.to_json() for u in self.units],
             "subworkflows": [u.to_json() for u in self.subworkflows],
+            "isMultiMaterial": True  # to let job have multiple materials
         }
