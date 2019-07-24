@@ -34,7 +34,11 @@
                             "name": "POSCAR"
                         }
                     ],
-                    "monitors": [],
+                    "monitors": [
+                        {
+                            "name": "standard_output"
+                        }
+                    ],
                     "name": "vasp",
                     "postProcessors": [],
                     "preProcessors": [],

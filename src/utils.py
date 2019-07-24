@@ -22,7 +22,7 @@ def find_file(name, path):
                 return os.path.join(root, file)
 
 
-def find_file_with_pattern(path, pattern):
+def find_file_with_pattern(pattern, path):
     """
     Finds a file inside a given directory that matches the pattern.
 

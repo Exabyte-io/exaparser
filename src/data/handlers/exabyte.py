@@ -77,34 +77,56 @@ class ExabyteRESTFulAPIDataHandler(DataHandler):
             )[0]
         return self._project
 
-    def create_materials(self):
+    def create_structures(self, job):
         """
-        Creates materials in web application.
+        Creates initial/final structures in web application.
 
         Returns:
              list
         """
-        materials = []
-        for config in self.job.materials:
-            config["owner"] = self.owner
-            materials.append(self.material_endpoints.create(config))
-        return materials
+        structures = []
+        for config in self.job.structures:
+            config["final"]["owner"] = self.owner
+            config["final"]["tags"] = ["external"]
+            config["initial"]["owner"] = self.owner
+            config["initial"]["tags"] = ["external"]
+            structures.append(config)
 
-    def create_job(self, materials):
+        if not len(structures): return []
+        headers = self.material_endpoints.headers
+        data = json.dumps({
+            "jobId": job["_id"],
+            "structures": structures,
+            "unitId": job["workflow"]["subworkflows"][0]["units"][0]["flowchartId"],
+        })
+
+        return self.material_endpoints.request('POST', "structures/", headers=headers, data=data)
+
+    def create_job(self):
         """
         Creates job in web application.
 
         Note: job must be set as external (isExternal=True) to be able to access the files.
 
         Returns:
-             list
+             dict
         """
         config = self.job.to_json()
         config["isExternal"] = True
+        config["_materials"] = []
         config["owner"] = self.owner
         config["_project"] = {"_id": self.project["_id"]}
-        config["_materials"] = [{"_id": m["_id"]} for m in materials]
         return self.job_endpoints.create(config)
+
+    def update_job(self, job, structures):
+        """
+        Updates the job with given structures.
+
+        Returns:
+             dict
+        """
+        job["_materials"] = [{"_id": _id} for _id in list(set([c["initial"]["_id"] for c in structures]))]
+        return self.job_endpoints.update(job["_id"], job)
 
     def create_properties(self, job_id):
         """
@@ -180,8 +202,10 @@ class ExabyteRESTFulAPIDataHandler(DataHandler):
         """
         Creates materials, job and properties in webapp and uploads files into object storage.
         """
-        materials = self.create_materials()
-        job = self.create_job(materials)
-        self.create_properties(job["_id"])
+        job = self.create_job()
+        structures = self.create_structures(job)
+        if len(structures):
+            self.update_job(job, structures)
+            self.create_properties(job["_id"])
         if ExaParserConfig.getboolean("exabyte_api_data_handler", "upload_files"): self.upload_files(job["_id"])
         if ExaParserConfig.getboolean("exabyte_api_data_handler", "upload_stdout_file"): self.upload_stdout(job["_id"])
