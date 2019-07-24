@@ -184,31 +184,41 @@ class BaseExecutionUnit(BaseUnit):
     @property
     def initial_structures(self):
         """
-        Returns a list of initial structures used in this unit.
+        Safely returns a list of initial structures used in this unit.
 
         Returns:
              list
         """
-        initial_structure = self.safely_extract_property("material", is_initial_structure=True)
-        if initial_structure:
-            initial_structure["name"] = "initial_structure"
-            return [initial_structure]
-        return []
+        structures = []
+        try:
+            express = ExPrESS(self.parser_name, **dict(work_dir=self.work_dir, stdout_file=self.stdout_file))
+            for structure_string in express.parser.initial_structure_strings():
+                initial_structure = express.property("material", structure_string=structure_string)
+                initial_structure["name"] = initial_structure["formula"]
+                structures.append(initial_structure)
+        except:
+            pass
+        return structures
 
     @property
     def final_structures(self):
         """
-        Returns a list of final structures generated in this unit.
+        Safely returns a list of final structures generated in this unit.
 
         Returns:
              list
         """
-        final_structure = self.safely_extract_property("material", is_final_structure=True)
-        if final_structure:
-            final_structure["name"] = "final_structure"
-            final_structure["repetition"] = 0
-            return [final_structure]
-        return []
+        structures = []
+        try:
+            express = ExPrESS(self.parser_name, **dict(work_dir=self.work_dir, stdout_file=self.stdout_file))
+            for structure_string in express.parser.final_structure_strings():
+                final_structure = express.property("material", structure_string=structure_string)
+                final_structure["name"] = final_structure["formula"]
+                final_structure["repetition"] = 0
+                structures.append(final_structure)
+        except:
+            pass
+        return structures
 
     @property
     def results(self):
