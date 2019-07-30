@@ -29,7 +29,11 @@
                             "name": "espresso.in"
                         }
                     ],
-                    "monitors": [],
+                    "monitors": [
+                        {
+                            "name": "standard_output"
+                        }
+                    ],
                     "name": "pw_scf",
                     "postProcessors": [],
                     "preProcessors": [],

@@ -28,7 +28,11 @@
                             "name": "job.rms"
                         }
                     ],
-                    "monitors": [],
+                    "monitors": [
+                        {
+                            "name": "standard_output"
+                        }
+                    ],
                     "name": "shell",
                     "postProcessors": [],
                     "preProcessors": [],
