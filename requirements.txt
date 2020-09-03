@@ -9,7 +9,7 @@ exabyte-api-client==1.0.0
 ase==3.17.0
 backports.functools-lru-cache==1.5
 bunch==1.0.1
-certifi==2019.3.9
+certifi==2020.6.20
 chardet==3.0.4
 Click==7.0
 # configparser==3.7.3
