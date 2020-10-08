@@ -1,0 +1,39 @@
+#!/usr/bin/env python
+import click
+
+
+@click.command(
+    help="""convert AiiDA export archive files to esse",
+
+    The aiida-to-esse tool analyzes an AiiDA export archive
+    file for data nodes that can be translated into valid
+    esse files and then performs that translation.""")
+@click.argument(
+    'source_file',
+    nargs=-1,
+    type=click.Path(
+        exists=True,
+        dir_okay=False,
+        ),
+    )
+@click.argument(
+    'target_directory',
+    type=click.Path(
+        exists=False,
+        file_okay=False,
+        dir_okay=True,
+        ),
+    )
+@click.option(
+    '--skip-errors',
+    help="Continue when encountering errors.",
+    is_flag=True,
+    )
+def main(source_file, target_directory, skip_errors):
+    print(source_file)
+    print(target_directory)
+    print(skip_errors)
+
+
+if __name__ == '__main__':
+  main()
