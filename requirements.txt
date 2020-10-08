@@ -52,6 +52,7 @@ spglib==1.12.2.post0
 subprocess32==3.5.4
 sympy==1.4
 tabulate==0.8.3
+tqdm==4.50.1
 Unidecode==1.0.23
 urllib3==1.24.3
 Werkzeug==0.15.4
