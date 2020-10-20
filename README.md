@@ -25,7 +25,7 @@ ExaParser can be installed as below.
 1. Clone repository:
     
     ```bash
-    git clone git@github.com:Exabyte-io/exaprser.git
+    git clone git@github.com:Exabyte-io/exaparser.git
     ```
 
 1. Install [virtualenv](https://virtualenv.pypa.io/en/stable/) using [pip](https://pip.pypa.io/en/stable/) if not already present:
@@ -37,7 +37,7 @@ ExaParser can be installed as below.
 1. Create virtual environment and install required packages:
 
     ```bash
-    cd exaprser
+    cd exaparser
     virtualenv venv
     source venv/bin/activate
     export GIT_LFS_SKIP_SMUDGE=1
