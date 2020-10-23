@@ -1,3 +1,5 @@
+[![License: Apache](https://img.shields.io/badge/License-Apache-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
+
 # Exabyte Parser (ExaParser)
 
 Exabyte parser is a python package to extract and convert materials modeling data (eg. Density Functional Theory, Molecular Dynamics) on disk to [ESSE/EDC](https://github.com/Exabyte-io/exabyte-esse) format.
