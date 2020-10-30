@@ -1,0 +1,218 @@
+#!/usr/bin/env python
+import errno
+import functools
+import json
+import os
+import uuid
+import zipfile
+
+import click
+import esse
+import jsonschema
+import tqdm
+from datetime import datetime, tzinfo, timedelta
+
+from endpoints.materials import MaterialEndpoints
+
+
+SUPPORTED_ARCHIVE_VERSION = '0.9'
+SUPPORTED_AIIDA_VERSION = '1.4.2'
+
+ES = esse.ESSE()
+SCHEMA_MATERIAL = ES.get_schema_by_id('material')
+
+
+class _AiidaArchiveFileExtractorMaterials(object):
+    """Extract materials data from an AiiDA archive file."""
+
+    def __init__(self, data, structure_nodes):
+        self.data = data
+        self.structure_nodes = structure_nodes
+        self.structure_nodes_iterator = iter(structure_nodes)
+
+    def __len__(self):
+        return len(self.structure_nodes)
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        pk = next(self.structure_nodes_iterator)
+        export_data = self.data['export_data']['Node'][pk]
+        node_attributes = self.data['node_attributes'][pk]
+        return self._parse_structure_node_attributes(export_data, node_attributes)
+
+    next = __next__  # python 2.7 compatibility
+
+    @staticmethod
+    def _parse_structure_node_attributes(export_data, attributes):
+        """Parse an AiiDA StructureData node."""
+        # Prepare mapping
+        assert export_data['node_type'] == 'data.structure.StructureData.'
+
+        sites = list(enumerate(attributes['sites']))
+        kinds = {kind['name']: kind for kind in attributes['kinds']}
+        assert all(len(kind['symbols']) == 1 for kind in kinds.values())
+
+        instance = {
+            'schemaVersion':  '0.2.0',
+
+            # TODO: THE FOLLOWING VARIABLES ARE PLACEHOLDERS!
+            '_id': export_data['uuid'],
+            'exabyteId': 'PLACEHOLDER',
+            'hash': 'PLACEHOLDER',
+
+            # TODO: Gather from export data?
+            'creator': 'CREATOR',
+            'owner': 'OWNER',
+
+            # THE FOLLOWING ATTRIBUTES SHOULD BE IMPROVED:
+            'created_at': export_data['ctime'],  # TODO: or maybe mtime?
+
+            # Actual materials-related data
+            'lattice': {
+                'vectors': {
+                    'a': attributes['cell'][0],
+                    'b': attributes['cell'][1],
+                    'c': attributes['cell'][2],
+                }
+            },
+            'basis': {
+                'elements': [{'id': _id, 'value': kinds[site['kind_name']]['name']} for _id, site in sites],
+                'coordinates': [{'id': _id, 'value': site['position']} for _id, site in sites],
+            },
+        }
+
+        # Validate result and return
+        ES.validate(instance, schema=SCHEMA_MATERIAL)
+        return instance
+
+
+class AiidaArchiveFileExtractor(object):
+
+    def __init__(self, archive_file):
+        self.archive_file = archive_file
+        self._metadata = None
+        self._data = None
+
+    def __enter__(self):
+        with zipfile.ZipFile(self.archive_file) as source:
+            self._metadata = json.loads(source.read('metadata.json'))
+            self._data = json.loads(source.read('data.json'))
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        self._metadata = None
+        self._data = None
+
+    @staticmethod
+    def _assert_open(func):
+
+        @wraps(func)
+        def wrapper(self, *args, **kwargs):
+            assert self._metadata is not None
+            assert self._data is not None
+            return func(self, *args, **kwargs)
+
+        return wrapper
+
+    @property
+    def data(self):
+        assert self._data is not None
+        return self._data
+
+    @property
+    def metadata(self):
+        assert self._metadata is not None
+        return self._metadata
+
+    def materials(self):
+        """Parse an AiiDA archive file located at path."""
+        # version check
+        assert self.metadata['aiida_version'] == SUPPORTED_AIIDA_VERSION
+        assert self.metadata['export_version'] == SUPPORTED_ARCHIVE_VERSION
+
+        # gather structure nodes
+        nodes = self.data['export_data']['Node']
+        structure_nodes = {pk: node for (pk, node) in nodes.items()
+                           if node['node_type'] == 'data.structure.StructureData.'}
+        return _AiidaArchiveFileExtractorMaterials(self.data, structure_nodes)
+
+
+@click.command()
+@click.argument('source_file', type=click.Path(exists=True, dir_okay=False))
+@click.option(
+    '--skip-errors',
+    is_flag=True,
+    help="Continue when encountering errors.",
+    )
+@click.option(
+    '-n', '--dry-run',
+    is_flag=True,
+    help="Perform a dry-run of the extraction, do not actually upload any materials data.")
+# The following options relate to the API endpoint configuration:
+@click.option(
+    '--account-id',
+    prompt=True,
+    envvar='EXABYTE_ACCOUNT_ID',
+    help="The account id to authenticate with the REST API endpoint.")
+@click.option(
+    '--auth-token',
+    prompt=True,
+    hide_input=True,
+    envvar='EXABYTE_AUTH_TOKEN',
+    help="The account token to authenticate with the REST API endpoint.")
+@click.option('--host', help="The address of the Exabyte API server.")
+@click.option('--port', type=int, show_default=True)
+@click.option('-k', '--insecure', is_flag=True)
+@click.option('--api-version')
+def cli(source_file, skip_errors, dry_run, **endpoint_args):
+    """Upload materials stored in an AiiDA export archive file.
+
+    Extracts StructureData nodes from an AiiDA archive file and uploads
+    it to the user's account on the Exabyte platform.
+
+
+    This tool uses the Exabyte API endpoints and must authenticate with
+    the user account. To authenticate you can either
+
+        a) set the $EXABYTE_ACCOUNT_ID and $EXABYTE_AUTH_TOKEN environment
+        variables, or
+
+        b) provide these values via the --account-id and --auth-token options.
+
+    If one or both of these values are missing, the user will be prompted
+    to provide them.
+
+    For more information on how to obtain a user account id and an auth
+    token as well as how to use the Exabyte RESTful API endoint, see:
+
+        https://docs.exabyte.io/rest-api/endpoints/
+    """
+    # Setup endpoint communicator.
+    endpoint = MaterialEndpoints(**endpoint_args)
+
+    with AiidaArchiveFileExtractor(source_file) as parser:
+        materials = parser.materials()
+        click.echo("# number of structure nodes in archive: {}".format(len(materials)))
+        for material in tqdm.tqdm(materials, desc='parse and upload'):
+            if dry_run:
+                continue  # do nothing
+            try:
+                result = endpoint.create(material)
+            except Exception as error:
+                if skip_errors:
+                    click.secho("Encounterer error during upload: {error}".format(error=error),
+                                fg='yellow', err=True)
+                    continue
+                raise
+
+
+if __name__ == '__main__':
+    cli(
+        default_map={
+          'host': 'platform.exabyte.io',
+          'port': '443',
+          'insecure': False,
+          'api_version': '2018-10-01'
+    })

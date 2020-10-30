@@ -10,10 +10,10 @@ project_slug = demo-external
 rms_type = PBS
 
 # List of data handlers, STDOUT, DISK and ExabyteRESTFulAPI
-data_handlers = ExabyteRESTFulAPI
+data_handlers = DISK
 
 # Workflow template settings
-workflow_template_name = shell.json
+workflow_template_name = aiida.json
 
 [disk_data_handler]
 
