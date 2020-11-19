@@ -25,3 +25,15 @@ def job(name, work_dir):
     job = Job(name, work_dir)
     for handler in ExaParserConfig.get("global", "data_handlers").replace(" ", "").split(","):
         get_data_handler(handler, job).handle()
+
+
+@main.command()
+@click.argument('work-dir', type=click.Path(exists=True, file_okay=False, resolve_path=True))
+def structures(work_dir):
+    """Parse a working directory for structure(s) data.
+
+    Example:
+
+        ./bin/exaparser /path/to/workdir/with/structure/data
+    """
+    ctx.forward(job, name='structures-upload')
