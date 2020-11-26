@@ -3,6 +3,7 @@ from .execution.modeling.vasp import VaspExecutionUnit
 from .execution.scripting.shell import ShellExecutionUnit
 from .execution.scripting.shell_with_results import ShellWithResultsExecutionUnit
 from .subworkflow import SubworkflowUnit
+from .structures.aiida import AiidaStructuresUnit
 
 
 def get_unit(config, work_dir):
@@ -22,3 +23,7 @@ def get_unit(config, work_dir):
 
     if config["type"] == "subworkflow":
         return SubworkflowUnit(config, work_dir)
+
+    if config["type"] == "structures":
+        structures_units = dict(aiida=AiidaStructuresUnit)
+        return structures_units[config["application"]["name"]](config, work_dir)
