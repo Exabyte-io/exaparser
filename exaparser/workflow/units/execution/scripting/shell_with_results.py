@@ -1,3 +1,5 @@
+from zipfile import ZipFile
+
 from express.parsers.apps.espresso.settings import XML_DATA_FILE as ESPRESSO_XML_FILE
 from express.parsers.apps.vasp.settings import XML_DATA_FILE as VASP_XML_FILE
 
@@ -32,6 +34,12 @@ class ShellWithResultsExecutionUnit(ShellExecutionUnit, ModelingExecutionUnit):
         if find_file_with_pattern(ESPRESSO_INPUT_FILE_REGEX, self.work_dir):
             return True
 
+    def _has_aiida_archive_zip_file(self):
+        zip_file = find_file('.zip', self.work_dir)
+        if zip_file:
+            with ZipFile(zip_file) as file_:
+                return all(name in file_.namelist() for name in ('data.json', 'metadata.json'))
+
     @property
     def parser_name(self):
         """
@@ -44,3 +52,5 @@ class ShellWithResultsExecutionUnit(ShellExecutionUnit, ModelingExecutionUnit):
             return "vasp"
         if self._is_espresso_calculation():
             return "espresso"
+        if self._has_aiida_archive_zip_file():
+            return "aiida-archive"

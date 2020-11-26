@@ -1,0 +1,21 @@
+{
+    "name": "AiiDA Structures",
+    "_id": "f476bbe958e19856f87ced18",
+    "results": [],
+    "units": [
+        {
+            "_id": "c22a89a3c92b28318796a839",
+            "flowchartId": "f0c5bd0f2000a30b77f818ac",
+            "head": true,
+            "monitors": [],
+            "name": "AiiDA structures",
+            "postProcessors": [],
+            "preProcessors": [],
+            "results": [],
+            "status": "idle",
+            "statusTrack": [],
+            "application": {"name": "aiida"},
+            "type": "structures"
+        }
+    ]
+}

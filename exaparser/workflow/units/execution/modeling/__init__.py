@@ -46,6 +46,7 @@ class ModelingExecutionUnit(BaseExecutionUnit):
         structures = []
         try:
             express = ExPrESS(self.parser_name, **dict(work_dir=self.work_dir, stdout_file=self.stdout_file))
+            structures.extend(express.parser.structures())
             for structure_string in express.parser.initial_structure_strings():
                 initial_structure = express.property("material", structure_string=structure_string)
                 initial_structure["name"] = "initial_structure"
@@ -65,6 +66,7 @@ class ModelingExecutionUnit(BaseExecutionUnit):
         structures = []
         try:
             express = ExPrESS(self.parser_name, **dict(work_dir=self.work_dir, stdout_file=self.stdout_file))
+            structures.extend(express.parser.structures())
             for structure_string in express.parser.final_structure_strings():
                 final_structure = express.property("material", structure_string=structure_string)
                 final_structure["name"] = "final_structure"

@@ -35,9 +35,12 @@ def find_file_with_pattern(pattern, path):
     """
     for root, dirs, files in os.walk(path, followlinks=True):
         for file_ in files:
-            with open(os.path.join(root, file_)) as f:
-                if re.match(pattern, f.read()):
-                    return os.path.join(root, file_)
+            try:
+                with open(os.path.join(root, file_)) as f:
+                    if re.match(pattern, f.read()):
+                        return os.path.join(root, file_)
+            except UnicodeDecodeError:  # potentially binary file
+                continue
 
 
 def read(path):
