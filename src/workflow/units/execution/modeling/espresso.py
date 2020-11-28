@@ -1,6 +1,6 @@
 import re
-import xml.etree.ElementTree as ET
 
+import xml.etree.ElementTree as ET
 from express.parsers.apps.espresso.settings import XML_DATA_FILE as ESPRESSO_XML_FILE
 
 from src.enums import *

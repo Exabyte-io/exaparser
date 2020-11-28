@@ -1,8 +1,8 @@
 import argparse
 
-from src.job import Job
 from src.config import ExaParserConfig
 from src.data.factory import get_data_handler
+from src.job import Job
 
 
 def parse_arguments():
@@ -15,7 +15,8 @@ def parse_arguments():
 
 def main():
     args = parse_arguments()
-    if args.config: ExaParserConfig.read(args.config)
+    if args.config:
+        ExaParserConfig.read(args.config)
     job = Job(args.name, args.work_dir)
     for handler in ExaParserConfig.get("global", "data_handlers").replace(" ", "").split(","):
         get_data_handler(handler, job).handle()

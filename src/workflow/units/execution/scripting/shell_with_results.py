@@ -1,9 +1,8 @@
-from express.parsers.apps.vasp.settings import XML_DATA_FILE as VASP_XML_FILE
 from express.parsers.apps.espresso.settings import XML_DATA_FILE as ESPRESSO_XML_FILE
+from express.parsers.apps.vasp.settings import XML_DATA_FILE as VASP_XML_FILE
 
 from src.utils import find_file, find_file_with_pattern
 from src.workflow.units.execution.modeling import ModelingExecutionUnit
-
 from src.workflow.units.execution.scripting.shell import ShellExecutionUnit, ESPRESSO_INPUT_FILE_REGEX
 
 
@@ -20,13 +19,18 @@ class ShellWithResultsExecutionUnit(ShellExecutionUnit, ModelingExecutionUnit):
         super(ShellWithResultsExecutionUnit, self).__init__(config, work_dir)
 
     def _is_vasp_calculation(self):
-        if find_file("INCAR", self.work_dir): return True
-        if find_file("POSCAR", self.work_dir): return True
-        if find_file(VASP_XML_FILE, self.work_dir): return True
+        if find_file("INCAR", self.work_dir):
+            return True
+        if find_file("POSCAR", self.work_dir):
+            return True
+        if find_file(VASP_XML_FILE, self.work_dir):
+            return True
 
     def _is_espresso_calculation(self):
-        if find_file(ESPRESSO_XML_FILE, self.work_dir): return True
-        if find_file_with_pattern(ESPRESSO_INPUT_FILE_REGEX, self.work_dir): return True
+        if find_file(ESPRESSO_XML_FILE, self.work_dir):
+            return True
+        if find_file_with_pattern(ESPRESSO_INPUT_FILE_REGEX, self.work_dir):
+            return True
 
     @property
     def parser_name(self):
@@ -36,5 +40,7 @@ class ShellWithResultsExecutionUnit(ShellExecutionUnit, ModelingExecutionUnit):
         Returns:
              str: espresso or vasp
         """
-        if self._is_vasp_calculation(): return "vasp"
-        if self._is_espresso_calculation(): return "espresso"
+        if self._is_vasp_calculation():
+            return "vasp"
+        if self._is_espresso_calculation():
+            return "espresso"

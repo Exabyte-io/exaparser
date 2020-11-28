@@ -1,4 +1,5 @@
 from express import ExPrESS
+
 from src.workflow.units.execution import BaseExecutionUnit
 
 
@@ -101,7 +102,8 @@ class ModelingExecutionUnit(BaseExecutionUnit):
         """
         properties = []
         for name in [r["name"] for r in self.results]:
-            if name == "final_structure": continue
+            if name == "final_structure":
+                continue
             property_ = self.safely_extract_property(name)
             if property_:
                 property_.update({"repetition": 0})
