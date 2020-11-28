@@ -40,6 +40,4 @@ class TestJobParser(IntegrationTestBase):
         actual = Job("External Job", os.path.join(FIXTURES_DIR, "vasp", "test-001")).to_json()
         self._clean_job_config(actual)
 
-        print actual
-
         self.assertDeepAlmostEqual(expected, actual)
