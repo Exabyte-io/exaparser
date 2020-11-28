@@ -30,17 +30,17 @@ class Job(object):
         return self._compute
 
     @property
-    def materials(self):
+    def structures(self):
         """
-        Returns a list of materials (initial_structures) used in job.
+        Returns a list of structures (initial/final) used in job.
 
         Returns:
              list[dict]
         """
-        materials = []
+        structures = []
         for unit in self.workflow.execution_units:
-            materials.extend(unit.initial_structures)
-        return materials
+            structures.extend(getattr(unit, "structures", []))
+        return structures
 
     @property
     def stdout_files(self):
@@ -84,7 +84,7 @@ class Job(object):
         """
         properties = []
         for unit in self.workflow.execution_units:
-            properties.extend(unit.properties)
+            properties.extend(getattr(unit, "properties", []))
         return properties
 
     @property

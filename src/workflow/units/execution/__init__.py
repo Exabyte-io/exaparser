@@ -1,11 +1,8 @@
 import os
 
-from express import ExPrESS
 from esse.settings import RESULTS
-from express.parsers.apps.vasp.settings import XML_DATA_FILE as VASP_XML_FILE
-from express.parsers.apps.espresso.settings import XML_DATA_FILE as ESPRESSO_XML_FILE
 
-from src.utils import find_file, read
+from src.utils import read
 from src.workflow.units import BaseUnit
 
 
@@ -25,19 +22,6 @@ class BaseExecutionUnit(BaseUnit):
     @property
     def stdout_file(self):
         return os.path.join(self.work_dir, self.config.get("stdoutFile", '.'.join((self.name, 'out'))))
-
-    @property
-    def parser_name(self):
-        """
-        Returns the name of the parser to pass to ExPrESS.
-
-        TODO: remove when a way to extract/construct workflows for vasp/espresso is implemented
-
-        Returns:
-             str: espresso or vasp
-        """
-        if find_file(VASP_XML_FILE, self.work_dir): return "vasp"
-        if find_file(ESPRESSO_XML_FILE, self.work_dir): return "espresso"
 
     @property
     def application(self):
@@ -163,53 +147,6 @@ class BaseExecutionUnit(BaseUnit):
             }
         ]
 
-    def safely_extract_property(self, property_, *args, **kwargs):
-        """
-        Safely extracts property.
-
-        Args:
-            property_ (str): property name.
-            args (list): args passed to property extractor.
-            kwargs (dict): kwargs passed to property extractor.
-
-        Returns:
-             dict
-        """
-        try:
-            express = ExPrESS(self.parser_name, **dict(work_dir=self.work_dir, stdout_file=self.stdout_file))
-            return express.property(property_, *args, **kwargs)
-        except:
-            pass
-
-    @property
-    def initial_structures(self):
-        """
-        Returns a list of initial structures used in this unit.
-
-        Returns:
-             list
-        """
-        initial_structure = self.safely_extract_property("material", is_initial_structure=True)
-        if initial_structure:
-            initial_structure["name"] = "initial_structure"
-            return [initial_structure]
-        return []
-
-    @property
-    def final_structures(self):
-        """
-        Returns a list of final structures generated in this unit.
-
-        Returns:
-             list
-        """
-        final_structure = self.safely_extract_property("material", is_final_structure=True)
-        if final_structure:
-            final_structure["name"] = "final_structure"
-            final_structure["repetition"] = 0
-            return [final_structure]
-        return []
-
     @property
     def results(self):
         """
@@ -218,54 +155,7 @@ class BaseExecutionUnit(BaseUnit):
         Returns:
              list[dict]
         """
-        return [{"name": name} for name in RESULTS]
-
-    @property
-    def structures(self):
-        """
-        Returns a list of structure pairs (initial/final) extracted from the unit.
-
-        Returns:
-             list[dict]
-        """
-        structures = []
-        final_structures = self.final_structures
-        initial_structures = self.initial_structures
-        for index, structure in enumerate(initial_structures):
-            structures.append({
-                "initial": structure,
-                "final": final_structures[index]
-            })
-            return structures
-
-    @property
-    def properties(self):
-        """
-        Returns a list of properties in EDC format extracted from the unit.
-
-        Note: structures are added to each property to properly associate properties with initial/final structure.
-
-        Returns:
-             list[dict]
-        """
-        properties = []
-        structures = self.structures
-        for name in [r["name"] for r in self.results]:
-            if name == "final_structure": continue
-            property_ = self.safely_extract_property(name)
-            if property_:
-                property_.update({"repetition": 0})
-                properties.append({
-                    "data": property_,
-                    "source": {
-                        "type": "exabyte",
-                        "info": {
-                            "unitId": self.flowchartId
-                        }
-                    },
-                    "structures": structures,
-                })
-        return properties
+        return self.config.get("results", [])
 
     @property
     def monitors(self):
@@ -275,8 +165,4 @@ class BaseExecutionUnit(BaseUnit):
         Returns:
              list[dict]
         """
-        return [
-            {
-                "name": "standard_output"
-            }
-        ]
+        return self.config.get("monitors", [])

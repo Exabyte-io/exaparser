@@ -1,15 +1,14 @@
-import os
 import re
 import xml.etree.ElementTree as ET
 
 from express.parsers.apps.espresso.settings import XML_DATA_FILE as ESPRESSO_XML_FILE
 
 from src.enums import *
-from src.workflow.units.execution import BaseExecutionUnit
-from src.utils import find_file_with_pattern, read, find_file
+from src.utils import find_file
+from src.workflow.units.execution.modeling import ModelingExecutionUnit
 
 
-class EspressoExecutionUnit(BaseExecutionUnit):
+class EspressoExecutionUnit(ModelingExecutionUnit):
     """
     Espresso execution unit parser class.
 
@@ -23,10 +22,14 @@ class EspressoExecutionUnit(BaseExecutionUnit):
         self.xml_path = find_file(ESPRESSO_XML_FILE, self.work_dir)
 
     @property
-    def stdout_file(self):
-        stdout_file = super(EspressoExecutionUnit, self).stdout_file
-        if os.path.exists(stdout_file): return stdout_file
-        return find_file_with_pattern(self.work_dir, ESPRESSO_EXECUTABLE_NAME_REGEX)
+    def parser_name(self):
+        """
+        Returns the name of the parser to pass to ExPrESS.
+
+        Returns:
+             str
+        """
+        return "espresso"
 
     @property
     def version(self):
@@ -67,27 +70,3 @@ class EspressoExecutionUnit(BaseExecutionUnit):
             return {
                 "name": executable
             }
-
-    @property
-    def input(self):
-        """
-        Returns a list of input files used in the unit.
-
-        Note: Make sure to set "isManuallyChanged" to True.
-
-        Returns:
-             list[dict]
-        """
-        input_ = os.path.join(self.work_dir, self.config.get("input", [])[0]["name"])
-        if not os.path.exists(input_): input_ = find_file_with_pattern(self.work_dir, ESPRESSO_INPUT_FILE_REGEX)
-        return [{
-            "name": os.path.basename(input_),
-            "isManuallyChanged": True,
-            "rendered": read(input_)
-        }]
-
-    @property
-    def input_file_names(self):
-        name = self.config.get("input", [])[0]
-        if os.path.join(self.work_dir, name): return [name]
-        return [find_file_with_pattern(self.work_dir, ESPRESSO_INPUT_FILE_REGEX)]

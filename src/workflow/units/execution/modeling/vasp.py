@@ -1,15 +1,13 @@
-import os
 import xml.etree.ElementTree as ET
 
 from express.parsers.apps.vasp.settings import XML_DATA_FILE as VASP_XML_FILE
 
 from src.enums import *
 from src.utils import find_file
-from src.config import ExaParserConfig
-from src.workflow.units.execution import BaseExecutionUnit
+from src.workflow.units.execution.modeling import ModelingExecutionUnit
 
 
-class VaspExecutionUnit(BaseExecutionUnit):
+class VaspExecutionUnit(ModelingExecutionUnit):
     """
     Vasp execution unit parser class.
 
@@ -23,9 +21,14 @@ class VaspExecutionUnit(BaseExecutionUnit):
         self.xml_path = find_file(VASP_XML_FILE, self.work_dir)
 
     @property
-    def stdout_file(self):
-        stdout_file = super(VaspExecutionUnit, self).stdout_file
-        return stdout_file if os.path.exists(stdout_file) else os.path.join(self.work_dir, VASP_DEFAULT_STDOUT)
+    def parser_name(self):
+        """
+        Returns the name of the parser to pass to ExPrESS.
+
+        Returns:
+             str
+        """
+        return "vasp"
 
     @property
     def application(self):

@@ -1,8 +1,8 @@
 from src.enums import *
-from src.workflow.units.execution import BaseExecutionUnit
+from src.workflow.units.execution.scripting import ScriptingExecutionUnit
 
 
-class ShellExecutionUnit(BaseExecutionUnit):
+class ShellExecutionUnit(ScriptingExecutionUnit):
     """
     Shell unit parser class.
 
