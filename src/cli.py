@@ -1,11 +1,4 @@
-#!/usr/bin/env python
-
-import os
-import sys
 import argparse
-
-# Add src directory to path
-sys.path.append(os.path.dirname((os.path.dirname(os.path.abspath(__file__)))))
 
 from src.job import Job
 from src.config import ExaParserConfig
@@ -20,7 +13,7 @@ def parse_arguments():
     return parser.parse_args()
 
 
-if __name__ == "__main__":
+def main():
     args = parse_arguments()
     if args.config: ExaParserConfig.read(args.config)
     job = Job(args.name, args.work_dir)
