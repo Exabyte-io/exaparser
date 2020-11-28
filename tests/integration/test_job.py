@@ -15,8 +15,10 @@ class TestJobParser(IntegrationTestBase):
         super(TestJobParser, self).setUp()
 
     def _clean_job_config(self, config):
-        config["workDir"] = ""
-        config["workflow"]["subworkflows"][0]["units"][0]["statusTrack"][0]["trackedAt"] = 1551481695
+        # These non-deterministic values in the results need to be overwritten with mock values, so
+        # that our comparisons work.
+        config["workDir"] = "/mock/path"
+        config["workflow"]["subworkflows"][0]["units"][0]["statusTrack"][0]["trackedAt"] = 1234567890
 
     def test_espresso_001_shell_job(self):
         """
@@ -24,7 +26,8 @@ class TestJobParser(IntegrationTestBase):
         """
         config = Job("External Job", os.path.join(FIXTURES_DIR, "espresso/test-001")).to_json()
         self._clean_job_config(config)
-        self.assertDeepAlmostEqual(config, read_json(os.path.join(FIXTURES_DIR, "espresso", "shell-job.json")))
+        expected = read_json(os.path.join(FIXTURES_DIR, "espresso", "shell-job.json"))
+        self.assertDeepAlmostEqual(expected, config)
 
     def test_vasp_001_shell_job(self):
         """
@@ -32,4 +35,5 @@ class TestJobParser(IntegrationTestBase):
         """
         config = Job("External Job", os.path.join(FIXTURES_DIR, "vasp/test-001")).to_json()
         self._clean_job_config(config)
-        self.assertDeepAlmostEqual(config, read_json(os.path.join(FIXTURES_DIR, "vasp", "shell-job.json")))
+        expected = read_json(os.path.join(FIXTURES_DIR, "vasp", "shell-job.json"))
+        self.assertDeepAlmostEqual(expected, config)
