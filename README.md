@@ -1,3 +1,5 @@
+[![License: Apache](https://img.shields.io/badge/License-Apache-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
+
 # Exabyte Parser (ExaParser)
 
 Exabyte parser is a python package to extract and convert materials modeling data (eg. Density Functional Theory, Molecular Dynamics) on disk to [ESSE/EDC](https://github.com/Exabyte-io/exabyte-esse) format.
@@ -25,7 +27,7 @@ ExaParser can be installed as below.
 1. Clone repository:
     
     ```bash
-    git clone git@github.com:Exabyte-io/exaprser.git
+    git clone git@github.com:Exabyte-io/exaparser.git
     ```
 
 1. Install [virtualenv](https://virtualenv.pypa.io/en/stable/) using [pip](https://pip.pypa.io/en/stable/) if not already present:
@@ -37,7 +39,7 @@ ExaParser can be installed as below.
 1. Create virtual environment and install required packages:
 
     ```bash
-    cd exaprser
+    cd exaparser
     virtualenv venv
     source venv/bin/activate
     export GIT_LFS_SKIP_SMUDGE=1
