@@ -16,7 +16,6 @@ setup(
     packages=find_packages(exclude=['examples', 'docs', 'tests*']),
     install_requires=[
         'configparser==3.7.3',
-        'esse==2.3.0',
         'exabyte-api-client==1.0.0',
         'express-py==2.6.0',
         'requests==2.20.1',
