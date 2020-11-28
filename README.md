@@ -68,7 +68,7 @@ ExaParser can be installed as below.
 
 ```bash
 source venv/bin/activate
-./bin/exaparser -w PATH_TO_JOB_WORKING_DIRECTORY
+exaparser -w PATH_TO_JOB_WORKING_DIRECTORY
 ```
 
 ## Tests
@@ -76,9 +76,13 @@ source venv/bin/activate
 Run the following command to run the tests.
 
 ```bash
-source venv/bin/activate
-sh run-tests.sh
+./run-tests.sh -p=PYTHON_BIN -v=VENV_NAME-t=TEST_TYPE
 ```
+All the passed parameters are optional, with the defaults being `python3`, `venv`, and `unit`, respectively.
+
+The script will create a virtual environment and populate it, so there's no need to create one manually for testing.
+
+Note that the testing virtualenv uses the `requirements-dev.txt` file, where a production usage should use the `requirements.txt` file.  This avoids installing test dependencies when not needed.
 
 ## Contribution
 
