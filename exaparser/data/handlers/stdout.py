@@ -8,7 +8,7 @@ class StdoutDataHandler(DataHandler):
     Stdout data handler class.
 
     Args:
-        job (src.job.Job)
+        job (exaparser.job.Job)
     """
 
     def __init__(self, job):

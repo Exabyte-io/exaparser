@@ -3,7 +3,7 @@ class DataHandler(object):
     Base data handler class.
 
     Args:
-        job (src.job.Job): an instance of the job class.
+        job (exaparser.job.Job): an instance of the job class.
     """
 
     def __init__(self, job):

@@ -1,7 +1,7 @@
 import os
 
-from src.config import ExaParserConfig
-from src.utils import read_json
+from exaparser.config import ExaParserConfig
+from exaparser.utils import read_json
 from .compute.factory import get_compute_parser
 from ..workflow.workflow import Workflow
 

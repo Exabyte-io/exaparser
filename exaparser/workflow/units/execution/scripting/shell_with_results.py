@@ -1,7 +1,7 @@
 from express.parsers.apps.espresso.settings import XML_DATA_FILE as ESPRESSO_XML_FILE
 from express.parsers.apps.vasp.settings import XML_DATA_FILE as VASP_XML_FILE
 
-from src.utils import find_file, find_file_with_pattern
+from exaparser.utils import find_file, find_file_with_pattern
 from .shell import ShellExecutionUnit, ESPRESSO_INPUT_FILE_REGEX
 from ..modeling import ModelingExecutionUnit
 

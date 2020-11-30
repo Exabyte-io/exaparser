@@ -2,8 +2,8 @@ import xml.etree.ElementTree as ET
 
 from express.parsers.apps.vasp.settings import XML_DATA_FILE as VASP_XML_FILE
 
-from src.enums import *
-from src.utils import find_file
+from exaparser.enums import *
+from exaparser.utils import find_file
 from . import ModelingExecutionUnit
 
 

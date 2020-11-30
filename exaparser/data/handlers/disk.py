@@ -1,7 +1,7 @@
 import os
 
-from src.config import ExaParserConfig
-from src.utils import write_json
+from exaparser.config import ExaParserConfig
+from exaparser.utils import write_json
 from .. import DataHandler
 
 
@@ -10,7 +10,7 @@ class DiskDataHandler(DataHandler):
     Disk data handler class.
 
     Args:
-        job (src.job.Job)
+        job (exaparser.job.Job)
     """
 
     def __init__(self, job):

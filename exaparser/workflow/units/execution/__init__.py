@@ -1,6 +1,6 @@
 import os
 
-from src.utils import read
+from exaparser.utils import read
 from .. import BaseUnit
 
 

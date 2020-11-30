@@ -9,7 +9,7 @@ def get_data_handler(name, job):
 
     Args:
         name (str): data handler name, STDOUT, DISK or ExabyteRESTFulAPI
-        job (src.job.Job): an instance of the job class.
+        job (exaparser.job.Job): an instance of the job class.
     """
     handlers = dict(STDOUT=StdoutDataHandler, DISK=DiskDataHandler, ExabyteRESTFulAPI=ExabyteRESTFulAPIDataHandler)
     return handlers[name](job)
