@@ -3,10 +3,10 @@ import os
 import re
 from multiprocessing import Pool
 
-from endpoints.jobs import JobEndpoints
-from endpoints.materials import MaterialEndpoints
-from endpoints.projects import ProjectEndpoints
-from endpoints.raw_properties import RawPropertiesEndpoints
+from exabyte_api_client.endpoints.jobs import JobEndpoints
+from exabyte_api_client.endpoints.materials import MaterialEndpoints
+from exabyte_api_client.endpoints.projects import ProjectEndpoints
+from exabyte_api_client.endpoints.raw_properties import RawPropertiesEndpoints
 
 from src.config import ExaParserConfig
 from src.data import DataHandler
