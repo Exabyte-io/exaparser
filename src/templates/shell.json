@@ -36,7 +36,50 @@
                     "name": "shell",
                     "postProcessors": [],
                     "preProcessors": [],
-                    "results": [],
+                    "results": [
+                        {
+                            "name": "final_structure"
+                        },
+                        {
+                            "name": "phonon_dos"
+                        },
+                        {
+                            "name": "pressure"
+                        },
+                        {
+                            "name": "atomic_forces"
+                        },
+                        {
+                            "name": "stress_tensor"
+                        },
+                        {
+                            "name": "phonon_dispersions"
+                        },
+                        {
+                            "name": "\nfermi_energy"
+                        },
+                        {
+                            "name": "density_of_states"
+                        },
+                        {
+                            "name": "zero_point_energy"
+                        },
+                        {
+                            "name": "total_energy_contributions"
+                        },
+                        {
+                            "name": "\ntotal_force"
+                        },
+                        {
+                            "name": "band_structure"
+                        },
+                        {
+                            "name": "band_gaps"
+                        },
+                        {
+                            "name": "total_energy"
+                        }
+                    ],
                     "stdoutFile": "stdout",
                     "type": "execution",
                     "workDir": "."
