@@ -56,7 +56,7 @@
                             "name": "phonon_dispersions"
                         },
                         {
-                            "name": "\nfermi_energy"
+                            "name": "fermi_energy"
                         },
                         {
                             "name": "density_of_states"
@@ -68,7 +68,7 @@
                             "name": "total_energy_contributions"
                         },
                         {
-                            "name": "\ntotal_force"
+                            "name": "total_force"
                         },
                         {
                             "name": "band_structure"
