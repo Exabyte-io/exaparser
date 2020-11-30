@@ -1,5 +1,5 @@
-from src.workflow.subworkflow import Subworkflow
-from src.workflow.units.factory import get_unit
+from .subworkflow import Subworkflow
+from .units.factory import get_unit
 
 
 class Workflow(object):

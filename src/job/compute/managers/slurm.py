@@ -1,4 +1,4 @@
-from src.job.compute import BaseComputeParser
+from .. import BaseComputeParser
 
 
 class SLURMComputeParser(BaseComputeParser):

@@ -1,4 +1,4 @@
-from src.workflow.units.factory import get_unit
+from .units.factory import get_unit
 
 
 class Subworkflow(object):

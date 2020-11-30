@@ -1,8 +1,8 @@
-from src.workflow.units.execution.modeling.espresso import EspressoExecutionUnit
-from src.workflow.units.execution.modeling.vasp import VaspExecutionUnit
-from src.workflow.units.execution.scripting.shell import ShellExecutionUnit
-from src.workflow.units.execution.scripting.shell_with_results import ShellWithResultsExecutionUnit
-from src.workflow.units.subworkflow import SubworkflowUnit
+from .execution.modeling.espresso import EspressoExecutionUnit
+from .execution.modeling.vasp import VaspExecutionUnit
+from .execution.scripting.shell import ShellExecutionUnit
+from .execution.scripting.shell_with_results import ShellWithResultsExecutionUnit
+from .subworkflow import SubworkflowUnit
 
 
 def get_unit(config, work_dir):

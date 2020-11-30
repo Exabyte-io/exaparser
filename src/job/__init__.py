@@ -1,9 +1,9 @@
 import os
 
 from src.config import ExaParserConfig
-from src.job.compute.factory import get_compute_parser
 from src.utils import read_json
-from src.workflow.workflow import Workflow
+from .compute.factory import get_compute_parser
+from ..workflow.workflow import Workflow
 
 
 class Job(object):

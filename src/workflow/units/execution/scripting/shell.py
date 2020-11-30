@@ -1,5 +1,5 @@
 from src.enums import *
-from src.workflow.units.execution.scripting import ScriptingExecutionUnit
+from . import ScriptingExecutionUnit
 
 
 class ShellExecutionUnit(ScriptingExecutionUnit):

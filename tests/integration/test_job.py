@@ -2,8 +2,8 @@ import os
 
 from src.job import Job
 from src.utils import read_json
-from tests.enums import FIXTURES_DIR
 from tests.integration import IntegrationTestBase
+from tests.enums import FIXTURES_DIR
 
 
 class TestJobParser(IntegrationTestBase):

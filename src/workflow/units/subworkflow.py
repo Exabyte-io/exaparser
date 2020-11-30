@@ -1,4 +1,4 @@
-from src.workflow.units import BaseUnit
+from . import BaseUnit
 
 
 class SubworkflowUnit(BaseUnit):

@@ -9,9 +9,9 @@ from exabyte_api_client.endpoints.projects import ProjectEndpoints
 from exabyte_api_client.endpoints.raw_properties import RawPropertiesEndpoints
 
 from src.config import ExaParserConfig
-from src.data import DataHandler
 from src.enums import OUTPUT_CHUNK_SIZE
 from src.utils import upload_file_to_object_storage
+from .. import DataHandler
 
 
 class ExabyteRESTFulAPIDataHandler(DataHandler):

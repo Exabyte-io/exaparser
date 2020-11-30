@@ -1,6 +1,6 @@
-from src.data.handlers.disk import DiskDataHandler
-from src.data.handlers.exabyte import ExabyteRESTFulAPIDataHandler
-from src.data.handlers.stdout import StdoutDataHandler
+from .handlers.disk import DiskDataHandler
+from .handlers.exabyte import ExabyteRESTFulAPIDataHandler
+from .handlers.stdout import StdoutDataHandler
 
 
 def get_data_handler(name, job):

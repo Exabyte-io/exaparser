@@ -2,8 +2,8 @@ from express.parsers.apps.espresso.settings import XML_DATA_FILE as ESPRESSO_XML
 from express.parsers.apps.vasp.settings import XML_DATA_FILE as VASP_XML_FILE
 
 from src.utils import find_file, find_file_with_pattern
-from src.workflow.units.execution.modeling import ModelingExecutionUnit
-from src.workflow.units.execution.scripting.shell import ShellExecutionUnit, ESPRESSO_INPUT_FILE_REGEX
+from .shell import ShellExecutionUnit, ESPRESSO_INPUT_FILE_REGEX
+from ..modeling import ModelingExecutionUnit
 
 
 class ShellWithResultsExecutionUnit(ShellExecutionUnit, ModelingExecutionUnit):

@@ -1,8 +1,8 @@
 import argparse
 
-from src.config import ExaParserConfig
-from src.data.factory import get_data_handler
-from src.job import Job
+from .config import ExaParserConfig
+from .data.factory import get_data_handler
+from .job import Job
 
 
 def parse_arguments():

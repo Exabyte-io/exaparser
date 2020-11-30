@@ -1,4 +1,4 @@
-from src.workflow.units.execution import BaseExecutionUnit
+from .. import BaseExecutionUnit
 
 
 class ScriptingExecutionUnit(BaseExecutionUnit):

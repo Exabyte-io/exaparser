@@ -1,8 +1,8 @@
 import os
 
 from src.config import ExaParserConfig
-from src.data import DataHandler
 from src.utils import write_json
+from .. import DataHandler
 
 
 class DiskDataHandler(DataHandler):

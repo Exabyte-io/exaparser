@@ -1,6 +1,6 @@
 from express import ExPrESS
 
-from src.workflow.units.execution import BaseExecutionUnit
+from .. import BaseExecutionUnit
 
 
 class ModelingExecutionUnit(BaseExecutionUnit):

@@ -1,6 +1,6 @@
 import json
 
-from src.data import DataHandler
+from .. import DataHandler
 
 
 class StdoutDataHandler(DataHandler):
