@@ -28,7 +28,7 @@ setup(
     },
     entry_points={
         'console_scripts': [
-            'exaparser=src.cli:main'
+            'exaparser=exaparser.cli:main'
         ],
     },
     python_requires='>=3.6',
