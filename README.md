@@ -48,7 +48,13 @@ ExaParser can be installed as below.
 
 ## Usage
 
-1. Open [config](config) and adjust parameters as necessary. The most important ones are listed below.
+1. Exaparser will look in the following locations for the `config` file, and use the first one it finds:
+    - The existing file in the root of this repository, *if installed as editable source*.  This won't work for production installs, and is just for testing scenarios.
+    - Your user's home directory at `~/.exabyte/exaparser/config`
+    - A global system configuration at `/etc/exabyte/exaparser/config`
+    
+    Copy the [`config`](config) file from the root of this repo to one of the above locations and edit it.
+1. Edit the config file and adjust parameters as necessary. The most important ones are listed below.
 
     - Add `ExabyteRESTfulAPI` to `data_handlers` parameters list (comma-separated), if not already present. This will enable upload the data into Exabyte.io account.
     
@@ -68,17 +74,24 @@ ExaParser can be installed as below.
 
 ```bash
 source venv/bin/activate
-./bin/exaparser -w PATH_TO_JOB_WORKING_DIRECTORY
+exaparser -w PATH_TO_JOB_WORKING_DIRECTORY
 ```
-
+or just call exaparser with the explicit path to the virtualenv binary:
+```bash
+venv/bin/activate/exaparser -w PATH_TO_JOB_WORKING_DIRECTORY
+```
 ## Tests
 
 Run the following command to run the tests.
 
 ```bash
-source venv/bin/activate
-sh run-tests.sh
+./run-tests.sh -p=PYTHON_BIN -v=VENV_NAME-t=TEST_TYPE
 ```
+All the passed parameters are optional, with the defaults being `python3`, `venv`, and `unit`, respectively.
+
+The script will create a virtual environment and populate it, so there's no need to create one manually for testing.
+
+Note that the testing virtualenv uses the `requirements-dev.txt` file, where a production usage should use the `requirements.txt` file.  This avoids installing test dependencies when not needed.
 
 ## Contribution
 

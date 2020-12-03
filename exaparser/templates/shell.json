@@ -1,0 +1,99 @@
+{
+    "name": "Shell Workflow",
+    "properties": [],
+    "subworkflows": [
+        {
+            "_id": "f476bbe958e19856f87ced18",
+            "application": {
+                "name": "shell"
+            },
+            "model": {
+                "method": {
+                    "subtype": "unknown",
+                    "type": "unknown"
+                },
+                "subtype": "unknown",
+                "type": "unknown"
+            },
+            "name": "Shell Subworkflow",
+            "units": [
+                {
+                    "application": {
+                        "name": "shell"
+                    },
+                    "flowchartId": "f476bbe958e19856f87ced18-shell",
+                    "head": true,
+                    "input": [
+                        {
+                            "name": "job.rms"
+                        }
+                    ],
+                    "monitors": [
+                        {
+                            "name": "standard_output"
+                        }
+                    ],
+                    "name": "shell",
+                    "postProcessors": [],
+                    "preProcessors": [],
+                    "results": [
+                        {
+                            "name": "final_structure"
+                        },
+                        {
+                            "name": "phonon_dos"
+                        },
+                        {
+                            "name": "pressure"
+                        },
+                        {
+                            "name": "atomic_forces"
+                        },
+                        {
+                            "name": "stress_tensor"
+                        },
+                        {
+                            "name": "phonon_dispersions"
+                        },
+                        {
+                            "name": "fermi_energy"
+                        },
+                        {
+                            "name": "density_of_states"
+                        },
+                        {
+                            "name": "zero_point_energy"
+                        },
+                        {
+                            "name": "total_energy_contributions"
+                        },
+                        {
+                            "name": "total_force"
+                        },
+                        {
+                            "name": "band_structure"
+                        },
+                        {
+                            "name": "band_gaps"
+                        },
+                        {
+                            "name": "total_energy"
+                        }
+                    ],
+                    "stdoutFile": "stdout",
+                    "type": "execution",
+                    "workDir": "."
+                }
+            ]
+        }
+    ],
+    "units": [
+        {
+            "_id": "f476bbe958e19856f87ced18",
+            "flowchartId": "b45017d33fb8f24e93a7fc24",
+            "head": true,
+            "name": "Shell Subworkflow",
+            "type": "subworkflow"
+        }
+    ]
+}
