@@ -41,3 +41,14 @@ class TestJobParser(IntegrationTestBase):
         self._clean_job_config(actual)
 
         self.assertDeepAlmostEqual(expected, actual)
+
+    def test_aiida_001_shell_job(self):
+        """
+        Extracts a job from a aiida calculation and asserts the results.
+        """
+        expected = read_json(os.path.join(FIXTURES_DIR, "aiida", "shell-job.json"))
+
+        actual = Job("External Job", os.path.join(FIXTURES_DIR, "aiida", "test-001")).to_json()
+        self._clean_job_config(actual)
+
+        self.assertDeepAlmostEqual(expected, actual)
