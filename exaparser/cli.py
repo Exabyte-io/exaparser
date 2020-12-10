@@ -41,4 +41,6 @@ def structures(ctx, work_dir):
 
         ./bin/exaparser /path/to/workdir/with/structure/data
     """
-    ctx.forward(job, name='structures')
+    job = Job('structures', work_dir)
+    for handler in ctx.obj['handlers']:
+        get_data_handler(handler, job.structures).handle()
