@@ -1,4 +1,4 @@
-from tests import TestBase
+from .. import TestBase
 
 
 class UnitTestBase(TestBase):
