@@ -1,1 +1,2 @@
 tests/fixtures/** filter=lfs diff=lfs merge=lfs -text
+exaparser/_version.py export-subst

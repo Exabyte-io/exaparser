@@ -1,11 +1,13 @@
 from setuptools import find_packages, setup
+import versioneer
 
 with open('./README.md', 'r') as f:
     long_description = f.read()
 
 setup(
     name='exaparser',
-    version='2020.10.19',
+    version=versioneer.get_version(),
+    cmdclass=versioneer.get_cmdclass(),
     description='Exabyte Parser',
     long_description=long_description,
     long_description_content_type='text/markdown',
