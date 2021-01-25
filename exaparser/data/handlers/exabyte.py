@@ -181,8 +181,6 @@ class ExabyteRESTFulAPIDataHandler(DataHandler):
         Args:
             job_id (str): job ID.
         """
-        headers = self.job_endpoints.headers
-        endpoint_path = os.path.join("jobs", job_id, "output-files")
         for config in self.job.stdout_files:
             output_chunks_count = 0
             file_descriptor = open(config["stdoutFile"])
@@ -195,7 +193,7 @@ class ExabyteRESTFulAPIDataHandler(DataHandler):
                         "order": output_chunks_count,
                         "unitFlowchartId": config["unitFlowchartId"],
                     }
-                    self.job_endpoints.request('POST', endpoint_path, data=json.dumps(data), headers=headers)
+                    self.job_endpoints.insert_output_files(id_=job_id, data=json.dumps(data))
                     output_chunks_count += 1
                 else:
                     break
