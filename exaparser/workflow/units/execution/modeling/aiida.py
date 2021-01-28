@@ -1,9 +1,9 @@
 from express import ExPrESS
 
-from .. import StructuresUnit
+from . import ModelingExecutionUnit
 
 
-class AiidaStructuresUnit(StructuresUnit):
+class AiidaExecutionUnit(ModelingExecutionUnit):
     """
     Structures from AiiDA archive parser class.
 
@@ -17,7 +17,7 @@ class AiidaStructuresUnit(StructuresUnit):
         self.work_dir = work_dir
 
     def structures(self):
-        express = ExPrESS('aiida-archive', path=self.work_dir)
+        express = ExPrESS('aiida-archive', workDir=self.work_dir)
         return express.parser.structures()
 
     def to_json(self):
@@ -31,3 +31,7 @@ class AiidaStructuresUnit(StructuresUnit):
             "structures": self.structures(),
             "isMultiMaterial": True  # to let job have multiple materials
         }
+
+    type = 'execution'
+    status = ''
+    application = 'aiida'

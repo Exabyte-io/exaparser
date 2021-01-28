@@ -15,7 +15,7 @@
             "status": "idle",
             "statusTrack": [],
             "application": {"name": "aiida"},
-            "type": "structures"
+            "type": "execution"
         }
     ]
 }
