@@ -6,7 +6,7 @@ coverage==5.3
 cycler==0.10.0
 decorator==4.4.2
 esse==2020.10.19.3
-exabyte-api-client==2020.10.19
+exabyte-api-client==2021.01.18.1
 exabyte-json-include==2020.10.19
 express-py==2020.10.19.2
 Flask==1.1.2

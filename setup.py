@@ -5,7 +5,7 @@ with open('./README.md', 'r') as f:
 
 setup(
     name='exaparser',
-    version='2020.10.19',
+    version='2021.01.18',
     description='Exabyte Parser',
     long_description=long_description,
     long_description_content_type='text/markdown',
