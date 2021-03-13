@@ -5,7 +5,7 @@ click==7.1.2
 coverage==5.3
 cycler==0.10.0
 decorator==4.4.2
-esse==2020.10.19.3
+esse==2021.03.15.1
 exabyte-api-client==2021.1.18.1
 exabyte-json-include==2020.10.19
 express-py==2020.10.19.2
