@@ -21,14 +21,14 @@ def main(ctx, config):
 
 @main.command()
 @click.pass_context
-@click.argument('name')
-@click.argument('work-dir', type=click.Path(exists=True, file_okay=False, resolve_path=True))
+@click.option('-n', '--name', required=True)
+@click.option('-w', '--work-dir', type=click.Path(exists=True, file_okay=False, resolve_path=True), required=True)
 def job(ctx, name, work_dir):
     """Parse a job.
 
     Parses the output of job with NAME in directory WORK_DIR. For example:
 
-        ./bin/exaparser job-123 /path/to/workdir/
+        ./bin/exaparser -n job-123 -w /path/to/workdir/
     """
     job = Job(name, work_dir)
     for handler in ctx.obj['handlers']:
@@ -37,13 +37,13 @@ def job(ctx, name, work_dir):
 
 @main.command()
 @click.pass_context
-@click.argument('work-dir', type=click.Path(exists=True, file_okay=False, resolve_path=True))
+@click.option('-w', '--work-dir', type=click.Path(exists=True, file_okay=False, resolve_path=True), required=True)
 def structures(ctx, work_dir):
     """Parse a working directory for structure(s) data.
 
     Example:
 
-        ./bin/exaparser /path/to/workdir/with/structure/data
+        ./bin/exaparser -w /path/to/workdir/with/structure/data
     """
     # This command just forwards to the more lower-level cli:job command with job-name 'structures'.
     ctx.forward(job, name='structures')
