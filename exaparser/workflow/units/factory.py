@@ -1,3 +1,4 @@
+from .execution.modeling.aiida import AiidaExecutionUnit
 from .execution.modeling.espresso import EspressoExecutionUnit
 from .execution.modeling.vasp import VaspExecutionUnit
 from .execution.scripting.shell import ShellExecutionUnit
@@ -14,7 +15,12 @@ def get_unit(config, work_dir):
         work_dir (str): full path to the job working directory.
     """
     if config["type"] == "execution":
-        execution_units = dict(shell=ShellExecutionUnit, vasp=VaspExecutionUnit, espresso=EspressoExecutionUnit)
+        execution_units = {
+            "shell": ShellExecutionUnit,
+            "vasp": VaspExecutionUnit,
+            "espresso": EspressoExecutionUnit,
+            "aiida": AiidaExecutionUnit,
+        }
         # Use ShellWithResultsExecutionUnit if parser is asked to extract any results
         if config["application"]["name"] == "shell" and len(config.get("results", [])):
             return ShellWithResultsExecutionUnit(config, work_dir)

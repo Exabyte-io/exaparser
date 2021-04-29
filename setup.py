@@ -24,6 +24,7 @@ setup(
             "coverage>=5.3",
             "mock>=1.3.0",
             "numpy>=1.17.3",
+            "requests-mock==1.8.0",
         ],
     },
     entry_points={

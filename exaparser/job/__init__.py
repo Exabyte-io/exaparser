@@ -116,5 +116,5 @@ class Job(object):
             "name": self.name,
             "status": self.status,
             "workDir": self.work_dir,
-            "workflow": self.workflow.to_json()
+            "workflow": self.workflow.to_json(),
         }

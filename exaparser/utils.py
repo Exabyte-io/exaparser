@@ -35,9 +35,12 @@ def find_file_with_pattern(pattern, path):
     """
     for root, dirs, files in os.walk(path, followlinks=True):
         for file_ in files:
-            with open(os.path.join(root, file_)) as f:
-                if re.match(pattern, f.read()):
-                    return os.path.join(root, file_)
+            try:
+                with open(os.path.join(root, file_)) as f:
+                    if re.match(pattern, f.read()):
+                        return os.path.join(root, file_)
+            except UnicodeDecodeError:  # potentially binary file
+                continue
 
 
 def read(path):
@@ -94,5 +97,5 @@ def upload_file_to_object_storage(file_):
         with open(path, 'w+') as f:
             f.write('\n')
     headers = {"Content-Length": str(os.path.getsize(path))}
-    with open(path) as f:
+    with open(path, 'rb') as f:
         session.request("PUT", file_["URL"], data=f, headers=headers).raise_for_status()
