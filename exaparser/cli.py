@@ -11,6 +11,10 @@ from .job import Job
 def main(ctx, config):
     if config:
         ExaParserConfig.read(config)
+
+    # Add handlers to the click context object since it is the same for all
+    # commands.
+    # See also: https://click.palletsprojects.com/en/7.x/commands/#nested-handling-and-contexts
     ctx.ensure_object(dict)
     ctx.obj['handlers'] = ExaParserConfig.get("global", "data_handlers").replace(" ", "").split(",")
 
@@ -41,4 +45,5 @@ def structures(ctx, work_dir):
 
         ./bin/exaparser /path/to/workdir/with/structure/data
     """
+    # This command just forwards to the more lower-level cli:job command with job-name 'structures'.
     ctx.forward(job, name='structures')
