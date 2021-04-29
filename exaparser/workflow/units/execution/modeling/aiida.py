@@ -32,6 +32,16 @@ class AiidaExecutionUnit(ModelingExecutionUnit):
             "isMultiMaterial": True  # to let job have multiple materials
         }
 
-    type = 'execution'
-    status = ''
-    application = 'aiida'
+    @property
+    def application(self):
+        """
+        Returns the application used in the unit.
+
+        Returns:
+             dict
+        """
+        return {
+            "name": "aiida-archive",
+            "version": None,
+            "summary": "AiiDA Archive",
+        }
