@@ -30,7 +30,7 @@ class BaseExecutionUnit(BaseUnit):
         Returns:
              dict
         """
-        raise NotImplemented
+        raise NotImplementedError
 
     @property
     def version(self):
@@ -40,7 +40,7 @@ class BaseExecutionUnit(BaseUnit):
         Returns:
              str
         """
-        raise NotImplemented
+        raise NotImplementedError
 
     @property
     def executable(self):
@@ -51,7 +51,7 @@ class BaseExecutionUnit(BaseUnit):
         Returns:
              dict
         """
-        raise NotImplemented
+        raise NotImplementedError
 
     @property
     def input(self):
