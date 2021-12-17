@@ -7,7 +7,7 @@ THIS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" > /dev/null 2>&1 && pwd)"
 VENV_NAME="venv"
 
 usage() {
-    echo "run-tests.sh -p=PYTHON_BIN -v=VENV_NAME-t=TEST_TYPE"
+    echo "run-tests.sh -p=PYTHON_BIN -v=VENV_NAME -t=TEST_TYPE"
     exit 1
 }
 

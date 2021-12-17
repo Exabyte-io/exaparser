@@ -85,7 +85,7 @@ venv/bin/activate/exaparser -w PATH_TO_JOB_WORKING_DIRECTORY
 Run the following command to run the tests.
 
 ```bash
-./run-tests.sh -p=PYTHON_BIN -v=VENV_NAME-t=TEST_TYPE
+./run-tests.sh -p=PYTHON_BIN -v=VENV_NAME -t=TEST_TYPE
 ```
 All the passed parameters are optional, with the defaults being `python3`, `venv`, and `unit`, respectively.
 
