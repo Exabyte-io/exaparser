@@ -14,4 +14,4 @@ class DataHandler(object):
         Implement the logic to handle extracted job, materials and properties.
         Override upon inheritance.
         """
-        raise NotImplemented
+        raise NotImplementedError

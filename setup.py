@@ -5,7 +5,10 @@ with open('./README.md', 'r') as f:
 
 setup(
     name='exaparser',
-    version='2021.03.15.1',
+    setup_requires=['setuptools_scm'],
+    use_scm_version={
+        'version_scheme': 'post-release',
+    },
     description='Exabyte Parser',
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -21,7 +24,7 @@ setup(
     ],
     extras_require={
         "test": [
-            "coverage>=5.3",
+            "coverage[toml]>=5.3",
             "mock>=1.3.0",
             "numpy>=1.17.3",
         ],
@@ -35,7 +38,6 @@ setup(
     classifiers=[
         'Programming Language :: Python',
         'Development Status :: 3 - Alpha',
-        'Intended Audience :: Exabyte Development Team',
         'Topic :: Software Development'
     ],
 )
