@@ -15,7 +15,7 @@ class ModelingExecutionUnit(BaseExecutionUnit):
         Returns:
              str
         """
-        raise NotImplemented
+        raise NotImplementedError
 
     def safely_extract_property(self, property_, *args, **kwargs):
         """
