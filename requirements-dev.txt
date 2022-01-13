@@ -6,7 +6,7 @@ coverage==5.3
 cycler==0.10.0
 decorator==4.4.2
 esse==2021.05.06
-exabyte-api-client==2021.06.25
+exabyte-api-client==2022.1.13.post0
 exabyte-json-include==2021.05.06
 express-py==2021.05.06
 Flask==1.1.2
@@ -47,4 +47,3 @@ tabulate==0.8.7
 Unidecode==1.1.1
 urllib3==1.26.5
 Werkzeug==1.0.1
--e .[test]
