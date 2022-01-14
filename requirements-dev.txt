@@ -8,7 +8,7 @@ decorator==4.4.2
 esse==2021.05.06
 exabyte-api-client==2022.1.13.post0
 exabyte-json-include==2021.05.06
-express-py==2021.05.06
+express-py==2022.1.14.post0
 Flask==1.1.2
 idna==2.7
 itsdangerous==1.1.0
