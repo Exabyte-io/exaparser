@@ -5,10 +5,10 @@ click==7.1.2
 coverage==5.3
 cycler==0.10.0
 decorator==4.4.2
-esse==2021.05.06
+git+https://github.com/Exabyte-io/esse.git@491988504e01bb187b181b77335d153b340ba39e#egg=esse
 exabyte-api-client==2022.1.13.post0
 exabyte-json-include==2021.05.06
-express-py==2022.1.14.post0
+git+https://github.com/Exabyte-io/express.git@d9c5cfb6267aeb74abb0b04c7ca6d149f4d63073#egg=express-py
 Flask==1.1.2
 idna==2.7
 itsdangerous==1.1.0
