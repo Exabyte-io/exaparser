@@ -23,7 +23,7 @@ data_dir = .exabyte
 [exabyte_api_data_handler]
 # Exabyte RESTful API Data Handler Settings
 # See https://docs.exabyte.io/rest-api/overview for more information.
-hostname = platform.exabyte.io
+hostname = platform.mat3ra.com
 port = 443
 account_id = zX6Wf8QdQkgEpP26u
 auth_token = 8YpFg97E-zN17xP9bqngoGFJV8mBXT553zh8iE9a0nP
