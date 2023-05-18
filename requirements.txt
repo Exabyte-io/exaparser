@@ -5,7 +5,7 @@ click==7.1.2
 cycler==0.10.0
 decorator==4.4.2
 esse==2021.05.06
-exabyte-api-client==2022.1.13.post0
+exabyte-api-client==2023.5.18.post0
 exabyte-json-include==2021.05.06
 express-py==2022.1.14.post0
 Flask==1.1.2
