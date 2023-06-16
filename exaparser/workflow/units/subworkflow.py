@@ -22,7 +22,5 @@ class SubworkflowUnit(BaseUnit):
              dict
         """
         config = super(SubworkflowUnit, self).to_json()
-        config.update({
-            "_id": self.id
-        })
+        config.update({"_id": self.id})
         return config

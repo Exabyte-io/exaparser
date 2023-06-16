@@ -2,7 +2,7 @@ import xml.etree.ElementTree as ET
 
 from express.parsers.apps.vasp.settings import XML_DATA_FILE as VASP_XML_FILE
 
-from exaparser.enums import *
+from exaparser.enums import VASP_SUPPORTED_VERSIONS, VASP_DEFAULT_VERSION
 from exaparser.utils import find_file
 from . import ModelingExecutionUnit
 
@@ -38,11 +38,7 @@ class VaspExecutionUnit(ModelingExecutionUnit):
         Returns:
              dict
         """
-        return {
-            "name": "vasp",
-            "version": self.version,
-            "summary": "Vienna Ab-initio Simulation Package"
-        }
+        return {"name": "vasp", "version": self.version, "summary": "Vienna Ab-initio Simulation Package"}
 
     @property
     def version(self):
@@ -53,7 +49,7 @@ class VaspExecutionUnit(ModelingExecutionUnit):
              str
         """
         root = ET.parse(self.xml_path).getroot()
-        version = root.find('generator').find('.//i[@name="version"]').text.strip()
+        version = root.find("generator").find('.//i[@name="version"]').text.strip()
         return version if version in VASP_SUPPORTED_VERSIONS else VASP_DEFAULT_VERSION
 
     @property
@@ -64,6 +60,4 @@ class VaspExecutionUnit(ModelingExecutionUnit):
         Returns:
              dict
         """
-        return {
-            "name": "vasp"
-        }
+        return {"name": "vasp"}

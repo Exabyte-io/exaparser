@@ -54,9 +54,4 @@ class BaseComputeParser(object):
         return "01:00:00"
 
     def to_json(self):
-        return {
-            "ppn": self.ppn,
-            "nodes": self.nodes,
-            "queue": self.queue,
-            "timeLimit": self.walltime
-        }
+        return {"ppn": self.ppn, "nodes": self.nodes, "queue": self.queue, "timeLimit": self.walltime}

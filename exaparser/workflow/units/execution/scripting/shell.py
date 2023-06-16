@@ -1,4 +1,4 @@
-from exaparser.enums import *
+from exaparser.enums import SHELL_DEFAULT_VERSION
 from . import ScriptingExecutionUnit
 
 
@@ -22,11 +22,7 @@ class ShellExecutionUnit(ScriptingExecutionUnit):
         Returns:
              dict
         """
-        return {
-            "name": "shell",
-            "summary": "Shell Script",
-            "version": self.version
-        }
+        return {"name": "shell", "summary": "Shell Script", "version": self.version}
 
     @property
     def version(self):
@@ -46,6 +42,4 @@ class ShellExecutionUnit(ScriptingExecutionUnit):
         Returns:
              dict
         """
-        return {
-            "name": "sh"
-        }
+        return {"name": "sh"}

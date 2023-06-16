@@ -9,15 +9,15 @@ def find_config_file() -> Path:
     If no config file is found, throw an Exception()
     """
     possible_filepaths = [
-        Path(__file__) / '../../config',
-        Path(os.path.expanduser('~')) / '.exabyte/exaparser/config',
-        Path('/etc/exabyte/exaparser/config'),
+        Path(__file__) / "../../config",
+        Path(os.path.expanduser("~")) / ".exabyte/exaparser/config",
+        Path("/etc/exabyte/exaparser/config"),
     ]
     for path in possible_filepaths:
         path = path.resolve()
         if path.is_file():
             return path
-    raise Exception('Could not find exaparser config file in any of the known locations.')
+    raise Exception("Could not find exaparser config file in any of the known locations.")
 
 
 ExaParserConfig = configparser.ConfigParser(allow_no_value=True)
