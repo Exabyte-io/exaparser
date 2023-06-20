@@ -28,5 +28,5 @@ class BaseUnit(object):
             "name": self.name,
             "head": self.head,
             "type": self.type,
-            "next": self.next_flowchartId
+            "next": self.next_flowchartId,
         }

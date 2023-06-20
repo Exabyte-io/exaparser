@@ -3,7 +3,12 @@ import xml.etree.ElementTree as ET
 
 from express.parsers.apps.espresso.settings import XML_DATA_FILE as ESPRESSO_XML_FILE
 
-from exaparser.enums import *
+from exaparser.enums import (
+    ESPRESSO_SUPPORTED_VERSIONS,
+    ESPRESSO_DEFAULT_VERSION,
+    ESPRESSO_EXECUTABLE_NAME_MAP,
+    ESPRESSO_EXECUTABLE_NAME_REGEX,
+)
 from exaparser.utils import find_file
 from . import ModelingExecutionUnit
 
@@ -40,7 +45,7 @@ class EspressoExecutionUnit(ModelingExecutionUnit):
              str
         """
         root = ET.parse(self.xml_path).getroot()
-        version = root.find('HEADER').find("CREATOR").attrib.get("VERSION").strip()
+        version = root.find("HEADER").find("CREATOR").attrib.get("VERSION").strip()
         return version if version in ESPRESSO_SUPPORTED_VERSIONS else ESPRESSO_DEFAULT_VERSION
 
     @property
@@ -51,11 +56,7 @@ class EspressoExecutionUnit(ModelingExecutionUnit):
         Returns:
              dict
         """
-        return {
-            "name": "espresso",
-            "version": self.version,
-            "summary": "Quantum Espresso"
-        }
+        return {"name": "espresso", "version": self.version, "summary": "Quantum Espresso"}
 
     @property
     def executable(self):
@@ -67,6 +68,4 @@ class EspressoExecutionUnit(ModelingExecutionUnit):
         """
         with open(self.stdout_file) as f:
             executable = ESPRESSO_EXECUTABLE_NAME_MAP[re.findall(ESPRESSO_EXECUTABLE_NAME_REGEX, f.read())[0]]
-            return {
-                "name": executable
-            }
+            return {"name": executable}

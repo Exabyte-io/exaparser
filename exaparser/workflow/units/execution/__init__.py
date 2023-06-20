@@ -19,7 +19,7 @@ class BaseExecutionUnit(BaseUnit):
 
     @property
     def stdout_file(self):
-        return os.path.join(self.work_dir, self.config.get("stdoutFile", '.'.join((self.name, 'out'))))
+        return os.path.join(self.work_dir, self.config.get("stdoutFile", ".".join((self.name, "out"))))
 
     @property
     def application(self):
@@ -66,11 +66,13 @@ class BaseExecutionUnit(BaseUnit):
         input_ = []
         for config in self.config.get("input", []):
             path_ = os.path.join(self.work_dir, config["name"])
-            input_.append({
-                "name": config["name"],
-                "isManuallyChanged": True,
-                "rendered": read(path_) if os.path.exists(path_) else ""
-            })
+            input_.append(
+                {
+                    "name": config["name"],
+                    "isManuallyChanged": True,
+                    "rendered": read(path_) if os.path.exists(path_) else "",
+                }
+            )
         return input_
 
     @property
@@ -103,19 +105,21 @@ class BaseExecutionUnit(BaseUnit):
              dict
         """
         config = super(BaseExecutionUnit, self).to_json()
-        config.update({
-            "application": self.application,
-            "executable": self.executable,
-            "input": self.input,
-            "monitors": self.monitors,
-            "name": self.name,
-            "postProcessors": self.postProcessors,
-            "preProcessors": self.preProcessors,
-            "results": self.results,
-            "type": "execution",
-            "status": self.status,
-            "statusTrack": self.status_track,
-        })
+        config.update(
+            {
+                "application": self.application,
+                "executable": self.executable,
+                "input": self.input,
+                "monitors": self.monitors,
+                "name": self.name,
+                "postProcessors": self.postProcessors,
+                "preProcessors": self.preProcessors,
+                "results": self.results,
+                "type": "execution",
+                "status": self.status,
+                "statusTrack": self.status_track,
+            }
+        )
         return config
 
     @property
@@ -138,12 +142,7 @@ class BaseExecutionUnit(BaseUnit):
         Returns:
              list[dict]
         """
-        return [
-            {
-                "trackedAt": int(os.path.getmtime(self.work_dir)),
-                "status": self.status
-            }
-        ]
+        return [{"trackedAt": int(os.path.getmtime(self.work_dir)), "status": self.status}]
 
     @property
     def results(self):

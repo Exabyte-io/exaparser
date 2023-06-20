@@ -2,7 +2,8 @@ from express.parsers.apps.espresso.settings import XML_DATA_FILE as ESPRESSO_XML
 from express.parsers.apps.vasp.settings import XML_DATA_FILE as VASP_XML_FILE
 
 from exaparser.utils import find_file, find_file_with_pattern
-from .shell import ShellExecutionUnit, ESPRESSO_INPUT_FILE_REGEX
+from exaparser.enums import ESPRESSO_INPUT_FILE_REGEX
+from .shell import ShellExecutionUnit
 from ..modeling import ModelingExecutionUnit
 
 

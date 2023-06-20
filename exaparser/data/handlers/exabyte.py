@@ -45,7 +45,7 @@ class ExabyteRESTFulAPIDataHandler(DataHandler):
             ExaParserConfig.get("exabyte_api_data_handler", "account_id"),
             ExaParserConfig.get("exabyte_api_data_handler", "auth_token"),
             ExaParserConfig.get("exabyte_api_data_handler", "version"),
-            ExaParserConfig.getboolean("exabyte_api_data_handler", "secure")
+            ExaParserConfig.getboolean("exabyte_api_data_handler", "secure"),
         ]
 
     @property
@@ -72,7 +72,7 @@ class ExabyteRESTFulAPIDataHandler(DataHandler):
             self._project = self.project_endpoints.list(
                 {
                     "slug": ExaParserConfig["global"]["project_slug"],
-                    "owner.slug": ExaParserConfig["global"]["owner_slug"]
+                    "owner.slug": ExaParserConfig["global"]["owner_slug"],
                 }
             )[0]
         return self._project
@@ -95,13 +95,15 @@ class ExabyteRESTFulAPIDataHandler(DataHandler):
         if not len(structures):
             return []
         headers = self.material_endpoints.headers
-        data = json.dumps({
-            "jobId": job["_id"],
-            "structures": structures,
-            "unitId": job["workflow"]["subworkflows"][0]["units"][0]["flowchartId"],
-        })
+        data = json.dumps(
+            {
+                "jobId": job["_id"],
+                "structures": structures,
+                "unitId": job["workflow"]["subworkflows"][0]["units"][0]["flowchartId"],
+            }
+        )
 
-        return self.material_endpoints.request('POST', "structures/", headers=headers, data=data)
+        return self.material_endpoints.request("POST", "structures/", headers=headers, data=data)
 
     def create_job(self):
         """
@@ -186,7 +188,7 @@ class ExabyteRESTFulAPIDataHandler(DataHandler):
             file_descriptor = open(config["stdoutFile"])
             while True:
                 chunk = file_descriptor.read(OUTPUT_CHUNK_SIZE)
-                if chunk != '':
+                if chunk != "":
                     data = {
                         "chunk": chunk,
                         "repetition": 0,

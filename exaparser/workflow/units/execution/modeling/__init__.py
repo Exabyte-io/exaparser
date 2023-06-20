@@ -32,7 +32,7 @@ class ModelingExecutionUnit(BaseExecutionUnit):
         try:
             express = ExPrESS(self.parser_name, **dict(work_dir=self.work_dir, stdout_file=self.stdout_file))
             return express.property(property_, *args, **kwargs)
-        except:
+        except Exception:
             pass
 
     @property
@@ -50,7 +50,7 @@ class ModelingExecutionUnit(BaseExecutionUnit):
                 initial_structure = express.property("material", structure_string=structure_string)
                 initial_structure["name"] = "initial_structure"
                 structures.append(initial_structure)
-        except:
+        except Exception:
             pass
         return structures
 
@@ -70,7 +70,7 @@ class ModelingExecutionUnit(BaseExecutionUnit):
                 final_structure["name"] = "final_structure"
                 final_structure["repetition"] = 0
                 structures.append(final_structure)
-        except:
+        except Exception:
             pass
         return structures
 
@@ -86,10 +86,7 @@ class ModelingExecutionUnit(BaseExecutionUnit):
         final_structures = self.final_structures
         initial_structures = self.initial_structures
         for index, structure in enumerate(initial_structures):
-            structures.append({
-                "initial": structure,
-                "final": final_structures[index]
-            })
+            structures.append({"initial": structure, "final": final_structures[index]})
         return structures
 
     @property
@@ -107,13 +104,7 @@ class ModelingExecutionUnit(BaseExecutionUnit):
             property_ = self.safely_extract_property(name)
             if property_:
                 property_.update({"repetition": 0})
-                properties.append({
-                    "data": property_,
-                    "source": {
-                        "type": "exabyte",
-                        "info": {
-                            "unitId": self.flowchartId
-                        }
-                    }
-                })
+                properties.append(
+                    {"data": property_, "source": {"type": "exabyte", "info": {"unitId": self.flowchartId}}}
+                )
         return properties

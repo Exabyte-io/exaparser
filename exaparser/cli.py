@@ -7,9 +7,9 @@ from .job import Job
 
 def parse_arguments():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-n', '--name', required=True, help='job name')
-    parser.add_argument('-c', '--config', help='full path to config file')
-    parser.add_argument('-w', '--work-dir', dest="work_dir", required=True, help='full path to working directory')
+    parser.add_argument("-n", "--name", required=True, help="job name")
+    parser.add_argument("-c", "--config", help="full path to config file")
+    parser.add_argument("-w", "--work-dir", dest="work_dir", required=True, help="full path to working directory")
     return parser.parse_args()
 
 

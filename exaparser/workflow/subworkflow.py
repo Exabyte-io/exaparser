@@ -86,5 +86,5 @@ class Subworkflow(object):
             "model": self.model,
             "properties": [],
             "application": self.application,
-            "units": [u.to_json() for u in self.units]
+            "units": [u.to_json() for u in self.units],
         }

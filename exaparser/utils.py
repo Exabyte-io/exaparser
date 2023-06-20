@@ -91,8 +91,8 @@ def upload_file_to_object_storage(file_):
     path = file_["path"]
     session = requests.Session()
     if os.path.getsize(path) == 0:
-        with open(path, 'w+') as f:
-            f.write('\n')
+        with open(path, "w+") as f:
+            f.write("\n")
     headers = {"Content-Length": str(os.path.getsize(path))}
     with open(path) as f:
         session.request("PUT", file_["URL"], data=f, headers=headers).raise_for_status()

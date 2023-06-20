@@ -7,7 +7,6 @@ from tests.integration import IntegrationTestBase
 
 
 class TestJobParser(IntegrationTestBase):
-
     def setUp(self):
         super(TestJobParser, self).setUp()
 

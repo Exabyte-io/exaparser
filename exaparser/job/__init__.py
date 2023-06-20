@@ -53,10 +53,12 @@ class Job(object):
         stdout_files = []
         for unit in self.workflow.execution_units:
             if os.path.exists(unit.stdout_file):
-                stdout_files.append({
-                    "stdoutFile": unit.stdout_file,
-                    "unitFlowchartId": unit.flowchartId,
-                })
+                stdout_files.append(
+                    {
+                        "stdoutFile": unit.stdout_file,
+                        "unitFlowchartId": unit.flowchartId,
+                    }
+                )
         return stdout_files
 
     @property
@@ -106,15 +108,11 @@ class Job(object):
              dict
         """
         return {
-            "_project": {
-                "slug": ExaParserConfig["global"]["project_slug"]
-            },
+            "_project": {"slug": ExaParserConfig["global"]["project_slug"]},
             "compute": self.compute.to_json(),
-            "owner": {
-                "slug": ExaParserConfig["global"]["owner_slug"]
-            },
+            "owner": {"slug": ExaParserConfig["global"]["owner_slug"]},
             "name": self.name,
             "status": self.status,
             "workDir": self.work_dir,
-            "workflow": self.workflow.to_json()
+            "workflow": self.workflow.to_json(),
         }
