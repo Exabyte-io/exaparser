@@ -33,19 +33,19 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
   run-tests:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     strategy:
       matrix:
         python-version: [3.8.6]
 
     steps:
       - name: Checkout this repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           lfs: true
 
       - name: Checkout actions repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: Exabyte-io/actions
           token: ${{ secrets.BOT_GITHUB_TOKEN }}
@@ -66,12 +66,12 @@ jobs:
 
     steps:
       - name: Checkout this repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           lfs: true
 
       - name: Checkout actions repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: Exabyte-io/actions
           token: ${{ secrets.BOT_GITHUB_TOKEN }}
