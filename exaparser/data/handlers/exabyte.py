@@ -6,7 +6,7 @@ from multiprocessing import Pool
 from exabyte_api_client.endpoints.jobs import JobEndpoints
 from exabyte_api_client.endpoints.materials import MaterialEndpoints
 from exabyte_api_client.endpoints.projects import ProjectEndpoints
-from exabyte_api_client.endpoints.raw_properties import RawPropertiesEndpoints
+from exabyte_api_client.endpoints.properties import PropertiesEndpoints
 
 from exaparser.config import ExaParserConfig
 from exaparser.enums import OUTPUT_CHUNK_SIZE
@@ -29,7 +29,7 @@ class ExabyteRESTFulAPIDataHandler(DataHandler):
         self.job_endpoints = JobEndpoints(*self.endpoint_args)
         self.project_endpoints = ProjectEndpoints(*self.endpoint_args)
         self.material_endpoints = MaterialEndpoints(*self.endpoint_args)
-        self.raw_properties_endpoints = RawPropertiesEndpoints(*self.endpoint_args)
+        self.properties_endpoints = PropertiesEndpoints(*self.endpoint_args)
 
     @property
     def endpoint_args(self):
@@ -140,7 +140,7 @@ class ExabyteRESTFulAPIDataHandler(DataHandler):
         """
         for property_ in self.job.properties:
             property_["source"]["info"]["jobId"] = job_id
-            self.raw_properties_endpoints.create(property_)
+            self.properties_endpoints.create(property_)
 
     @property
     def files(self):
