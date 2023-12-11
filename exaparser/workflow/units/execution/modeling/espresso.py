@@ -1,12 +1,8 @@
 import re
 import xml.etree.ElementTree as ET
 
-from express.parsers.apps.espresso.settings import (
-    XML_DATA_FILE_PREv6_4 as ESPRESSO_XML_FILE_PREv6_4,
-)
-from express.parsers.apps.espresso.settings import (
-    XML_DATA_FILE_POSTv6_4 as ESPRESSO_XML_FILE_POSTv6_4,
-)
+from express.parsers.apps.espresso.settings import XML_DATA_FILE_PREv6_4 as ESPRESSO_XML_FILE_PREv6_4
+from express.parsers.apps.espresso.settings import XML_DATA_FILE_POSTv6_4 as ESPRESSO_XML_FILE_POSTv6_4
 
 from exaparser.enums import (
     ESPRESSO_SUPPORTED_VERSIONS,

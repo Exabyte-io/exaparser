@@ -1,4 +1,5 @@
-from express.parsers.apps.espresso.settings import XML_DATA_FILE as ESPRESSO_XML_FILE
+from express.parsers.apps.espresso.settings import XML_DATA_FILE_PREv6_4 as ESPRESSO_XML_FILE_PREv6_4
+from express.parsers.apps.espresso.settings import XML_DATA_FILE_POSTv6_4 as ESPRESSO_XML_FILE_POSTv6_4
 from express.parsers.apps.vasp.settings import XML_DATA_FILE as VASP_XML_FILE
 
 from exaparser.utils import find_file, find_file_with_pattern
@@ -28,7 +29,7 @@ class ShellWithResultsExecutionUnit(ShellExecutionUnit, ModelingExecutionUnit):
             return True
 
     def _is_espresso_calculation(self):
-        if find_file(ESPRESSO_XML_FILE, self.work_dir):
+        if find_file(ESPRESSO_XML_FILE_PREv6_4, self.work_dir) or find_file(ESPRESSO_XML_FILE_POSTv6_4, self.work_dir):
             return True
         if find_file_with_pattern(ESPRESSO_INPUT_FILE_REGEX, self.work_dir):
             return True
