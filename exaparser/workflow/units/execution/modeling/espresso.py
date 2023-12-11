@@ -1,7 +1,8 @@
 import re
 import xml.etree.ElementTree as ET
 
-from express.parsers.apps.espresso.settings import XML_DATA_FILE as ESPRESSO_XML_FILE
+from express.parsers.apps.espresso.settings import XML_DATA_FILE_PREv6_4 as ESPRESSO_XML_FILE_PREv6_4
+from express.parsers.apps.espresso.settings import XML_DATA_FILE_POSTv6_4 as ESPRESSO_XML_FILE_POSTv6_4
 
 from exaparser.enums import (
     ESPRESSO_SUPPORTED_VERSIONS,
@@ -24,7 +25,9 @@ class EspressoExecutionUnit(ModelingExecutionUnit):
 
     def __init__(self, config, work_dir):
         super(EspressoExecutionUnit, self).__init__(config, work_dir)
-        self.xml_path = find_file(ESPRESSO_XML_FILE, self.work_dir)
+        self.xml_path = find_file(ESPRESSO_XML_FILE_PREv6_4, self.runtime_handler.work_dir) or (
+            find_file(ESPRESSO_XML_FILE_POSTv6_4, self.runtime_handler.work_dir)
+        )
 
     @property
     def parser_name(self):
@@ -56,7 +59,11 @@ class EspressoExecutionUnit(ModelingExecutionUnit):
         Returns:
              dict
         """
-        return {"name": "espresso", "version": self.version, "summary": "Quantum Espresso"}
+        return {
+            "name": "espresso",
+            "version": self.version,
+            "summary": "Quantum Espresso",
+        }
 
     @property
     def executable(self):
